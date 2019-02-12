@@ -4,7 +4,9 @@ import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.DriveDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
 
 	@Override

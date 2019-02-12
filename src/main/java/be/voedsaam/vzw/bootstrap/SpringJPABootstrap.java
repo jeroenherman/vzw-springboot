@@ -39,6 +39,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadDrives() {
+
     }
 
     private void loadUsers(){
@@ -63,6 +64,10 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         logistics.setPassword("Test123");
         volunteer.setPassword("Test123");
         coordinator.setPassword("Test123");
+        userRepository.create(jeroen);
+        userRepository.create(logistics);
+        userRepository.create(partner);
+        userRepository.create(volunteer);
     }
 }
 

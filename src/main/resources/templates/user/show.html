@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Core Online Tutorial - Show User</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+    <link href="../../static/css/spring-core.css"
+          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Show User</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">User Id:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.id}">User Id</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">First Name:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.firstName}">Description</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Last Name:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.lastName}">Price</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">Email:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.email}">Image</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">Phone Number:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.tel}">Image</p>
+                    </div>
+                </div>
+                <h2>Address</h2>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">Street:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.street}">Image</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">Nr:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.streetNumber}">Image</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">City:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.city}">Image</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 sm-2 control-label">Zip Code:</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" th:text="${user.postalCode}">Image</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

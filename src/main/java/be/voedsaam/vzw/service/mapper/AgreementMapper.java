@@ -3,7 +3,9 @@ package be.voedsaam.vzw.service.mapper;
 import be.voedsaam.vzw.business.Agreement;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.AgreementDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AgreementMapper extends AbstractMapper<Agreement, AgreementDTO> {
 	@Override
 	public AgreementDTO mapToDTO(Agreement b) {

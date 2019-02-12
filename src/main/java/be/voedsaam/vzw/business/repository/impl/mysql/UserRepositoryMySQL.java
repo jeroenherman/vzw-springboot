@@ -91,6 +91,18 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 	}
 
 	@Override
+	public boolean delete(long id) {
+		boolean result = false;
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(em.find(User.class, id));
+		if (em.find(User.class,id)==null)
+			result = true;
+		em.getTransaction().commit();
+		return result;
+	}
+
+	@Override
 	public boolean createAll(Collection<User> aggregates) {
 		EntityManager entityManager = emf.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();
@@ -116,7 +128,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 	@Override
 	public boolean deleteAll(Collection<User> aggregates) {
 		aggregates.forEach(a -> delete(a));
-		return false;
+		return true;
 	}
 
 	@Override

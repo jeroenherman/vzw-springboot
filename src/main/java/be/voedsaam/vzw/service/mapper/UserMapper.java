@@ -4,7 +4,9 @@ import be.voedsaam.vzw.business.Address;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.UserDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapper extends AbstractMapper<User, UserDTO>{
 
 	@Override

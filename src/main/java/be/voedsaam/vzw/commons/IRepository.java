@@ -10,6 +10,7 @@ public interface IRepository<T> {
 	public T update(T aggregate);
 	
 	public boolean delete(T aggregate);
+	public boolean delete(long id);
 	
 	public boolean createAll(Collection<T> aggregates);
 	

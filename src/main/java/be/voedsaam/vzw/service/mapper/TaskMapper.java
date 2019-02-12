@@ -3,7 +3,9 @@ package be.voedsaam.vzw.service.mapper;
 import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.TaskDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TaskMapper extends AbstractMapper<Task, TaskDTO> {
 
 	@Override

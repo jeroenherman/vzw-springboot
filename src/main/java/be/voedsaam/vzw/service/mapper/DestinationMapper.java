@@ -3,7 +3,9 @@ package be.voedsaam.vzw.service.mapper;
 import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.DestinationDTO;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DestinationMapper extends AbstractMapper<Destination, DestinationDTO>{
 
 	@Override

@@ -57,6 +57,12 @@ public class UserRepositoryMock implements UserRepository {
 	}
 
 	@Override
+	public boolean delete(long id) {
+		users.remove(id);
+		return users.containsKey(id);
+	}
+
+	@Override
 	public boolean createAll(Collection<User> aggregates) {
 		for (User user : aggregates) {
 			this.create(user);

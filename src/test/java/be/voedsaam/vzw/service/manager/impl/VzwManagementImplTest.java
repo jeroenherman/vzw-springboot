@@ -12,10 +12,15 @@ import be.voedsaam.vzw.service.mapper.UserMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class VzwManagementImplTest {
 	private User jeroen;
 	private User coordinator;
@@ -27,19 +32,24 @@ public class VzwManagementImplTest {
 	private VzwManagement vzw;
 	private UserMapper userMapper;
 	private UserRepository userRepository;
-	
-	private void dependencyInjection() {
-	
-		userRepository = new UserRepositoryMySQL();
-		userMapper = new UserMapper();	
-		vzw = new VzwManagementImpl(userMapper,userRepository);
-		
+
+	@Autowired
+	public void setVzw(VzwManagement vzwManagement) {
+		this.vzw = vzwManagement;
 	}
+	@Autowired
+	public void setUserMapper(UserMapper userMapper) {
+		this.userMapper = userMapper;
+	}
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+
 	
 	@Before
 	public void setUp() throws Exception {
-		dependencyInjection();
-		
 		a1 = new Address("Sportlaan",33,9170,"Sint-Niklaas");
 		jeroen = new User("jeroen", "herman","jeroen.herman@voedsaam.be", "037797243",a1, Role.COORDINATOR, Color.RED);
 		logistics = new User("Cindy","DePuydt","Cindy.DePuydt@voedsaam.be", "03 /780.52.35");
@@ -104,7 +114,7 @@ public class VzwManagementImplTest {
 	@Test
 	public void testRemoveUser()  {
 		testAddUser();
-		assertTrue("user not removed",vzw.removeUser(userDTO));
+		assertTrue("user not removed",vzw.removeUser(userDTO.getId()));
 		assertEquals("user is logged in",null, vzw.login(userDTO));
 		assertTrue("current user not null", vzw.getCurrentUser()==null);
 		

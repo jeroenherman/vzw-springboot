@@ -53,6 +53,18 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 	}
 
 	@Override
+	public boolean delete(long id) {
+		boolean result = false;
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.remove(em.find(Drive.class, id));
+		if (em.find(Drive.class,id)==null)
+			result = true;
+		em.getTransaction().commit();
+		return result;
+	}
+
+	@Override
 	public boolean createAll(Collection<Drive> aggregates) {
 		EntityManager entityManager = emf.createEntityManager();
 		EntityTransaction entityTransaction = entityManager.getTransaction();

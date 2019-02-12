@@ -62,6 +62,12 @@ public class DriveRepositoryMock implements DriveRepository {
 	}
 
 	@Override
+	public boolean delete(long id) {
+		drives.remove(id);
+		return  !drives.containsKey(id);
+	}
+
+	@Override
 	public boolean createAll(Collection<Drive> aggregates) {
 		for (Drive drive : aggregates) {
 			this.create(drive);

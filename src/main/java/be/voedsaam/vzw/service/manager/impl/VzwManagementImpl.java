@@ -5,14 +5,17 @@ import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.service.dto.UserDTO;
 import be.voedsaam.vzw.service.manager.VzwManagement;
 import be.voedsaam.vzw.service.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Service
 public class VzwManagementImpl implements VzwManagement {
 	private User currentUser;
 	private UserMapper userMapper;
 	private UserRepository userRepository;
-	
+	@Autowired
 	public VzwManagementImpl(UserMapper userMapper, UserRepository userRepository) {
 		super();
 		this.userMapper = userMapper;
@@ -42,15 +45,16 @@ public class VzwManagementImpl implements VzwManagement {
 	}
 
 	@Override
+	public boolean removeUser(Long id) {
+		return userRepository.delete(id);
+	}
+
+	@Override
 	public boolean logOut() {
 		currentUser = null;
 		return true;
 	}
 
-	@Override
-	public boolean removeUser(UserDTO user) {
-		return userRepository.delete(userMapper.mapToObj(user));
-	}
 
 	@Override
 	public List<UserDTO> getAllUsers() {
@@ -64,5 +68,8 @@ public class VzwManagementImpl implements VzwManagement {
 		return userMapper.mapToDTO(currentUser);
 	}
 
-	
+	@Override
+	public UserDTO getById(Long id) {
+		 return userMapper.mapToDTO(userRepository.getByID(id));
+	}
 }

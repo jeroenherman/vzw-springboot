@@ -12,13 +12,16 @@ import be.voedsaam.vzw.service.mapper.DestinationMapper;
 import be.voedsaam.vzw.service.mapper.DriveMapper;
 import be.voedsaam.vzw.service.mapper.TaskMapper;
 import be.voedsaam.vzw.service.mapper.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Service
 public class DriveManagementImpl implements DriveManagement {
 	private Collection<Drive> drives;
 	private Collection<User> subscribeList;
@@ -28,7 +31,7 @@ public class DriveManagementImpl implements DriveManagement {
 	private DestinationMapper destinationMapper;
 	private UserRepository userRepository;
 	private TaskMapper taskMapper;
-
+	@Autowired
 	public DriveManagementImpl(DriveRepository driveRepository, DriveMapper driveMapper, UserMapper userMapper,
 			DestinationMapper destinationMapper, UserRepository userRepository) {
 		super();
