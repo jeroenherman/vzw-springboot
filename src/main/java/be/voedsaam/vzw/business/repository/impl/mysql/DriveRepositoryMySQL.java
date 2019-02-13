@@ -33,12 +33,14 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 		}
 		aggregate = entityManager.merge(aggregate);
 		entityTransaction.commit();
+		entityManager.close();
 		return aggregate;
 		}
 	
 
 	@Override
 	public Drive update(Drive aggregate) {
+
 		return create(aggregate);
 	}
 
@@ -49,6 +51,7 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 		entityManager.getTransaction().begin();
 		entityManager.remove(drive);
 		entityManager.getTransaction().commit();
+		entityManager.close();
 		return !exists(aggregate);
 	}
 
@@ -61,6 +64,7 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 		if (em.find(Drive.class,id)==null)
 			result = true;
 		em.getTransaction().commit();
+		em.close();
 		return result;
 	}
 
@@ -71,6 +75,7 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 		entityTransaction.begin();
 		entityManager.persist(aggregates);
 		entityTransaction.commit();
+		entityManager.close();
 		return true;
 	}
 	
@@ -79,7 +84,8 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 	@Override
 	public List<Drive> getAll() {
 		EntityManager entityManager = emf.createEntityManager();
-		return entityManager.createQuery("select d from Drive d", Drive.class).getResultList();
+		List<Drive> found =entityManager.createQuery("select d from Drive d", Drive.class).getResultList();
+		return found;
 	}
 
 	@Override
@@ -97,7 +103,9 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 	@Override
 	public Drive getByID(Long id) {
 		EntityManager entityManager = emf.createEntityManager();
-		return entityManager.find(Drive.class, id);
+		Drive found = entityManager.find(Drive.class, id);
+		entityManager.close();
+		return found;
 	}
 
 	@Override
@@ -126,19 +134,20 @@ public class DriveRepositoryMySQL extends AbstractJpaDaoService implements Drive
 	@Override
 	public Destination findDestinationById(Long id) {
 		EntityManager entityManager = emf.createEntityManager();
+		Destination found = null;
 		if(id !=null)
-		return entityManager.find(Destination.class, id);
-		return null;
+			found = entityManager.find(Destination.class,id);
+		return found;
+
 	}
 
 	@Override
 	public Destination addDestination(Destination destination) {
 		EntityManager entityManager = emf.createEntityManager();
 		Destination found = findDestinationById(destination.getId());
-		if (found!=null)
+		if (found==null)
+		found = entityManager.merge(destination);
 		return found;
-		return entityManager.merge(destination);
-		
 	}
 
 
