@@ -7,12 +7,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class User implements Serializable {
+public class User extends AbstractDomainClass implements Serializable {
 
 	private static final long serialVersionUID = -7204434257630429064L;
-	@Id
-	@GeneratedValue
-	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -47,15 +44,6 @@ public class User implements Serializable {
 		this.role = role;
 		this.address = address;
 	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}

@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-public class Destination implements Serializable {
+public class Destination extends AbstractDomainClass implements Serializable {
 
 	private static final long serialVersionUID = 253747969710711286L;
-	@Id
-	@GeneratedValue
-	private Long id;
+
 	@OneToOne(cascade = { CascadeType.ALL })
 	private Address address;
 	@ElementCollection
@@ -23,7 +21,6 @@ public class Destination implements Serializable {
 	
 	
 	public Destination() {
-		this.address = new Address();
 	}
 
 	public Address getAddress() {
@@ -35,8 +32,6 @@ public class Destination implements Serializable {
 	}
 
 	public Collection<String> getAgreements() {
-		if (agreements==null)
-			agreements= new ArrayList<String>(); 
 		return agreements;
 	}
 
@@ -45,8 +40,6 @@ public class Destination implements Serializable {
 	}
 
 	public Collection<Task> getTasks() {
-		if (tasks==null)
-			tasks = new ArrayList<Task>();
 		return tasks;
 	}
 
@@ -94,16 +87,4 @@ public class Destination implements Serializable {
 			return false;
 		return true;
 	}
-
-	public Long getId() {
-
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
-
 }

@@ -9,14 +9,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-public class Drive implements Serializable {
+public class Drive extends AbstractDomainClass implements Serializable {
 
 
 	private static final long serialVersionUID = -8732879233262787345L;
-	@Id
-	@GeneratedValue
-	private Long id; 
-	
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	@OneToOne(fetch = FetchType.EAGER)
@@ -27,18 +23,9 @@ public class Drive implements Serializable {
 	private User depotHelp;
 	@OneToMany(cascade = CascadeType.ALL)
 	private Collection<Destination> destinations;
-	
-	
+
 	public Drive() {
 		super();
-		this.startTime = LocalDateTime.now();
-		this.endTime = LocalDateTime.now();
-		this.driver = new User();
-		driver.setRole(Role.DRIVER);
-		this.attendee = new User();
-		attendee.setRole(Role.ATTENDEE);
-		this.depotHelp = new User();
-		depotHelp.setRole(Role.DEPOTHELP);
 	}
 	public LocalDateTime getStartTime() {
 		return startTime;
@@ -73,21 +60,12 @@ public class Drive implements Serializable {
 		this.depotHelp = depotHelp;
 	}
 	public Collection<Destination> getDestinations() {
-		if (destinations==null)
-			destinations = new ArrayList<Destination>();
 		return destinations;
 	}
 	public void setDestinations(Collection<Destination> destinations) {
 		this.destinations = destinations;
 	}
-	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -123,11 +101,7 @@ public class Drive implements Serializable {
 			return false;
 		return true;
 	}
-	@Override
-	public String toString() {
-		return "Drive [startTime=" + startTime + ", endTime=" + endTime + ", driver=" + driver + ", attendee="
-				+ attendee + ", depotHelp=" + depotHelp + ", destinations=" + destinations + "]";
-	}
+
 	
 	
 	

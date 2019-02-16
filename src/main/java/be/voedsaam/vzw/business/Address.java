@@ -6,12 +6,10 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Address implements Serializable {
+public class Address extends AbstractDomainClass implements Serializable {
 
 	private static final long serialVersionUID = -513728812857501536L;
-	@Id
-	@GeneratedValue
-	private long id;
+
 	
 	private String street;
 	private Integer number;
@@ -26,9 +24,8 @@ public class Address implements Serializable {
 		this.number = number;
 		this.postalCode = postalCode;
 		City = city;
-	} 
-	
-	
+	}
+
 	public String getStreet() {
 		return street;
 	}
@@ -97,6 +94,4 @@ public class Address implements Serializable {
 		return true;
 	}
 
-	
-	
 }

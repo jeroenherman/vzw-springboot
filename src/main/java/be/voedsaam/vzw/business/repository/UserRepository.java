@@ -3,8 +3,10 @@ package be.voedsaam.vzw.business.repository;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.commons.IRepository;
 
+import java.util.Optional;
+
 public interface UserRepository extends IRepository<User> {
-	public User findByName(User aggregate);
+		Optional<User> findByFullName(String fullName);
 	
 	
 }

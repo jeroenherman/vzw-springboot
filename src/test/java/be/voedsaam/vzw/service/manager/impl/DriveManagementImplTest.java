@@ -1,7 +1,9 @@
 package be.voedsaam.vzw.service.manager.impl;
 
+import be.voedsaam.vzw.business.repository.DestinationRepository;
 import be.voedsaam.vzw.business.repository.DriveRepository;
 import be.voedsaam.vzw.business.repository.UserRepository;
+import be.voedsaam.vzw.business.repository.impl.mysql.DestinationRepositoryMySQL;
 import be.voedsaam.vzw.business.repository.impl.mysql.DriveRepositoryMySQL;
 import be.voedsaam.vzw.business.repository.impl.mysql.UserRepositoryMySQL;
 import be.voedsaam.vzw.commons.Role;
@@ -25,6 +27,7 @@ import static org.junit.Assert.assertTrue;
 public class DriveManagementImplTest {
 	private DriveManagement driveManagement;
 	private DriveRepository driveRepository;
+	private DestinationRepository destinationRepository;
 	private VzwManagement vzw;
 	private UserRepository userRepository;
 	private DriveMapper driveMapper;
@@ -46,10 +49,11 @@ public class DriveManagementImplTest {
 	private void dependencyInjection() {
 		driveRepository = new DriveRepositoryMySQL();
 		userRepository = new UserRepositoryMySQL();
+		destinationRepository = new DestinationRepositoryMySQL();
 		userMapper = new UserMapper();
 		destinationMapper = new DestinationMapper();
 		driveMapper = new DriveMapper();
-		driveManagement = new DriveManagementImpl(driveRepository,driveMapper,userMapper,destinationMapper, userRepository);
+		driveManagement = new DriveManagementImpl(driveRepository,driveMapper,userMapper,destinationMapper, userRepository, destinationRepository);
 		vzw = new VzwManagementImpl(userMapper,userRepository);
 		destination1 = new DestinationDTO();
 		destination2 = new DestinationDTO();
@@ -60,11 +64,7 @@ public class DriveManagementImplTest {
 	@Test
 	public void testAddDrive() throws Exception {
 		drive1 = new DriveDTO();
-		
-		drive1.setDriver(driver.getFullName());
-		drive1.setAttendee(attendee.getFullName());
-		drive1.setDepotHelp(depotHelp.getFullName());
-		
+
 		drive1.setStartTime(LocalDateTime.of(2019, 01, 01, 9, 30));
 		drive1.setEndTime(LocalDateTime.of(2019, 01, 01, 10, 30));
 	
@@ -80,9 +80,6 @@ public class DriveManagementImplTest {
 		assertEquals(null,drive1.getId());
 		drive1 = driveManagement.addDrive(drive1);
 		assertTrue(drive1.getId()!=null);
-		assertTrue(drive1.getAttendee().equals(attendee.getFullName()));
-		assertTrue(drive1.getDriver().equals(driver.getFullName()));
-		assertTrue(drive1.getDepotHelp().equals(depotHelp.getFullName()));
 		assertTrue(drive1.getStartTime().equals((LocalDateTime.of(2019, 01, 01, 9, 30))));
 		assertTrue(drive1.getEndTime().equals((LocalDateTime.of(2019, 01, 01, 10, 30))));
 		
@@ -92,8 +89,6 @@ public class DriveManagementImplTest {
 		assertEquals("depothelp must have 1  drives User is  created ", driveManagement.getDrivesByDepotHelp(depotHelp).size(),1,0);
 		assertEquals("Number of drives is 1",1, driveManagement.getDriveList(LocalDateTime.MIN,  LocalDateTime.MAX).size(),0);
 		drive2 =new DriveDTO();
-		drive2.setDriver(driver.getFullName());
-		drive2.setAttendee(attendee.getFullName());	
 		drive2.setStartTime(LocalDateTime.of(2019, 02, 01, 9, 30));
 		drive2.setEndTime(LocalDateTime.of(2019, 02, 01, 10, 30));
 		
@@ -173,25 +168,20 @@ public class DriveManagementImplTest {
 	@Test
 	public void testRemoveDrive() throws Exception {
 		testAddDrive();
-		assertTrue(driveManagement.removeDrive(drive1));
-		assertTrue(driveManagement.removeDrive(drive2));
+		assertTrue(driveManagement.removeDrive(drive1.getId()));
+		assertTrue(driveManagement.removeDrive(drive2.getId()));
 		assertEquals(" there are 0: ",0, driveManagement.getDriveList(LocalDateTime.MIN, LocalDateTime.MAX).size());
 		
 		drive1 = new DriveDTO();	
-		drive1.setDriver(driver.getFullName());
-		drive1.setAttendee(attendee.getFullName());
-		drive1.setDepotHelp(depotHelp.getFullName());	
+
 		drive1.setStartTime(LocalDateTime.of(2019, 01, 01, 9, 30));
 		drive1.setEndTime(LocalDateTime.of(2019, 01, 01, 10, 30));
 		
 		drive2 =new DriveDTO();
-		drive2.setDriver(driver.getFullName());
-		drive2.setAttendee(attendee.getFullName());	
 		drive2.setStartTime(LocalDateTime.of(2019, 02, 01, 9, 30));
 		drive2.setEndTime(LocalDateTime.of(2019, 02, 01, 10, 30));
 		
 		drive3 =new DriveDTO();
-		drive3.setDriver(driver.getFullName());
 		drive3.setStartTime(LocalDateTime.of(2019, 03, 01, 9, 30));
 		drive3.setEndTime(LocalDateTime.of(2019, 03, 01, 10, 30));
 		drive1 = driveManagement.addDrive(drive1);
@@ -202,7 +192,7 @@ public class DriveManagementImplTest {
 		assertTrue(drive3.getId()!=null);
 		assertEquals(" there are 3: ",3, driveManagement.getDriveList(LocalDateTime.MIN, LocalDateTime.MAX).size());
 		
-		assertTrue(driveManagement.removeDrive(drive3));
+		assertTrue(driveManagement.removeDrive(drive3.getId()));
 		assertEquals(" there are 2: ",2, driveManagement.getDriveList(LocalDateTime.MIN, LocalDateTime.MAX).size());	
 	
 	}
@@ -217,20 +207,14 @@ public class DriveManagementImplTest {
 		vzw.addUser(depotHelp);
 		
 		drive1 = new DriveDTO();	
-		drive1.setDriver(driver.getFullName());
-		drive1.setAttendee(attendee.getFullName());
-		drive1.setDepotHelp(depotHelp.getFullName());	
 		drive1.setStartTime(LocalDateTime.of(2019, 01, 01, 9, 30));
 		drive1.setEndTime(LocalDateTime.of(2019, 01, 01, 10, 30));
 		
 		drive2 =new DriveDTO();
-		drive2.setDriver(driver.getFullName());
-		drive2.setAttendee(attendee.getFullName());	
 		drive2.setStartTime(LocalDateTime.of(2019, 02, 01, 9, 30));
 		drive2.setEndTime(LocalDateTime.of(2019, 02, 01, 10, 30));
 		
 		drive3 =new DriveDTO();
-		drive3.setDriver(driver.getFullName());
 		drive3.setStartTime(LocalDateTime.of(2019, 03, 01, 9, 30));
 		drive3.setEndTime(LocalDateTime.of(2019, 03, 01, 10, 30));
 		drive1 =driveManagement.addDrive(drive1);
@@ -266,12 +250,10 @@ public class DriveManagementImplTest {
 		List<DriveDTO> driverDrives = new ArrayList<> (driveManagement.getDrivesByDriver(driver));
 		drive4 = driverDrives.get(0);
 	
-		drive4.setDriver(attendee.getFullName());
-		drive4.setAttendee(driver.getFullName());
 		drive4.setStartTime(LocalDateTime.of(2019, 03, 01, 9, 30));
 		drive4.setEndTime(LocalDateTime.of(2019, 03, 01, 10, 30));
 		
-		assertEquals("change drive 3 with drive 4 ", drive4, driveManagement.changeDrive(drive4));
+
 		assertEquals("user attendee has 1  drives", driveManagement.getDrivesByDriver(attendee).size(),1,0);
 		assertEquals("user driver has  1 attendees", driveManagement.getDrivesByAttendee(driver).size(),1,0);
 		

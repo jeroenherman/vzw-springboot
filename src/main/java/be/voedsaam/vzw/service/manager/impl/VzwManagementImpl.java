@@ -24,29 +24,21 @@ public class VzwManagementImpl implements VzwManagement {
 
 	@Override
 	public UserDTO login(UserDTO user) {
-		if (userRepository.exists(userMapper.mapToObj(user))) {
-			User found = userRepository.find(userMapper.mapToObj(user));
-			
-			if ((found.getEmail().equals(user.getEmail())&&(found.getPassword().equals(user.getPassword()))))
-				currentUser = found;
-				return userMapper.mapToDTO(currentUser);
-		} else
-			return null;
+		//TODO spring security
+		return null;
 	}
 
 	@Override
 	public UserDTO addUser(UserDTO user) {
-		User result = null;
-		if(userRepository.exists(userMapper.mapToObj(user))) 
-			result = userRepository.update(userMapper.mapToObj(user));
-		else
-			result = userRepository.create(userMapper.mapToObj(user));
-		return userMapper.mapToDTO(result);
+		return userMapper.mapToDTO(userRepository.saveOrUpdate(userMapper.mapToObj(user)));
 	}
 
 	@Override
 	public boolean removeUser(Long id) {
-		return userRepository.delete(id);
+		userRepository.delete(id);
+		 if (userRepository.getById(id)==null)
+		 	return true;
+		 return false;
 	}
 
 	@Override
@@ -59,7 +51,7 @@ public class VzwManagementImpl implements VzwManagement {
 	@Override
 	public List<UserDTO> getAllUsers() {
 		
-		return userMapper.mapToDTO(userRepository.getAll());
+		return userMapper.mapToDTO((List<User>)userRepository.listAll());
 	}
 
 	@Override
@@ -70,6 +62,6 @@ public class VzwManagementImpl implements VzwManagement {
 
 	@Override
 	public UserDTO getById(Long id) {
-		 return userMapper.mapToDTO(userRepository.getByID(id));
+		 return userMapper.mapToDTO(userRepository.getById(id));
 	}
 }

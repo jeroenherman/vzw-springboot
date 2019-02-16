@@ -7,42 +7,18 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 @Profile("mysql")
 public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRepository {
 
-	
 
 
-
-	public void close() {
-		EntityManager entityManager = emf.createEntityManager();
-		entityManager.close();
-		emf.close();
-	}
-
-	@Override
-	public User create(User aggregate) {
-		EntityManager entityManager = emf.createEntityManager();
-		EntityTransaction entityTransaction = entityManager.getTransaction();
-		entityTransaction.begin();
-		entityManager.persist(aggregate);
-		entityTransaction.commit();
-		entityManager.close();
-		return aggregate;
-	}
-
-	@Override
 	public User find(User aggregate) {
 		EntityManager entityManager = emf.createEntityManager();
 		User found = null;
-		if (exists(aggregate)) {
-
 			found = entityManager
 					.createQuery("select u from User u where u.email = :email and u.password = :password"
 							+ " or u.firstName= :firstName and u.lastName = :lastName", User.class)
@@ -51,76 +27,35 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 					.setParameter("firstName", aggregate.getFirstName())
 					.setParameter("lastName", aggregate.getLastName())
 					.getSingleResult();
-
-		}
 		entityManager.close();
 		return found;
 	}
-
-	public User findByName(User aggregate) {
+	@Override
+	public Optional<User> findByFullName(String fullName) {
+		String[] name = fullName.split(" ");
 		EntityManager entityManager = emf.createEntityManager();
-		User found = null;
-		if (exists(aggregate)) {
-
+		User found;
 			found = entityManager
 					.createQuery("select u from User u where  u.firstName= :firstName and u.lastName = :lastName",
 							User.class)
-					.setParameter("firstName", aggregate.getFirstName())
-					.setParameter("lastName", aggregate.getLastName()).getSingleResult();
-
-		}
+					.setParameter("firstName", name[0])
+					.setParameter("lastName", name[1])
+					.getSingleResult();
 		entityManager.close();
-		return found;
+		return Optional.of(found);
 	}
 
-	@Override
-	public User update(User aggregate) {
-		EntityManager entityManager = emf.createEntityManager();
-		User update = find(aggregate);
-		entityManager.getTransaction().begin();
-		update = aggregate;
-		entityManager.getTransaction().commit();
-		entityManager.close();
-		return update;
-	}
 
 	@Override
-	public boolean delete(User aggregate) {
-		EntityManager entityManager = emf.createEntityManager();
-		User user = find(aggregate);
-		entityManager.getTransaction().begin();
-		entityManager.remove(user);
-		entityManager.getTransaction().commit();
-		entityManager.close();
-		return true;
-	}
-
-	@Override
-	public boolean delete(long id) {
-		boolean result = false;
+	public void delete(Long id) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.remove(em.find(User.class, id));
-		if (em.find(User.class,id)==null)
-			result = true;
-		em.getTransaction().commit();
 		em.close();
-		return result;
 	}
 
 	@Override
-	public boolean createAll(Collection<User> aggregates) {
-		EntityManager entityManager = emf.createEntityManager();
-		EntityTransaction entityTransaction = entityManager.getTransaction();
-		entityTransaction.begin();
-		entityManager.persist(aggregates);
-		entityTransaction.commit();
-		entityManager.close();
-		return true;
-	}
-
-	@Override
-	public List<User> getAll() {
+	public List<User> listAll() {
 		EntityManager entityManager = emf.createEntityManager();
 		List<User> found = entityManager.createQuery("select u from User u", User.class).getResultList();
 		entityManager.close();
@@ -129,37 +64,27 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 	}
 
 	@Override
-	public boolean updateAll(Collection<User> aggregates) {
-		aggregates.forEach(a -> update(a));
-		return true;
+	public User saveOrUpdate(User domainObject) {
+		EntityManager em = emf.createEntityManager();
+
+		em.getTransaction().begin();
+
+//		if(domainObject.getPassword() != null){
+//			domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
+//		}
+
+		User saveduser = em.merge(domainObject);
+		em.getTransaction().commit();
+		em.close();
+
+		return saveduser;
 	}
 
 	@Override
-	public boolean deleteAll(Collection<User> aggregates) {
-		aggregates.forEach(a -> delete(a));
-		return true;
-	}
-
-	@Override
-	public User getByID(Long id) {
+	public User getById(Long id) {
 		EntityManager entityManager = emf.createEntityManager();
 		User found = entityManager.find(User.class, id);
+		entityManager.close();
 		return found;
 	}
-
-	@Override
-	public boolean exists(User aggregate) {
-		EntityManager entityManager = emf.createEntityManager();
-		Long count = (Long) entityManager
-				.createQuery("select count(u) from User u where u.email = :email and u.password = :password "
-						+ "or u.firstName= :firstName and u.lastName = :lastName")
-				.setParameter("email", aggregate.getEmail())
-				.setParameter("password", aggregate.getPassword())
-				.setParameter("firstName", aggregate.getFirstName())
-				.setParameter("lastName", aggregate.getLastName())
-				.getSingleResult();
-		entityManager.close();
-		return ((count.equals(0L)) ? false : true);
-	}
-
 }

@@ -1,15 +1,18 @@
 package be.voedsaam.vzw.service.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DriveDTO {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String driver;
+	private Long driverId;
 	private String attendee;
+	private Long attendeeId;
 	private String depotHelp;
+	private Long depotHelpId;
 	private Long id;
-
 	public DriveDTO() {
 		startTime = LocalDateTime.now();
 		endTime = startTime.plusHours(1);
@@ -72,7 +75,30 @@ public class DriveDTO {
 	public Long getId() {
 		return id;
 	}
-	
+
+	public Long getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(Long driverId) {
+		this.driverId = driverId;
+	}
+
+	public Long getAttendeeId() {
+		return attendeeId;
+	}
+
+	public void setAttendeeId(Long attendeeId) {
+		this.attendeeId = attendeeId;
+	}
+
+	public Long getDepotHelpId() {
+		return depotHelpId;
+	}
+
+	public void setDepotHelpId(Long depotHelpId) {
+		this.depotHelpId = depotHelpId;
+	}
 
 	@Override
 	public int hashCode() {

@@ -8,22 +8,25 @@ import java.util.List;
 
 public interface DriveManagement {
 	
-	public DriveDTO addDrive(DriveDTO newDrive);
-	public boolean removeDrive(DriveDTO oldDrive);
-	public Collection<DriveDTO> getDriveList(LocalDateTime from, LocalDateTime to);
-	public Collection<DriveDTO> getDrivesByDriver(UserDTO user);
-	public Collection<DriveDTO> getDrivesByAttendee(UserDTO user);
-	public Collection<DriveDTO> getDrivesByDepotHelp(UserDTO user);
-	public Collection<DriveDTO> getDrivesByDestination(DestinationDTO destination);
-	public DriveDTO changeDrive(DriveDTO newDrive);
-	public DriveDTO addDrive(DriveDTO drive1, DestinationDTO start, DestinationDTO first);
-	public DestinationDTO addDestination(DriveDTO drive1, DestinationDTO destination3);
-	public Collection<DestinationDTO> getDestinationsByDrive(DriveDTO driveDTO);
-	public AgreementDTO addAgreement(DestinationDTO destinationDTO, AgreementDTO agreementDTO);
-	public List<AgreementDTO> getAgreements(DestinationDTO destinationDTO);
-	public TaskDTO addTask(DestinationDTO destinationDTO, TaskDTO taskDTO);
-	public List<TaskDTO> getTasks(DestinationDTO detinationDTO);
-	public DestinationDTO addDestination(DestinationDTO destinationDTO);
+	DriveDTO addDrive(DriveDTO newDrive);
+	boolean removeDrive(Long id);
+	DriveDTO getById(Long id);
+	Collection<DriveDTO> getDriveList(LocalDateTime from, LocalDateTime to);
+	DriveDTO setDriver(DriveDTO drive ,UserDTO driver);
+	DriveDTO setAttendee(DriveDTO drive ,UserDTO attendee);
+	DriveDTO setdepotHelp(DriveDTO drive ,UserDTO depothelp);
+	Collection<DriveDTO> getDrivesByDriver(UserDTO user);
+	Collection<DriveDTO> getDrivesByAttendee(UserDTO user);
+	Collection<DriveDTO> getDrivesByDepotHelp(UserDTO user);
+	Collection<DriveDTO> getDrivesByDestination(DestinationDTO destination);
+	DriveDTO addDrive(DriveDTO drive1, DestinationDTO start, DestinationDTO first);
+	DestinationDTO addDestination(DriveDTO drive1, DestinationDTO destination3);
+	Collection<DestinationDTO> getDestinationsByDrive(DriveDTO driveDTO);
+	AgreementDTO addAgreement(DestinationDTO destinationDTO, AgreementDTO agreementDTO);
+	List<AgreementDTO> getAgreements(DestinationDTO destinationDTO);
+	TaskDTO addTask(DestinationDTO destinationDTO, TaskDTO taskDTO);
+	List<TaskDTO> getTasks(DestinationDTO detinationDTO);
+	DestinationDTO addDestination(DestinationDTO destinationDTO);
 	
 
 }
