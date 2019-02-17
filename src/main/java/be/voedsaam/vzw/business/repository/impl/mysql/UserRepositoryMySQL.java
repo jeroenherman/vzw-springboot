@@ -16,10 +16,6 @@ import java.util.List;
 @Profile("mysql")
 public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRepository {
 
-	
-
-
-
 	public void close() {
 		EntityManager entityManager = emf.createEntityManager();
 		entityManager.close();
@@ -33,6 +29,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 		entityTransaction.begin();
 		entityManager.persist(aggregate);
 		entityTransaction.commit();
+		entityManager.close();
 		return aggregate;
 	}
 
@@ -41,7 +38,6 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 		EntityManager entityManager = emf.createEntityManager();
 		User found = null;
 		if (exists(aggregate)) {
-
 			found = entityManager
 					.createQuery("select u from User u where u.email = :email and u.password = :password"
 							+ " or u.firstName= :firstName and u.lastName = :lastName", User.class)
@@ -52,6 +48,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 					.getSingleResult();
 
 		}
+		entityManager.close();
 		return found;
 	}
 
@@ -67,16 +64,18 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 					.setParameter("lastName", aggregate.getLastName()).getSingleResult();
 
 		}
+		entityManager.close();
 		return found;
 	}
 
 	@Override
 	public User update(User aggregate) {
 		EntityManager entityManager = emf.createEntityManager();
-		User update = find(aggregate);
 		entityManager.getTransaction().begin();
-		update = aggregate;
+		User update = find(aggregate);
+		entityManager.merge(update);
 		entityManager.getTransaction().commit();
+		entityManager.close();
 		return update;
 	}
 
@@ -87,6 +86,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 		entityManager.getTransaction().begin();
 		entityManager.remove(user);
 		entityManager.getTransaction().commit();
+		entityManager.close();
 		return true;
 	}
 
@@ -99,6 +99,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 		if (em.find(User.class,id)==null)
 			result = true;
 		em.getTransaction().commit();
+		em.close();
 		return result;
 	}
 
@@ -109,13 +110,16 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 		entityTransaction.begin();
 		entityManager.persist(aggregates);
 		entityTransaction.commit();
+		entityManager.close();
 		return true;
 	}
 
 	@Override
 	public List<User> getAll() {
 		EntityManager entityManager = emf.createEntityManager();
-		return entityManager.createQuery("select u from User u", User.class).getResultList();
+		List<User> found =entityManager.createQuery("select u from User u", User.class).getResultList();
+		entityManager.close();
+		return found;
 	}
 
 	@Override
@@ -134,7 +138,9 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 	@Override
 	public User getByID(Long id) {
 		EntityManager entityManager = emf.createEntityManager();
-		return entityManager.find(User.class, id);
+		User found = entityManager.find(User.class, id);
+		entityManager.close();
+		return found;
 	}
 
 	@Override
@@ -148,6 +154,7 @@ public class UserRepositoryMySQL extends AbstractJpaDaoService implements UserRe
 				.setParameter("firstName", aggregate.getFirstName())
 				.setParameter("lastName", aggregate.getLastName())
 				.getSingleResult();
+		entityManager.close();
 		return ((count.equals(0L)) ? false : true);
 	}
 
