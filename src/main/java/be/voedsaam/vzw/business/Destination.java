@@ -1,109 +1,137 @@
 package be.voedsaam.vzw.business;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
-public class Destination implements Serializable {
+public class Destination extends AbstractDomainClass {
+    @ManyToOne
+    @JoinColumn(name = "drive_id")
+    private Drive drive;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Address address;
+    @ElementCollection
+    private List<String> agreements;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "destination")
+    private Collection<Task> tasks;
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "destinations")
+    private Collection<Drive> drives;
+    private String contactInfo;
+    private String destinationName;
 
-	private static final long serialVersionUID = 253747969710711286L;
-	@Id
-	@GeneratedValue
-	private Long id;
-	@OneToOne(cascade = { CascadeType.ALL })
-	private Address address;
-	@ElementCollection
-	private Collection<String> agreements;
-	@OneToMany(cascade = { CascadeType.ALL })
-	private Collection<Task> tasks;
-	private String contactInfo;
-	private String destinationName;
-	
-	
-	public Destination() {
-		this.address = new Address();
-	}
+    public Destination() {
+        drives = new ArrayList<>();
+        this.address = new Address();
+        agreements = new ArrayList<>();
+        tasks = new ArrayList<>();
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public Address getAddress() {
+        return address;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
-	public Collection<String> getAgreements() {
-		if (agreements==null)
-			agreements= new ArrayList<String>(); 
-		return agreements;
-	}
+    public List<String> getAgreements() {
+        return Collections.unmodifiableList(agreements);
+    }
 
-	public void setAgreements(Collection<String> agreements) {
-		this.agreements = agreements;
-	}
+    public void setAgreements(List<String> agreements) {
+        this.agreements = agreements;
+    }
 
-	public Collection<Task> getTasks() {
-		if (tasks==null)
-			tasks = new ArrayList<Task>();
-		return tasks;
-	}
+    public void addAgreement(String agreement) {
+        agreements.add(agreement);
+    }
 
-	public void setTasks(Collection<Task> tasks) {
-		this.tasks = tasks;
-	}
+    public void removeAgreement(String agreement) {
+        agreements.remove(agreement);
+    }
 
-	public String getDestinationName() {
-		return destinationName;
-	}
+    public List<Task> getTasks() {
+        return Collections.unmodifiableList((List<Task>) tasks);
+    }
 
-	public void setDestinationName(String destinationName) {
-		this.destinationName = destinationName;
-	}
+    public void setTasks(Collection<Task> tasks) {
+        this.tasks = tasks;
+    }
 
-	public String getContactInfo() {
-		return contactInfo;
-	}
+    public List<Drive> getDrives() {
+        return Collections.unmodifiableList((List<Drive>) drives);
+    }
 
-	public void setContactInfo(String contactInfo) {
-		this.contactInfo = contactInfo;
-	}
+    public void addDrive(Drive drive) {
+        if (!drives.contains(drive)) {
+            drives.add(drive);
+            drive.addDestination(this);
+        }
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		return result;
-	}
+    public void removeDrive(Drive drive) {
+        if (drives.contains(drive)) {
+            drives.remove(drive);
+            drive.addDestination(this);
+        }
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Destination other = (Destination) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		return true;
-	}
+    public void addTask(Task task) {
+        if (!tasks.contains(task)) {
+            tasks.add(task);
+            task.setDestination(this);
+        }
+    }
 
-	public Long getId() {
+    public void removeTask(Task task) {
+        if (tasks.contains(task)) {
+            tasks.remove(task);
+        }
+    }
 
-		return id;
-	}
+    public String getDestinationName() {
+        return destinationName;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	
+    public void setDestinationName(String destinationName) {
+        this.destinationName = destinationName;
+    }
+
+    public String getContactInfo() {
+        return contactInfo;
+    }
+
+    public void setContactInfo(String contactInfo) {
+        this.contactInfo = contactInfo;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Destination other = (Destination) obj;
+        if (address == null) {
+            if (other.address != null)
+                return false;
+        } else if (!address.equals(other.address))
+            return false;
+        return true;
+    }
 
 }

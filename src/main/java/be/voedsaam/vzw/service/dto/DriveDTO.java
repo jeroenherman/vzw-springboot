@@ -1,13 +1,15 @@
 package be.voedsaam.vzw.service.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class DriveDTO {
+	private String description;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
-	private String driver;
-	private String attendee;
-	private String depotHelp;
+	private List<String> drivers;
+	private List<String> attendees;
+	private List<String> depotHelps;
 	private Long id;
 
 	public DriveDTO() {
@@ -40,29 +42,6 @@ public class DriveDTO {
 		this.endTime = endTime;
 	}
 
-	public String getDriver() {
-		return driver;
-	}
-
-	public void setDriver(String driver) {
-		this.driver = driver;
-	}
-
-	public String getAttendee() {
-		return attendee;
-	}
-
-	public void setAttendee(String attendee) {
-		this.attendee = attendee;
-	}
-
-	public String getDepotHelp() {
-		return depotHelp;
-	}
-
-	public void setDepotHelp(String depotHelp) {
-		this.depotHelp = depotHelp;
-	}
 
 	public void setId(Long id) {
 		this.id = id;
@@ -72,67 +51,71 @@ public class DriveDTO {
 	public Long getId() {
 		return id;
 	}
-	
+
+	public List<String> getDrivers() {
+		return drivers;
+	}
+
+	public void setDrivers(List<String> drivers) {
+		this.drivers = drivers;
+	}
+
+	public List<String> getAttendees() {
+		return attendees;
+	}
+
+	public void setAttendees(List<String> attendees) {
+		this.attendees = attendees;
+	}
+
+	public List<String> getDepotHelps() {
+		return depotHelps;
+	}
+
+	public void setDepotHelps(List<String> depotHelps) {
+		this.depotHelps = depotHelps;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		DriveDTO driveDTO = (DriveDTO) o;
+
+		if (!getDescription().equals(driveDTO.getDescription())) return false;
+		if (!getStartTime().equals(driveDTO.getStartTime())) return false;
+		if (!getEndTime().equals(driveDTO.getEndTime())) return false;
+		return getId() != null ? getId().equals(driveDTO.getId()) : driveDTO.getId() == null;
+	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((attendee == null) ? 0 : attendee.hashCode());
-		result = prime * result + ((depotHelp == null) ? 0 : depotHelp.hashCode());
-		result = prime * result + ((driver == null) ? 0 : driver.hashCode());
-		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		int result = getDescription().hashCode();
+		result = 31 * result + getStartTime().hashCode();
+		result = 31 * result + getEndTime().hashCode();
+		result = 31 * result + (getId() != null ? getId().hashCode() : 0);
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DriveDTO other = (DriveDTO) obj;
-		if (attendee == null) {
-			if (other.attendee != null)
-				return false;
-		} else if (!attendee.equals(other.attendee))
-			return false;
-		if (depotHelp == null) {
-			if (other.depotHelp != null)
-				return false;
-		} else if (!depotHelp.equals(other.depotHelp))
-			return false;
-		if (driver == null) {
-			if (other.driver != null)
-				return false;
-		} else if (!driver.equals(other.driver))
-			return false;
-		if (endTime == null) {
-			if (other.endTime != null)
-				return false;
-		} else if (!endTime.equals(other.endTime))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (startTime == null) {
-			if (other.startTime != null)
-				return false;
-		} else if (!startTime.equals(other.startTime))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString() {
-		return "DriveDTO [startTime=" + startTime + ", endTime=" + endTime + ", driver=" + driver + ", attendee="
-				+ attendee + ", depotHelp=" + depotHelp + "]";
+		final StringBuilder sb = new StringBuilder("DriveDTO{");
+		sb.append("description='").append(description).append('\'');
+		sb.append(", startTime=").append(startTime);
+		sb.append(", endTime=").append(endTime);
+		sb.append(", drivers=").append(drivers);
+		sb.append(", attendees=").append(attendees);
+		sb.append(", depotHelps=").append(depotHelps);
+		sb.append('}');
+		return sb.toString();
 	}
-
 }

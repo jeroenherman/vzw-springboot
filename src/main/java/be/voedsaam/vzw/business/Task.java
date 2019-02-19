@@ -1,21 +1,17 @@
 package be.voedsaam.vzw.business;
 
-import be.voedsaam.vzw.commons.Role;
+import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-public class Task implements Serializable {
+public class Task extends AbstractDomainClass{
 
-
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue
-	private Long id;
-	
 	private String title;
 	private String discription;
+	@ManyToOne()
+	private Destination destination;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	public String getTitle() {
@@ -30,19 +26,19 @@ public class Task implements Serializable {
 	public void setDiscription(String discription) {
 		this.discription = discription;
 	}
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public Role getRole() {
 		return role;
 	}
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
+
+
+    public void setDestination(Destination destination) {
+		this.destination = destination;
+    }
+
+	public Destination getDestination() {
+		return destination;
+	}
 }

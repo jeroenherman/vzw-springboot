@@ -1,4 +1,4 @@
-package be.voedsaam.vzw.commons;
+package be.voedsaam.vzw.enums;
 
 public enum Role {
 	

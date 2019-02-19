@@ -6,29 +6,20 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-public class Address implements Serializable {
+public class Address extends AbstractDomainClass {
 
-	private static final long serialVersionUID = -513728812857501536L;
-	@Id
-	@GeneratedValue
-	private long id;
-	
 	private String street;
 	private Integer number;
 	private Integer postalCode;
 	private String City;
-	
 	public Address() {}
-	
 	public Address(String street, Integer number, Integer postalCode, String city) {
 		super();
 		this.street = street;
 		this.number = number;
 		this.postalCode = postalCode;
 		City = city;
-	} 
-	
-	
+	}
 	public String getStreet() {
 		return street;
 	}

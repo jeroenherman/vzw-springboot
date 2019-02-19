@@ -1,5 +1,7 @@
 package be.voedsaam.vzw.service.dto;
 
+import java.util.List;
+
 public class DestinationDTO {
 	private Long id;
 	private String street;
@@ -8,9 +10,7 @@ public class DestinationDTO {
 	private String city;
 	private String contactInfo;
 	private String destinationName;
-	
-	
-	
+	private List<String> agreements;
 	
 	public Long getId() {
 		return id;
@@ -54,8 +54,11 @@ public class DestinationDTO {
 	public void setDestinationName(String destinationName) {
 		this.destinationName = destinationName;
 	}
-	
-	
-	
 
+	public List<String> getAgreements() {
+		return agreements;
+	}
+	public void setAgreements(List<String> agreements) {
+		this.agreements = agreements;
+	}
 }

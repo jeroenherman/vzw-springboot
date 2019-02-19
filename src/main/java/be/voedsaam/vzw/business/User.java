@@ -1,18 +1,18 @@
 package be.voedsaam.vzw.business;
 
-import be.voedsaam.vzw.commons.Color;
-import be.voedsaam.vzw.commons.Role;
+import be.voedsaam.vzw.enums.Color;
+import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
-public class User implements Serializable {
+public class User extends AbstractDomainClass {
 
-	private static final long serialVersionUID = -7204434257630429064L;
-	@Id
-	@GeneratedValue
-	private Long id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -24,8 +24,17 @@ public class User implements Serializable {
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Address address;
 	private String password;
+	@ManyToMany(fetch = FetchType.EAGER,
+			cascade = {	CascadeType.MERGE})
+	@JoinTable(name = "USER_DRIVE",
+			joinColumns = { @JoinColumn(name = "user_id") },
+			inverseJoinColumns = { @JoinColumn(name = "drive_id") })
+	private List<Drive> drives = new ArrayList<>();
+	@ManyToOne
+	private Schedule schedule;
 
 	public User() {
+
 	}
 	
 	public User(String fullName) {
@@ -46,14 +55,6 @@ public class User implements Serializable {
 		this.color = color;
 		this.role = role;
 		this.address = address;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -111,8 +112,6 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
 	public String getTel() {
 		return tel;
@@ -123,18 +122,40 @@ public class User implements Serializable {
 	}
 
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		return result;
+	public String getFullName() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getFirstName()).append(" ").append(getLastName());
+		return sb.toString();
+	}
+	
+	public void setFullName(String fullName) {
+		String [] split = fullName.trim().split(" ");
+		if (split.length==2) {
+		setFirstName(split[0]);
+		setLastName(split[1]);
+		}
+		if (split.length==3) {
+			setFirstName(split[0]);
+			setLastName(split[1]+" "+split[2]);
+		}
+		
 	}
 
+	public List<Drive> getDrives() {
+		return Collections.unmodifiableList(drives);
+	}
+	public void addDrive(Drive drive){
+		if(!drives.contains(drive)){
+			drives.add(drive);
+			drive.addUser(this);
+		}
+	}
+	public void removeDrive(Drive drive){
+		if(drives.contains(drive)){
+			drive.removeUser(this);
+			drives.remove(drive);
+		}
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -166,26 +187,22 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
-
-
-	public String getFullName() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(getFirstName()).append(" ").append(getLastName());
-		return sb.toString();
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		return result;
 	}
-	
-	public void setFullName(String fullName) {
-		String [] split = fullName.trim().split(" ");
-		if (split.length==2) {
-		setFirstName(split[0]);
-		setLastName(split[1]);
-		}
-		if (split.length==3) {
-			setFirstName(split[0]);
-			setLastName(split[1]+" "+split[2]);
-		}
-		
-	}
-	
 
+	public void setSchedule(Schedule schedule) {
+		this.schedule = schedule;
+	}
+
+	public Schedule getSchedule() {
+		return schedule;
+	}
 }

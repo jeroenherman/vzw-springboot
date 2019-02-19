@@ -5,6 +5,8 @@ import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.DestinationDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 @Component
 public class DestinationMapper extends AbstractMapper<Destination, DestinationDTO>{
 
@@ -20,6 +22,7 @@ public class DestinationMapper extends AbstractMapper<Destination, DestinationDT
 		d.setPostalCode(b.getAddress().getPostalCode());
 		d.setContactInfo(b.getContactInfo());
 		d.setDestinationName(b.getDestinationName());
+		d.setAgreements(b.getAgreements());
 		return d;
 	}
 
@@ -35,6 +38,7 @@ public class DestinationMapper extends AbstractMapper<Destination, DestinationDT
 			b.getAddress().setPostalCode(d.getPostalCode());
 			b.setContactInfo(d.getContactInfo());
 			b.setDestinationName(d.getDestinationName());
+			b.setAgreements(d.getAgreements());
 			return b;
 	}
 	

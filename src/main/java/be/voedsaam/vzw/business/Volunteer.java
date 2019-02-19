@@ -1,5 +1,5 @@
 package be.voedsaam.vzw.business;
 
-public class Agreement {
+public class Volunteer extends  User{
 
 }

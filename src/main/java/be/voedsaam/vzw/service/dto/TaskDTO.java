@@ -1,6 +1,6 @@
 package be.voedsaam.vzw.service.dto;
 
-import be.voedsaam.vzw.commons.Role;
+import be.voedsaam.vzw.enums.Role;
 
 public class TaskDTO {
 	
