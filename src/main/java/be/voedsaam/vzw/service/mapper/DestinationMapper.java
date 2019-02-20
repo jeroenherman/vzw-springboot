@@ -1,14 +1,23 @@
 package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Destination;
+import be.voedsaam.vzw.business.repository.DestinationRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.DestinationDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @Component
 public class DestinationMapper extends AbstractMapper<Destination, DestinationDTO>{
+
+	private DestinationRepository destinationRepository;
+	@Autowired
+	public void setDestinationRepository(DestinationRepository destinationRepository) {
+		this.destinationRepository = destinationRepository;
+	}
 
 	@Override
 	public DestinationDTO mapToDTO(Destination b) {
@@ -31,6 +40,13 @@ public class DestinationMapper extends AbstractMapper<Destination, DestinationDT
 		if (d==null)
 			return null;
 			Destination b = new Destination();
+			Optional<Destination> o = Optional.empty();
+			if (d.getId()!=null)
+				o = destinationRepository.findById(d.getId());
+
+			if(o.isPresent())
+				b = o.get();
+
 			b.setId(d.getId());
 			b.getAddress().setCity(d.getCity());
 			b.getAddress().setStreet(d.getStreet());

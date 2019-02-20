@@ -3,7 +3,7 @@ package be.voedsaam.vzw.service.dto;
 import be.voedsaam.vzw.enums.Role;
 
 public class TaskDTO {
-	
+	private Long id;
 	private  String description, title;
 	private Role role;
 	public String getDescription() {
@@ -24,7 +24,12 @@ public class TaskDTO {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
-	
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

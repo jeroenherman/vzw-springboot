@@ -2,12 +2,22 @@ package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Address;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class UserMapper extends AbstractMapper<User, UserDTO>{
+
+	private UserRepository userRepository;
+	@Autowired
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
 
 	@Override
 	public UserDTO mapToDTO(User b) {
@@ -37,22 +47,28 @@ public class UserMapper extends AbstractMapper<User, UserDTO>{
 	public User mapToObj(UserDTO d) {
 		if (d==null)
 			return null;
-		User user = new User();
+		User b = new User();
+		Optional<User> o = Optional.empty();
+		if (d.getId()!=null)
+			o= userRepository.findById(d.getId());
+		if(o.isPresent())
+			b = o.get();
+		
 		Address address = new Address();
-		user.setId(d.getId());
-		user.setPassword(d.getPassword());
-		user.setFirstName(d.getFirstName());
-		user.setLastName(d.getLastName());
-		user.setEmail(d.getEmail());
+		b.setId(d.getId());
+		b.setPassword(d.getPassword());
+		b.setFirstName(d.getFirstName());
+		b.setLastName(d.getLastName());
+		b.setEmail(d.getEmail());
 		address.setCity(d.getCity());
 		address.setStreet(d.getStreet());
 		address.setNumber(d.getStreetNumber());
 		address.setPostalCode(d.getPostalCode());
-		user.setTel(d.getTel());
-		user.setColor(d.getColor());
-		user.setRole(d.getRole());
-		user.setAddress(address);
-		return user;
+		b.setTel(d.getTel());
+		b.setColor(d.getColor());
+		b.setRole(d.getRole());
+		b.setAddress(address);
+		return b;
 	}
 	
 

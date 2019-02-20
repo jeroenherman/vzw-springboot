@@ -2,15 +2,24 @@ package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.repository.DriveRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.dto.DriveDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
+
+	private DriveRepository driveRepository;
+	@Autowired
+	public void setDriveRepository(DriveRepository driveRepository) {
+		this.driveRepository = driveRepository;
+	}
 
 	@Override
 	public DriveDTO mapToDTO(Drive b) {
@@ -39,6 +48,12 @@ public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
 		if (d==null)
 			return null;
 		Drive b = new Drive();
+		Optional<Drive> o = Optional.empty();
+		if (d.getId()!=null)
+			o = driveRepository.findById(d.getId());
+
+		if(o.isPresent())
+			b = o.get();
 		b.setDescription(d.getDescription());
 		b.setId(d.getId());
 		b.setStartTime(d.getStartTime());
