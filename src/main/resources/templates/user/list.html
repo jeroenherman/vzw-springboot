@@ -1,52 +1,127 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Spring Core Online Tutorial - List Users</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<html xmlns:th="http://www.thymeleaf.org" >
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
+<head lang="en">
 
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <link href="../../static/css/spring-core.css"
-          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+    <title>Vzw Voedsaam Ritten Planner</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/vendor/bootstrap/css/bootstrap.min.css"
+          th:href="@{../vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/css/simple-sidebar.css"
+          th:href="@{../css/simple-sidebar.css}" rel="stylesheet">
+
+    <!-- JQuery -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../static/vendor/jquery/jquery.min.js"
+            th:src="@{../vendor/jquery/jquery.min.js}" ></script>
+    <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
+            th:src="@{../vendor/jquery/bootstrap.bundle.min.js}"></script>
+
+
 </head>
+
 <body>
-<div class="container">
-    <div th:if="${not #lists.isEmpty(users)}">
-        <h2>User List</h2>
-        <table class="table table-striped">
-            <tr>
-                <th>Id</th>
-                <th>User Name</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Role</th>
-                <th>List</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.firstName}"></td>
-                <td th:text="${user.lastName}"></td>
-                <td th:text="${user.role}"></td>
-                <td><a th:href="${'/user/show/' + user.id}">View</a> </td>
-                <td><a th:href="${'/user/edit/' + user.id}">Edit</a> </td>
-                <td><a th:href="${'/user/delete/' + user.id}">Delete</a> </td>
-            </tr>
-        </table>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <a href="/user/new">New User</a>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="list-group list-group-flush">
+            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
         </div>
     </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-danger" id="menu-toggle">Menu</button>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <h1 class="mt-4">Gebruikers</h1>
+            <div class="container">
+                <div th:if="${not #lists.isEmpty(users)}">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Id</th>
+                            <th>User Name</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Role</th>
+                            <th>List</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td th:text="${user.role}"></td>
+                            <td><a th:href="${'/user/show/' + user.id}">View</a> </td>
+                            <td><a th:href="${'/user/edit/' + user.id}">Edit</a> </td>
+                            <td><a th:href="${'/user/delete/' + user.id}">Delete</a> </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="/user/new">New User</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
 </div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
 
 </body>
+
 </html>

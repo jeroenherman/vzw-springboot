@@ -1,6 +1,8 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.enums.Color;
+import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.UserDTO;
 import be.voedsaam.vzw.service.mapper.UserMapper;
@@ -46,19 +48,24 @@ public class UserController {
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
         model.addAttribute("user",userMapper.mapToDTO(userService.getById(id.longValue())));
+        model.addAttribute("roles",Role.values());
+        model.addAttribute("colors",Color.values());
         return "user/userform";
     }
 
     @RequestMapping("/new")
     public String newUser(Model model){
         model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles",Role.values());
+        model.addAttribute("colors",Color.values());
         return "user/userform";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveOrUpdate(UserDTO user){
-        UserDTO savedUser = userMapper.mapToDTO(userService.saveOrUpdate(userMapper.mapToObj(user)));
-        return "redirect:/user/show/" + savedUser.getId();
+    public String saveOrUpdate(UserDTO dto){
+        User user = userMapper.mapToObj(dto);
+        userService.saveOrUpdate(user);
+        return "redirect:/user/show/" + user.getId();
     }
 
     @RequestMapping("/delete/{id}")
