@@ -60,8 +60,8 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
-    public User findByRole(Role role) {
-        return userRepository.findByRole(role);
+    public List<User> listByRole(Role role) {
+        return userRepository.findAllByRole(role);
     }
 
     @Override

@@ -8,6 +8,7 @@ import be.voedsaam.vzw.service.dto.UserDTO;
 import be.voedsaam.vzw.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,7 +51,7 @@ public class UserController {
         model.addAttribute("user",userMapper.mapToDTO(userService.getById(id.longValue())));
         model.addAttribute("roles",Role.values());
         model.addAttribute("colors",Color.values());
-        return "user/userform";
+        return "user/form";
     }
 
     @RequestMapping("/new")
@@ -58,7 +59,7 @@ public class UserController {
         model.addAttribute("user", new UserDTO());
         model.addAttribute("roles",Role.values());
         model.addAttribute("colors",Color.values());
-        return "user/userform";
+        return "user/form";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
@@ -69,6 +70,7 @@ public class UserController {
     }
 
     @RequestMapping("/delete/{id}")
+    @Transactional
     public String delete(@PathVariable Integer id){
         userService.delete(id.longValue());
         return "redirect:/user/list";

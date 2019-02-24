@@ -10,6 +10,7 @@ public class DriveDTO {
 	private List<String> drivers;
 	private List<String> attendees;
 	private List<String> depotHelps;
+	private String schedule;
 	private Long id;
 
 	public DriveDTO() {
@@ -82,6 +83,14 @@ public class DriveDTO {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(String schedule) {
+		this.schedule = schedule;
 	}
 
 	@Override

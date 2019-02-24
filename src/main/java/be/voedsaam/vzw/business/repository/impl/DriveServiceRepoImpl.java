@@ -54,9 +54,12 @@ public class DriveServiceRepoImpl implements DriveService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Optional<Drive> o = driveRepository.findById(id);
-        if (o.isPresent())
-            driveRepository.delete(o.get());
+        if (o.isPresent()) {
+            Drive drive = o.get();
+            driveRepository.delete(drive);
+        }
     }
 }

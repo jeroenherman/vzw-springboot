@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class UserMapper extends AbstractMapper<User, UserDTO>{
@@ -32,14 +33,14 @@ public class UserMapper extends AbstractMapper<User, UserDTO>{
 		dto.setTel(b.getTel());
 		dto.setColor(b.getColor());
 		dto.setRole(b.getRole());
-		
 		if (!(b.getAddress()==null)) { 
 		dto.setCity(b.getAddress().getCity());
 		dto.setStreet(b.getAddress().getStreet());
 		dto.setStreetNumber(b.getAddress().getNumber());
 		dto.setPostalCode(b.getAddress().getPostalCode());
 		}
-		
+		dto.setSchedules(b.getSchedules().stream().map(schedule -> schedule.getName()).collect(Collectors.toList()));
+		dto.setDrives(b.getDrives().stream().map(drive -> drive.getDescription()).collect(Collectors.toList()));
 		return dto;
 	}
 

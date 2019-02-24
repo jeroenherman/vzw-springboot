@@ -5,6 +5,8 @@ package be.voedsaam.vzw.service.dto;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
 
+import java.util.List;
+
 public class UserDTO {
 	private Long id;
 	private String firstName;
@@ -18,6 +20,8 @@ public class UserDTO {
 	private String city;
 	private String tel;
 	private Color color;
+	private List<String> schedules;
+	private List<String> drives;
 	
 	public UserDTO() {}
 	public UserDTO(String fullName) {
@@ -103,8 +107,6 @@ public class UserDTO {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	
-	
 	public Color getColor() {
 		return color;
 	}
@@ -117,6 +119,23 @@ public class UserDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+	public List<String> getSchedules() {
+		return schedules;
+	}
+
+	public void setSchedules(List<String> schedules) {
+		this.schedules = schedules;
+	}
+
+	public List<String> getDrives() {
+		return drives;
+	}
+
+	public void setDrives(List<String> drives) {
+		this.drives = drives;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

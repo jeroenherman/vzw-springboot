@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head lang="en">
 
@@ -21,7 +21,7 @@
     <!-- JQuery -->
     <!-- Bootstrap core JavaScript -->
     <script src="../../static/vendor/jquery/jquery.min.js"
-            th:src="@{../../vendor/jquery/jquery.min.js}" ></script>
+            th:src="@{../../vendor/jquery/jquery.min.js}"></script>
     <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
             th:src="@{../../vendor/jquery/bootstrap.bundle.min.js}"></script>
 
@@ -43,11 +43,11 @@
 
     <!-- Page Content -->
     <div id="page-content-wrapper">
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <button class="btn btn-danger" id="menu-toggle">Menu</button>
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -60,7 +60,8 @@
                         <a class="nav-link" href="#">Link</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dropdown
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -73,110 +74,106 @@
                 </ul>
             </div>
         </nav>
-
-        <div class="container-fluid">
+        <div class="container">
             <h1 class="mt-4">Gebruikers</h1>
-        </div>
-
-                <!-- User info  -->
-                <div class="container py-3">
-                    <div class="row">
-                        <div class="mx-auto col-sm-6">
-                            <!-- user info -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="mb-0">Gebruikers informatie</h4>
-                                </div>
-                                <div class="card-body">
-                                    <form class="form" role="form" autocomplete="off">
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Voornaam</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.firstName}">firstName</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Achternaam</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.lastName}">lastName</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.email}">Email</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Tel</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.tel}">tel</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Gebruikers rol</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.role}">Admin</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Kleur</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.color}">Rood</p>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+            <!-- User info  -->
+            <div class="container py-3">
+                <div class="row">
+                    <div class="mx-auto col-sm-6">
+                        <!-- user info -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">Gebruikers informatie</h4>
                             </div>
-                            <!--  address info -->
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Voornaam</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.firstName}">firstName</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Achternaam</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.lastName}">lastName</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.email}">Email</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Tel</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.tel}">tel</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Gebruikers rol</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.role}">Admin</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Kleur</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.color}">Rood</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Adress info  -->
-                <div class="container py-3">
-                    <div class="row">
-                        <div class="mx-auto col-sm-6">
-                            <!-- form user info -->
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4 class="mb-0">Adres</h4>
-                                </div>
-                                <div class="card-body">
-                                    <form class="form" role="form" autocomplete="off">
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Straat</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.street}">Street</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Huisnummer</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.streetNumber}">Nr</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Stad /
-                                                Gemeente</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.city}">city</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
-                                            <div class="col-lg-9">
-                                                <p class="form-control" th:text="${user.postalCode}">9100</p>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+            </div>
+            <!-- Adress info  -->
+            <div class="container py-3">
+                <div class="row">
+                    <div class="mx-auto col-sm-6">
+                        <!-- form user info -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="mb-0">Adres</h4>
                             </div>
-                            <!-- /form user info -->
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Straat</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.street}">Street</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Huisnummer</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.streetNumber}">Nr</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Stad /
+                                            Gemeente</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.city}">city</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.postalCode}">9100</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
+                        <!-- /form user info -->
                     </div>
                 </div>
+            </div>
         </div>
+    </div>
 
     <!-- /#page-content-wrapper -->
 
@@ -185,7 +182,7 @@
 
 <!-- Menu Toggle Script -->
 <script>
-    $("#menu-toggle").click(function(e) {
+    $("#menu-toggle").click(function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });

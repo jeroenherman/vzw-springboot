@@ -58,6 +58,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         schedule.setName("Ritten Els");
         scheduleService.saveOrUpdate(schedule);
         schedule.addUser(userService.findByEmail("els.vandeSteene@voedsaam.be"));
+        schedule.addUser(userService.findByEmail("cindy.depuydt@voedsaam.be"));
     }
 
     private void loadDestinations() {

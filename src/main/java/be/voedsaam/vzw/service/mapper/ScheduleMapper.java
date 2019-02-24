@@ -1,7 +1,9 @@
 package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Schedule;
+import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.ScheduleRepository;
+import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.dto.ScheduleDTO;
@@ -14,6 +16,11 @@ import java.util.Optional;
 public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
 
     private ScheduleRepository scheduleRepository;
+    private UserRepository userRepository;
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Autowired
     public void setScheduleRepository(ScheduleRepository scheduleRepository) {
@@ -27,11 +34,9 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
         ScheduleDTO d = new ScheduleDTO();
         d.setId(b.getId());
         d.setName(b.getName());
-        d.setOwner(b.getUsers().stream()
-                .filter(user -> user.getRole()
-                        .equals(Role.COORDINATOR))
-                .findFirst().get()
-                .getFullName());
+        Optional<User> owner = b.getUsers().stream().filter(user -> user.getRole().equals(Role.COORDINATOR)).findAny();
+        if (owner.isPresent())
+        d.setOwner(owner.get().getFullName());
         b.getDrives().stream().map(drive -> drive.getDescription()).forEach(d.getDrives()::add);
         b.getUsers().stream().map(user -> user.getFullName()).forEach(d.getViewers()::add);
         return d;
@@ -39,6 +44,7 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
 
     @Override
     public Schedule mapToObj(ScheduleDTO d) {
+        User owner = null;
         if (d == null)
             return null;
         Schedule b = new Schedule();
@@ -48,6 +54,10 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
         if (o.isPresent())
             b = o.get();
 
+        if((d.getId()==null)&&(d.getName()!=null))
+        owner = userRepository.findByEmailIgnoreCase(d.getOwner());
+        if (owner!=null)
+            b.addUser(owner);
         b.setName(d.getName());
         b.setId(d.getId());
         return b;

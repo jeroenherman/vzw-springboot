@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
 public class Drive extends AbstractDomainClass {
@@ -27,7 +28,7 @@ public class Drive extends AbstractDomainClass {
         super();
         this.startTime = LocalDateTime.now();
         this.endTime = LocalDateTime.now();
-        users = new ArrayList<>();
+        users = new CopyOnWriteArrayList<>();
         destinations = new ArrayList<>();
     }
 
@@ -83,6 +84,19 @@ public class Drive extends AbstractDomainClass {
             users.remove(user);
             user.removeDrive(this);
         }
+    }
+    public void clear(){
+        for (int i = 0; i < users.size() ; i++) {
+            users.get(i).removeDrive(this);
+        }
+        for (int i = 0; i <destinations.size() ; i++) {
+            destinations.get(i).removeDrive(this);
+        }
+        if (schedule!=null)
+        schedule.removeDrive(this);
+        users.clear();
+        destinations.clear();
+        setSchedule(null);
     }
 
     public String getDescription() {

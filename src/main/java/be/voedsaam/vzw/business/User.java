@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
 public class User extends AbstractDomainClass {
@@ -25,13 +26,16 @@ public class User extends AbstractDomainClass {
 	private Address address;
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER,
-			cascade = {	CascadeType.MERGE})
+			cascade = {	CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "USER_DRIVE",
 			joinColumns = { @JoinColumn(name = "user_id") },
 			inverseJoinColumns = { @JoinColumn(name = "drive_id") })
-	private List<Drive> drives = new ArrayList<>();
-	@ManyToOne
-	private Schedule schedule;
+	private List<Drive> drives = new CopyOnWriteArrayList<>();
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "USER_SCHEDULE",
+			joinColumns = { @JoinColumn(name = "user_id") },
+			inverseJoinColumns = { @JoinColumn(name = "schedule_id") })
+	private List<Schedule> schedules = new ArrayList<>();
 
 	public User() {
 
@@ -198,11 +202,21 @@ public class User extends AbstractDomainClass {
 		return result;
 	}
 
-	public void setSchedule(Schedule schedule) {
-		this.schedule = schedule;
+	public void addSchedule(Schedule schedule) {
+		if(!schedules.contains(schedule)) {
+			this.schedules.add(schedule);
+			schedule.addUser(this);
+		}
 	}
 
-	public Schedule getSchedule() {
-		return schedule;
+	public void removeSchedule(Schedule schedule) {
+		if(schedules.contains(schedule)) {
+			this.schedules.remove(schedule);
+			schedule.removeUser(this);
+		}
+	}
+
+	public List<Schedule> getSchedules() {
+		return Collections.unmodifiableList(schedules);
 	}
 }
