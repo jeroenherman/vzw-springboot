@@ -5,10 +5,7 @@ import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
@@ -24,42 +21,124 @@ public class User extends AbstractDomainClass {
 	private Role role;
 	@OneToOne(cascade = {CascadeType.ALL})
 	private Address address;
+	private String encryptedPassword;
+	@Transient
 	private String password;
+
 	@ManyToMany(fetch = FetchType.EAGER,
-			cascade = {	CascadeType.PERSIST, CascadeType.MERGE})
+			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "USER_DRIVE",
-			joinColumns = { @JoinColumn(name = "user_id") },
-			inverseJoinColumns = { @JoinColumn(name = "drive_id") })
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "drive_id")})
 	private List<Drive> drives = new CopyOnWriteArrayList<>();
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(name = "USER_SCHEDULE",
-			joinColumns = { @JoinColumn(name = "user_id") },
-			inverseJoinColumns = { @JoinColumn(name = "schedule_id") })
+			joinColumns = {@JoinColumn(name = "user_id")},
+			inverseJoinColumns = {@JoinColumn(name = "schedule_id")})
 	private List<Schedule> schedules = new ArrayList<>();
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
+	private Set<Authority> authorities = new HashSet<>();
 
 	public User() {
 
 	}
-	
+
 	public User(String fullName) {
-		if (fullName!=null)
-		setFullName(fullName);
+		if (fullName != null)
+			setFullName(fullName);
 	}
 
 	public User(String firstName, String lastName, String email, String tel) {
-			super();
-			this.firstName = firstName;
-			this.lastName = lastName;
-			this.email = email;
-			this.tel = tel;
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.tel = tel;
 	}
 
-	public User(String firstName, String lastName, String email, String tel,  Address address, Role role,  Color color) {
+	public User(String firstName, String lastName, String email, String tel, Address address, Role role, Color color) {
 		this(firstName, lastName, email, tel);
 		this.color = color;
 		this.role = role;
 		this.address = address;
 	}
+
+	public void addAuthority(Authority authority){
+		this.authorities.add(authority);
+		authority.setUser(this);
+	}
+
+	public void addDrive(Drive drive) {
+		if (!drives.contains(drive)) {
+			drives.add(drive);
+			drive.addUser(this);
+		}
+	}
+
+	public void removeDrive(Drive drive) {
+		if (drives.contains(drive)) {
+			drive.removeUser(this);
+			drives.remove(drive);
+		}
+	}
+
+	public void addSchedule(Schedule schedule) {
+		if (!schedules.contains(schedule)) {
+			this.schedules.add(schedule);
+			schedule.addUser(this);
+		}
+	}
+
+	public void removeSchedule(Schedule schedule) {
+		if (schedules.contains(schedule)) {
+			this.schedules.remove(schedule);
+			schedule.removeUser(this);
+		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		return result;
+	}
+
 
 	public String getFirstName() {
 		return firstName;
@@ -99,6 +178,7 @@ public class User extends AbstractDomainClass {
 
 	public void setRole(Role role) {
 		this.role = role;
+		addAuthority(new Authority(role.toString()));
 	}
 
 	public Address getAddress() {
@@ -117,6 +197,14 @@ public class User extends AbstractDomainClass {
 		this.password = password;
 	}
 
+	public String getEncryptedPassword() {
+		return encryptedPassword;
+	}
+
+	public void setEncryptedPassword(String encryptedPassword) {
+		this.encryptedPassword = encryptedPassword;
+	}
+
 	public String getTel() {
 		return tel;
 	}
@@ -125,98 +213,38 @@ public class User extends AbstractDomainClass {
 		this.tel = tel;
 	}
 
-
 	public String getFullName() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(getFirstName()).append(" ").append(getLastName());
 		return sb.toString();
 	}
-	
+
 	public void setFullName(String fullName) {
-		String [] split = fullName.trim().split(" ");
-		if (split.length==2) {
-		setFirstName(split[0]);
-		setLastName(split[1]);
-		}
-		if (split.length==3) {
+		String[] split = fullName.trim().split(" ");
+		if (split.length == 2) {
 			setFirstName(split[0]);
-			setLastName(split[1]+" "+split[2]);
+			setLastName(split[1]);
 		}
-		
+		if (split.length == 3) {
+			setFirstName(split[0]);
+			setLastName(split[1] + " " + split[2]);
+		}
+
+	}
+
+	public List<Schedule> getSchedules() {
+		return Collections.unmodifiableList(schedules);
 	}
 
 	public List<Drive> getDrives() {
 		return Collections.unmodifiableList(drives);
 	}
-	public void addDrive(Drive drive){
-		if(!drives.contains(drive)){
-			drives.add(drive);
-			drive.addUser(this);
-		}
-	}
-	public void removeDrive(Drive drive){
-		if(drives.contains(drive)){
-			drive.removeUser(this);
-			drives.remove(drive);
-		}
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		User other = (User) obj;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
-			return false;
-		return true;
-	}
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		return result;
+
+	public Set<Authority> getAuthorities() {
+		return authorities;
 	}
 
-	public void addSchedule(Schedule schedule) {
-		if(!schedules.contains(schedule)) {
-			this.schedules.add(schedule);
-			schedule.addUser(this);
-		}
-	}
-
-	public void removeSchedule(Schedule schedule) {
-		if(schedules.contains(schedule)) {
-			this.schedules.remove(schedule);
-			schedule.removeUser(this);
-		}
-	}
-
-	public List<Schedule> getSchedules() {
-		return Collections.unmodifiableList(schedules);
+	public void setAuthorities(Set<Authority> authorities) {
+		this.authorities = authorities;
 	}
 }

@@ -154,6 +154,16 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadUsers(){
+        User admin = new User();
+        admin.setEmail("admin@voedsaam.be");
+        admin.setPassword("test123");
+        admin.setRole(Role.COORDINATOR);
+        Authority authority1 = new Authority("ADMIN");
+        Authority authority2 = new Authority("USER");
+        admin.addAuthority(authority1);
+        admin.addAuthority(authority2);
+        userService.saveOrUpdate(admin);
+
         User jeroen;
         User coordinator;
         User logistics;
@@ -192,7 +202,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         attendee.setRole(Role.ATTENDEE);
 
 
-        depotHelp = new User("Marie-No�lle Delarbre");
+        depotHelp = new User("Marie-Noëlle Delarbre");
         depotHelp.setTel("0474 84 75 91");
         depotHelp.setRole(Role.DEPOTHELP);
 

@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,7 @@ public class ScheduleController {
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
         model.addAttribute("schedule",scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
+        System.out.println(scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
         List<User> currentUsers = scheduleService.getById(id.longValue()).getUsers()
                 .stream()
                 // .filter(u -> u.getRole()
@@ -121,5 +123,7 @@ public class ScheduleController {
         scheduleService.saveOrUpdate(schedule);
         return "redirect:/schedule/edit/" + schedule.getId();
     }
+
+
 
 }

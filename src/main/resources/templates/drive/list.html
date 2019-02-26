@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head lang="en">
+<head lang="nl">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -86,8 +86,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Beschrijving</th>
-                        <th>Start</th>
-                        <th>Einde</th>
+                        <th>Start datum</th>
                         <th>Schema</th>
                         <th>Lijst</th>
                         <th>Editeer</th>
@@ -96,8 +95,13 @@
                     <tr th:each="drive : ${drives}">
                         <td th:text="${drive.id}"></td>
                         <td th:text="${drive.description}"></td>
-                        <td th:text="${drive.startTime}"></td>
-                        <td th:text="${drive.endTime}"></td>
+                        <td>
+                            <time datetime="2014-09-20" class="icon">
+                                <em th:text="${#temporals.dayOfWeekName(drive.startTime)}">Zaterdag</em>
+                                <span th:text="${#temporals.day(drive.startTime)}">20</span>
+                                <strong th:text="${#temporals.monthName(drive.startTime)}">September</strong>
+                            </time>
+                        </td>
                         <td th:text="${drive.schedule}"></td>
                         <td><a class="btn btn-block btn-primary" th:href="${'/drive/show/' + drive.id}">Bekijk</a></td>
                         <td><a class="btn btn-block btn-success" th:href="${'/drive/edit/' + drive.id}">Editeer</a></td>
@@ -106,7 +110,7 @@
                 </table>
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="/drive/new" class="btn btn-primary">Nieuwe Rit</a>
+                        <a th:href="${'/drive/new/' + session.idSchedule}" href="/drive/form" class="btn btn-primary">Nieuwe Rit</a>
                     </div>
                 </div>
             </div>

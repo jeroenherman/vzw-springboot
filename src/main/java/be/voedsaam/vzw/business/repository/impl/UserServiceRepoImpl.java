@@ -4,6 +4,7 @@ package be.voedsaam.vzw.business.repository.impl;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.Role;
+import be.voedsaam.vzw.security.EncryptionService;
 import be.voedsaam.vzw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -14,15 +15,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by jt on 12/21/15.
- */
+
 @Service
 @Profile("springdatajpa")
 public class UserServiceRepoImpl implements UserService {
 
     private UserRepository userRepository;
+    private EncryptionService encryptionService;
 
+    @Autowired
+    public void setEncryptionService(EncryptionService encryptionService) {
+        this.encryptionService = encryptionService;
+    }
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -43,6 +47,9 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public User saveOrUpdate(User domainObject) {
+        if (domainObject.getPassword()!= null)
+            domainObject.setEncryptedPassword(encryptionService.encryptString(domainObject.getPassword()));
+
         return userRepository.save(domainObject);
     }
 
@@ -64,9 +71,9 @@ public class UserServiceRepoImpl implements UserService {
         return userRepository.findAllByRole(role);
     }
 
-    @Override
-    public User Login(String email, String password) {
-        return userRepository.findByEmailIgnoreCaseAndPassword(email,password);
-    }
+//    @Override
+//    public User Login(String email, String password) {
+//        return userRepository.findByEmailIgnoreCaseAndPassword(email,password);
+//    }
 
 }

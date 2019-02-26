@@ -1,11 +1,15 @@
 package be.voedsaam.vzw.service.dto;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public class DriveDTO {
 	private String description;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
 	private LocalDateTime startTime;
+	@DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
 	private LocalDateTime endTime;
 	private List<String> drivers;
 	private List<String> attendees;

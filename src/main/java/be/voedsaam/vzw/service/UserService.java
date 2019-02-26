@@ -11,5 +11,5 @@ public interface UserService extends CRUDService<User> {
 
     User findByEmail(String email);
     List<User> listByRole(Role role);
-    User Login(String email, String password);
+  //  User Login(String email, String password);
 }

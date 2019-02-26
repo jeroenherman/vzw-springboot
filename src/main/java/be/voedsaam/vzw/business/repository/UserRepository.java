@@ -11,5 +11,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByEmailIgnoreCase(String email);
     List<User> findAllByRole(Role role);
-    User findByEmailIgnoreCaseAndPassword(String email, String password);
+   // User findByEmailIgnoreCaseAndPassword(String email, String password);
 }

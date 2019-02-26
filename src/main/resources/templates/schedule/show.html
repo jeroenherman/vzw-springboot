@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head lang="en">
 
@@ -21,7 +21,7 @@
     <!-- JQuery -->
     <!-- Bootstrap core JavaScript -->
     <script src="../../static/vendor/jquery/jquery.min.js"
-            th:src="@{../../webjars/jquery/2.1.4/jquery.min.js}" ></script>
+            th:src="@{../../webjars/jquery/2.1.4/jquery.min.js}"></script>
     <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
             th:src="@{../../webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
 
@@ -33,10 +33,10 @@
           th:href="@{../../vendor/fullcalendar/fullcalendar.print.min.css}">
 
     <script src="../../static/vendor/fullcalendar/lib/moment.min.js"
-    th:src="@{../../vendor/fullcalendar/lib/moment.min.js}"></script>
+            th:src="@{../../vendor/fullcalendar/lib/moment.min.js}"></script>
 
     <script src="../../static/vendor/fullcalendar/fullcalendar.min.js"
-    th:src="@{../../vendor/fullcalendar/fullcalendar.min.js}"></script>
+            th:src="@{../../vendor/fullcalendar/fullcalendar.min.js}"></script>
 
     <script src="../../static/js/calender.js"
             th:src="@{../../js/calender.js}"></script>
@@ -51,6 +51,7 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a th:href="${'/drive/new/' + schedule.id}" href="../drive/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -91,7 +92,6 @@
         <div class="container">
             <h2 th:text="${schedule.name}">Schema naam</h2>
             <div id="calendar"></div>
-
         </div>
         <!-- /#page-content-wrapper -->
     </div>
