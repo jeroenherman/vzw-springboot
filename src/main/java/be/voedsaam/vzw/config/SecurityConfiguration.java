@@ -56,12 +56,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/static/css").permitAll()
                 .and().authorizeRequests().antMatchers("/js").permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
-                .and().authorizeRequests().antMatchers("/task/**").authenticated()
-                .and().authorizeRequests().antMatchers("/destination/**").authenticated()
-                .and().authorizeRequests().antMatchers("/schedule/**").authenticated()
-                .and().authorizeRequests().antMatchers("/drive/**").authenticated()
-                .and().authorizeRequests().antMatchers("/user/**").authenticated()
-                .and().exceptionHandling().accessDeniedPage("/access_denied");
+                .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
+                .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
+                .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
+                .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
+                .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR");
+               // .and().exceptionHandling().accessDeniedPage("/access-denied");
 
         http.headers().frameOptions().disable(); // access H2 database
     }

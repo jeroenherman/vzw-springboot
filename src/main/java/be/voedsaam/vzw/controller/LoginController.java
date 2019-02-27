@@ -27,7 +27,11 @@ public class LoginController {
 
         return "logout-success";
     }
+    @RequestMapping("access-denied")
+    public String accessDenied(){
 
+        return "access-denied";
+    }
   //  @RequestMapping(value = "/dologin", method = RequestMethod.POST)
     public String doLogin(@Valid LoginCommand loginCommand, BindingResult bindingResult){
 
