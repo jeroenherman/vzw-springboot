@@ -15,9 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+
 
 @Controller
 @RequestMapping("/schedule")
@@ -27,6 +30,12 @@ public class ScheduleController {
     private UserService userService;
     private ScheduleMapper scheduleMapper;
     private UserMapper userMapper;
+    private Schedule selectedSchedule;
+    @Autowired
+    public void setSelectedSchedule(Schedule selectedSchedule) {
+        this.selectedSchedule = selectedSchedule;
+    }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -51,12 +60,14 @@ public class ScheduleController {
     }
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model){
-        model.addAttribute("schedule", scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
+        selectedSchedule = scheduleService.getById(id.longValue());
+        model.addAttribute("schedule", scheduleMapper.mapToDTO(selectedSchedule));
         return "schedule/show";
     }
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
-        model.addAttribute("schedule",scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
+        selectedSchedule = scheduleService.getById(id.longValue());
+        model.addAttribute("schedule", scheduleMapper.mapToDTO(selectedSchedule));
         System.out.println(scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
         List<User> currentUsers = scheduleService.getById(id.longValue()).getUsers()
                 .stream()

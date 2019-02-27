@@ -53,7 +53,7 @@
                         <td><a class= "btn btn-block btn-danger"th:href="${'/drive/delete/' + drive.id}">Verwijder</a></td>
                     </tr>
                 </table>
-                <div class="row">
+                <div th:if="${session.idSchedule != null}" class="row">
                     <div class="col-sm-3">
                         <a th:href="${'/drive/new/' + session.idSchedule}" href="/drive/form" class="btn btn-primary">Nieuwe Rit</a>
                     </div>

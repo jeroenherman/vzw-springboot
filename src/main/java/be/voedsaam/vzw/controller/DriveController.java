@@ -5,6 +5,7 @@ import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Role;
+import be.voedsaam.vzw.security.UserSecurity;
 import be.voedsaam.vzw.service.DestinationService;
 import be.voedsaam.vzw.service.DriveService;
 import be.voedsaam.vzw.service.ScheduleService;
@@ -12,6 +13,9 @@ import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.EventDTO;
 import be.voedsaam.vzw.service.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -83,9 +88,16 @@ public class DriveController {
     public String listDrives(Model model) {
         model.addAttribute("drives", driveMapper.mapToDTO((List<Drive>) driveService.listAll()));
         model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
-
         return "drive/list";
     }
+
+    @RequestMapping({"listbyuser", })
+    public String listDrives(Model model, Principal principal) {
+        model.addAttribute("drives", driveMapper.mapToDTO( driveService.findbyPerson(principal.getName())));
+        model.addAttribute("events", eventMapper.mapToDTO( driveService.findbyPerson(principal.getName())));
+        return "drive/list";
+    }
+
 
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model) {
@@ -117,7 +129,10 @@ public class DriveController {
     }
 
     @RequestMapping("/new/{idSchedule}")
-    public String newDrive(@PathVariable Integer idSchedule) {
+    public String newDrive(@PathVariable Integer idSchedule) throws UnsupportedOperationException{
+
+        if (idSchedule==null)
+            throw new UnsupportedOperationException("schedule needs to be set, id can not be null ");
         Schedule schedule = scheduleService.getById(idSchedule.longValue());
         Drive drive = new Drive();
         drive.setStartTime(LocalDateTime.now().withSecond(0).withNano(0));
@@ -128,6 +143,7 @@ public class DriveController {
         scheduleService.saveOrUpdate(schedule);
         return "redirect:/drive/edit/" + drive.getId();
     }
+
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(EventDTO dto) {

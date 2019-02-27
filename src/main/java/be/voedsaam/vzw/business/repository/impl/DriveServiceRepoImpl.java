@@ -62,4 +62,9 @@ public class DriveServiceRepoImpl implements DriveService {
             driveRepository.delete(drive);
         }
     }
+
+    @Override
+    public List<Drive> findbyPerson(String email) {
+        return driveRepository.findAllByUsersContaining(userRepository.findByEmailIgnoreCase(email));
+    }
 }

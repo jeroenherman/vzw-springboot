@@ -15,14 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private AuthenticationProvider authenticationProvider;
-
     @Autowired
     @Qualifier("daoAuthenticationProvider")
-    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
-        this.authenticationProvider = authenticationProvider;
-    }
+    private AuthenticationProvider authenticationProvider;
+
+//    @Autowired // possible cause nullpointer
+//    @Qualifier("daoAuthenticationProvider")
+//    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
+//        this.authenticationProvider = authenticationProvider;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,7 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
-                .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
+                .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR")
 
                 .and().exceptionHandling().accessDeniedPage("/access-denied");

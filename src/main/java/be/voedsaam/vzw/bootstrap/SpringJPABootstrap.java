@@ -194,6 +194,8 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         User attendee;
         User depotHelp;
         driver = new User("Kevin Van Leugenhaege");
+        driver.setEmail("kevin@voedsaam.be");
+        driver.setPassword("Test123");
         driver.setTel("0472 40 07 94");
         driver.setRole(Role.DRIVER);
 

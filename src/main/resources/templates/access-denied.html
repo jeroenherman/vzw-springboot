@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
 
-<head th:replace="fragments/main :: header" lang="en"></head>
+<head th:replace="fragments/sub :: header" lang="en"></head>
 
 <body>
 
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div th:replace="fragments/main.html ::sidemenu" class="bg-light border-right" id="sidebar-wrapper"></div>
+    <div th:replace="fragments/sub.html ::sidemenu" class="bg-light border-right" id="sidebar-wrapper"></div>
     <!-- /#sidebar-wrapper -->
 
     <!-- Page Content -->
@@ -19,7 +19,8 @@
       <div class="container-fluid">
         <h1 class="mt-4">Voedsaam Ritten planner</h1>
         <H3>Toegang geweigerd</H3>
-        <p>Oops blijkbaar heb je niet de juiste login voor dit</p>
+        <p>Oops blijkbaar heb je niet de juiste login om hier te zijn.</p>
+        <p>Als je snel terug naar het overzicht gaat zal ik niets zeggen hoor. ;-)</p>
     </div>
     <!-- /#page-content-wrapper -->
 
