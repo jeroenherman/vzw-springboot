@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.config;
 
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -27,14 +25,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(PasswordEncoder passwordEncoder,
-                                                               @Qualifier("JPAUserDetailService") UserDetailsService userDetailsService){
+                                                               @Qualifier("JPAUserDetailService") UserDetailsService userDetailsService) {
 
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
@@ -43,27 +41,36 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Autowired
-    public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder){
+    public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/h2console").disable()
-                .authorizeRequests().antMatchers("/**/favicon.ico") .permitAll()
+                .authorizeRequests().antMatchers("/**/favicon.ico").permitAll()
                 .and().authorizeRequests().antMatchers("/product/**").permitAll()
                 .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
                 .and().authorizeRequests().antMatchers("/static/css").permitAll()
                 .and().authorizeRequests().antMatchers("/js").permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
+
+//                .and().authorizeRequests().antMatchers("/task/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/destination/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/schedule/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/drive/**").permitAll()
+//                .and().authorizeRequests().antMatchers("/user/**").permitAll()
+
                 .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
-                .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
+                .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
-                .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR");
-               // .and().exceptionHandling().accessDeniedPage("/access-denied");
+                .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR")
+
+                .and().exceptionHandling().accessDeniedPage("/access-denied");
 
         http.headers().frameOptions().disable(); // access H2 database
+        http.csrf().disable(); // possible fix error 500 ???
     }
 
 

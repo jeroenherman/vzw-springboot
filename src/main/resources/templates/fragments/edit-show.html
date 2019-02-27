@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:fragment="header" lang="en">
 
@@ -12,18 +12,18 @@
 
     <!-- Bootstrap core CSS -->
     <link href="../../static/vendor/bootstrap/css/bootstrap.min.css"
-          th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+          th:href="@{../../webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="../../static/css/simple-sidebar.css"
-          th:href="@{css/simple-sidebar.css}" rel="stylesheet">
+          th:href="@{../../css/simple-sidebar.css}" rel="stylesheet">
 
     <!-- JQuery -->
     <!-- Bootstrap core JavaScript -->
     <script src="../../static/vendor/jquery/jquery.min.js"
-            th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
+            th:src="@{../../webjars/jquery/2.1.4/jquery.min.js}" ></script>
     <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
-            th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
+            th:src="@{../../webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
 
 
 </head>
@@ -37,12 +37,6 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
-            <a href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
-            <a href="drive/list" class="list-group-item list-group-item-action bg-light">Ritten</a>
-            <a href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>
-            <a href="task/list" class="list-group-item list-group-item-action bg-light">Taken</a>
-
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -52,23 +46,18 @@
 
         <nav th:fragment="topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
             <button class="btn btn-danger" id="menu-toggle">Menu</button>
-            <span sec:authorize="isAuthenticated()" >
-                Username: <span sec:authentication="name"></span>
-                Roles: <span sec:authentication="principal.authorities"></span>
-            </span>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" href="/">Start Pagina <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="/">Start Pagina  <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
-                           aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Werking
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -80,14 +69,6 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
-            <h1 class="mt-4">Voedsaam Ritten planner</h1>
-            <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on
-                larger screens. When toggled using the button below, the menu will change.</p>
-            <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is
-                optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which
-                will toggle the menu when clicked.</p>
-        </div>
     </div>
     <!-- /#page-content-wrapper -->
 

@@ -6,8 +6,8 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 
 // class that enables Security on methods with the @Secured("ROLE_ADMIN", "ROLE_USER"....) annotation
 
-@Configuration
-@EnableGlobalMethodSecurity(securedEnabled = true)
-public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration{
+//@Configuration
+//@EnableGlobalMethodSecurity(securedEnabled = true)
+//public class MethodSecurityConfiguration extends GlobalMethodSecurityConfiguration{
 
-}
+//}
