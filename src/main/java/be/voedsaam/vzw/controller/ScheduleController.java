@@ -1,22 +1,24 @@
 package be.voedsaam.vzw.controller;
 
+import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Role;
+import be.voedsaam.vzw.service.DriveService;
 import be.voedsaam.vzw.service.ScheduleService;
 import be.voedsaam.vzw.service.UserService;
+import be.voedsaam.vzw.service.dto.EventDTO;
 import be.voedsaam.vzw.service.dto.ScheduleDTO;
+import be.voedsaam.vzw.service.mapper.EventMapper;
 import be.voedsaam.vzw.service.mapper.ScheduleMapper;
 import be.voedsaam.vzw.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,8 @@ public class ScheduleController {
     private ScheduleMapper scheduleMapper;
     private UserMapper userMapper;
     private Schedule selectedSchedule;
+    private DriveService driveService;
+    private  EventMapper eventMapper;
     @Autowired
     public void setSelectedSchedule(Schedule selectedSchedule) {
         this.selectedSchedule = selectedSchedule;
@@ -52,6 +56,14 @@ public class ScheduleController {
     public void setScheduleMapper(ScheduleMapper scheduleMapper) {
         this.scheduleMapper = scheduleMapper;
     }
+    @Autowired
+    public void setDriveService(DriveService driveService) {
+        this.driveService = driveService;
+    }
+    @Autowired
+    public void setEventMapper(EventMapper eventMapper) {
+        this.eventMapper = eventMapper;
+    }
 
     @RequestMapping({"list" ,"/"})
     public String listSchedules(Model model){
@@ -63,6 +75,17 @@ public class ScheduleController {
         selectedSchedule = scheduleService.getById(id.longValue());
         model.addAttribute("schedule", scheduleMapper.mapToDTO(selectedSchedule));
         return "schedule/show";
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/events", produces = "application/json")
+    public List<EventDTO> getEvents(
+            @RequestParam(value="start", required=false) String start,
+            @RequestParam(value="end", required=false) String end) {
+        List<EventDTO> events = new ArrayList<>();
+         events.addAll(eventMapper.mapToDTO(selectedSchedule.getDrives()));
+
+        return events;
     }
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){

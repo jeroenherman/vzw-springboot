@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/sub.html :: header" lang="en"></head>
 
@@ -33,21 +33,21 @@
                         <th>Naam</th>
                         <th>Eigenaar</th>
                         <th>Lijst</th>
-                        <th>Editeer</th>
-                        <th>Verwijder</th>
+                        <th sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" >Editeer</th>
+                        <th sec:authorize="hasRole('ROLE_COORDINATOR')">Verwijder</th>
                     </tr>
                     <tr th:each="schedule : ${schedules}">
                         <td th:text="${schedule.id}"></td>
                         <td th:text="${schedule.name}"></td>
                         <td th:text="${schedule.owner}"></td>
                         <td><a class="btn btn-block btn-primary" th:href="${'/schedule/show/' + schedule.id}">Bekijk</a></td>
-                        <td><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
-                        <td th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
+                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
                     </tr>
                 </table>
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="/schedule/new" class="btn btn-primary">Nieuw Schema</a>
+                        <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/new" class="btn btn-primary">Nieuw Schema</a>
                     </div>
                 </div>
             </div>

@@ -101,7 +101,15 @@ public class DriveController {
 
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model) {
-        model.addAttribute("drive", driveMapper.mapToDTO(driveService.getById(id.longValue())));
+        Drive drive = driveService.getById(id.longValue());
+        model.addAttribute("event", eventMapper.mapToDTO(drive));
+        model.addAttribute("drive", driveMapper.mapToDTO(drive));
+        model.addAttribute("now", LocalDateTime.now());
+        model.addAttribute("schedule", scheduleMapper.mapToDTO(drive.getSchedule()));
+        List<User> currentUsers = drive.getUsers();
+        model.addAttribute("currentUsers", userMapper.mapToDTO(currentUsers));
+        List<Destination> currentDestinations = drive.getDestinations();
+        model.addAttribute("currentDestinations" ,destinationMapper.mapToDTO(currentDestinations));
         return "drive/show";
     }
 

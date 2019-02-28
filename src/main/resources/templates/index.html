@@ -1,7 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" >
 
-<head th:replace="fragments/main :: header" lang="en"></head>
+<head th:replace="fragments/main :: header" lang="en">
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Vzw Voedsaam Ritten Planner</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../../static/vendor/bootstrap/css/bootstrap.min.css"
+        th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../../static/css/simple-sidebar.css"
+        th:href="@{css/simple-sidebar.css}" rel="stylesheet">
+
+  <!-- JQuery -->
+  <!-- Bootstrap core JavaScript -->
+  <script src="../../static/vendor/jquery/jquery.min.js"
+          th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
+  <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
+          th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
+
+
+</head>
 
 <body>
 
@@ -16,10 +41,15 @@
 
       <nav th:replace="fragments/main.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
-      <div class="container-fluid">
+      <div class="container-fluid" name="start">
         <h1 class="mt-4">Voedsaam Ritten planner</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+       <!--<img th:src="@{../images/crate.jpg}" src="../static/images/crate.jpg" class="centerimage" alt="crate"> -->
+        <div class="jumbotron">
+          <h2>Welkom</h2>
+        <p>Elk jaar wordt naar schatting een derde van onze wereldwijde voedselproductie verspild, samen goed voor 89 miljoen ton per jaar. Paradoxaal genoeg leven 79 miljoen Europeanen onder de armoedegrens waarvan 1,6 miljoen Belgen of 15% van onze bevolking. Het aantal dat daarvan terugvalt op voedselhulp is 16 miljoen in Europa en 130.030 in België.</p>
+        <p>VoedSaam vzw is een sociaal distributieplatform en helpende hand in strijd tegen deze voedseloverschotten en armoede in het Waasland. Concreet willen wij overschotten detecteren, transporteren, opslaan en distribueren aan Wase organisaties (vzw’s en OCMW’s) die o.a. levensmiddelen aanbieden aan mensen in armoede. Met deze bijdrage willen we er mede voor zorgen dat elke Wase burger in armoede, in zijn gemeente beroep kan doen op een uitgebreider en gezonder aanbod voedselhulp. Wij willen ook een faciliterende rol spelen bij het smeden en versterken van partnerschappen zodat we sámen de strijd tegen armoede in het Waasland kunnen intensiveren.</p>
+        <p>De coördinatie verloopt vanuit de kantoren van Interwaas (Lamstraat 113, Sint-Niklaas). Het voedseldepot is gevestigd in Kringwinkel Den Azalee (Krijgsbaan 247, Temse).  Meer informatie: vind je in de projectnota en flyer onderaan deze pagina of kan je opvragen bij coördinator Els Van de Steene (T 03 780 52 35 – info(at)voedsaam.be) of door ons te volgen op Facebook.</p>
+        </div>
       </div>
     </div>
     <!-- /#page-content-wrapper -->

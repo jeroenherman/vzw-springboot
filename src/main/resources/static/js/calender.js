@@ -12,14 +12,21 @@ $(document).ready(function() {
 
 function callCalendar() {
     $('#calendar').fullCalendar({
+        eventClick: function(calEvent, jsEvent, view) {
+
+            location.replace('/drive/show/' + calEvent.id);
+        },
         header : {
             left : 'prev,next today',
             center : 'title',
             right : 'month,agendaWeek,agendaDay,listWeek'
         },
-        defaultDate : '2018-11-16',
+        locale: 'nl',
+        height: 500,
         navLinks : true,
         eventLimit : true,
-        events : '/api/events/'
+        events : '/schedule/events/'
     });
+
 }
+

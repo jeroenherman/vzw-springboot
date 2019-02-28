@@ -33,11 +33,10 @@
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    <div th:fragment="sidemenu" class="bg-light border-right" id="sidebar-wrapper">
+    <div sec:authorize="isAuthenticated()" th:fragment="sidemenu" class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
             <a href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
             <a href="drive/list" class="list-group-item list-group-item-action bg-light">Ritten</a>
             <a href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>
@@ -51,7 +50,7 @@
     <div id="page-content-wrapper">
 
         <nav th:fragment="topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button class="btn btn-danger" id="menu-toggle">Menu</button>
+            <button sec:authorize="isAuthenticated()" class="btn btn-danger" id="menu-toggle">Menu</button>
             <span sec:authorize="isAuthenticated()" >
                 Username: <span sec:authentication="name"></span>
                 Roles: <span sec:authentication="principal.authorities"></span>
