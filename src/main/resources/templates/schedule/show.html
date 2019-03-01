@@ -57,6 +57,7 @@
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/new/' + schedule.id}" href="../drive/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="${'/schedule/clear/' + schedule.id}" href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Wis Ritten</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

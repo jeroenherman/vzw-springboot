@@ -13,6 +13,7 @@ import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.EventDTO;
 import be.voedsaam.vzw.service.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,21 +84,20 @@ public class DriveController {
     public void setScheduleMapper(ScheduleMapper scheduleMapper) {
         this.scheduleMapper = scheduleMapper;
     }
-
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping({"list", "/"})
     public String listDrives(Model model) {
         model.addAttribute("drives", driveMapper.mapToDTO((List<Drive>) driveService.listAll()));
-        model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
+        //model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
         return "drive/list";
     }
 
-    @RequestMapping({"listbyuser", })
-    public String listDrives(Model model, Principal principal) {
-        model.addAttribute("drives", driveMapper.mapToDTO( driveService.findbyPerson(principal.getName())));
-        model.addAttribute("events", eventMapper.mapToDTO( driveService.findbyPerson(principal.getName())));
+    @RequestMapping("listbyuser")
+    public String listDrivesbyUser(Model model, Principal user) {
+        model.addAttribute("drives", driveMapper.mapToDTO(driveService.listAllByUser(user.getName())));
+        //model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
         return "drive/list";
     }
-
 
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model) {
@@ -112,7 +112,7 @@ public class DriveController {
         model.addAttribute("currentDestinations" ,destinationMapper.mapToDTO(currentDestinations));
         return "drive/show";
     }
-
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
         Drive drive = driveService.getById(id.longValue());
@@ -135,7 +135,7 @@ public class DriveController {
         model.addAttribute("possibleDestinations" ,destinationMapper.mapToDTO(possibleDestinations));
         return "drive/form";
     }
-
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping("/new/{idSchedule}")
     public String newDrive(@PathVariable Integer idSchedule) throws UnsupportedOperationException{
 
@@ -152,14 +152,14 @@ public class DriveController {
         return "redirect:/drive/edit/" + drive.getId();
     }
 
-
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(EventDTO dto) {
         Drive drive = eventMapper.mapToObj(dto);
         driveService.saveOrUpdate(drive);
         return "redirect:/drive/edit/" + drive.getId();
     }
-
+    @Secured({"ROLE_COORDINATOR"})
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
         Drive drive = driveService.getById(id.longValue());

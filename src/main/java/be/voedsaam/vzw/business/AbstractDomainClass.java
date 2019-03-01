@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 @MappedSuperclass
-public class AbstractDomainClass implements DomainObject {
+public abstract class AbstractDomainClass implements DomainObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

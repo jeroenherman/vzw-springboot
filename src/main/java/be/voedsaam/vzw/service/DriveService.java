@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DriveService extends CRUDService<Drive> {
 
-    List<Drive> findbyPerson(String UserName);
+    List<Drive> listAllByUser(String name);
 }

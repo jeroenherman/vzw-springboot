@@ -8,9 +8,6 @@ import java.util.List;
 
 @Entity
 public class Destination extends AbstractDomainClass {
-    @ManyToOne
-    @JoinColumn(name = "drive_id")
-    private Drive drive;
     @OneToOne(cascade = {CascadeType.ALL})
     private Address address;
     @ElementCollection

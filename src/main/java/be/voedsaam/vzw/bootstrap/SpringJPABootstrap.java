@@ -155,6 +155,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private void loadUsers(){
         User admin = new User();
+        admin.setFullName("admin voedsaam");
         admin.setEmail("admin@voedsaam.be");
         admin.setPassword("Test123");
         admin.setRole(Role.COORDINATOR);

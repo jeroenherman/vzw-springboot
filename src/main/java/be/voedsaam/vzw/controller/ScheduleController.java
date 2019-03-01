@@ -13,11 +13,13 @@ import be.voedsaam.vzw.service.mapper.EventMapper;
 import be.voedsaam.vzw.service.mapper.ScheduleMapper;
 import be.voedsaam.vzw.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,9 +68,16 @@ public class ScheduleController {
     }
 
     @RequestMapping({"list" ,"/"})
-    public String listSchedules(Model model){
-        model.addAttribute("schedules" ,scheduleMapper.mapToDTO((List<Schedule>)scheduleService.listAll()));
+    public String listSchedules(Model model, Principal user){
+        model.addAttribute("schedules" ,scheduleMapper.mapToDTO(scheduleService.listAllByUserName(user.getName())));
         return "schedule/list";
+    }
+    @Secured("ROLE_COORDINATOR")
+    @RequestMapping("/clear/{id}")
+    public String clearSchedule(@PathVariable Integer id) {
+        selectedSchedule = scheduleService.getById(id.longValue());
+        selectedSchedule.getDrives().forEach(selectedSchedule::removeDrive);
+        return "/show/"+ id;
     }
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model){
@@ -87,6 +96,7 @@ public class ScheduleController {
 
         return events;
     }
+    @Secured({"ROLE_COORDINATOR"})
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model){
         selectedSchedule = scheduleService.getById(id.longValue());
@@ -103,7 +113,7 @@ public class ScheduleController {
         model.addAttribute("possibleUsers",userMapper.mapToDTO(possibleUsers));
         return "schedule/form";
     }
-
+    @Secured("ROLE_COORDINATOR")
     @RequestMapping("/new")
     public String newUser(Model model){
         model.addAttribute("schedule", new ScheduleDTO());
@@ -117,7 +127,7 @@ public class ScheduleController {
         scheduleService.saveOrUpdate(schedule);
         return "redirect:/schedule/show/" + schedule.getId();
     }
-
+    @Secured("ROLE_COORDINATOR")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id, Model model){
         try {

@@ -37,11 +37,11 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
-            <a href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
-            <a href="drive/list" class="list-group-item list-group-item-action bg-light">Ritten</a>
-            <a href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>
-            <a href="task/list" class="list-group-item list-group-item-action bg-light">Taken</a>
-
+            <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
+            <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>
+            <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="task/list" class="list-group-item list-group-item-action bg-light">Taken</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="drive/list" class="list-group-item list-group-item-action bg-light">Ritten</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')"href="drive/listbyuser" class="list-group-item list-group-item-action bg-light">Mijn Ritten</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

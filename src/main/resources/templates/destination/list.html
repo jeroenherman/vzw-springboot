@@ -12,7 +12,7 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/new" class="list-group-item list-group-item-action bg-light">Nieuw Schema</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/destination/new" class="list-group-item list-group-item-action bg-light">Nieuwe Bestemming</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -23,8 +23,8 @@
         <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container">
-            <div th:if="${not #lists.isEmpty(schedules)}">
-                <h2>Schema Lijst</h2>
+            <div th:if="${not #lists.isEmpty(destinations)}">
+                <h2>Bestemmingen Lijst</h2>
                 <div class="alert alert-danger"  th:if="${error!=null}"  >
                     <p th:text="${error}"> error </p>
                 </div>
@@ -32,18 +32,18 @@
                     <tr>
                         <th>Id</th>
                         <th>Naam</th>
-                        <th>Eigenaar</th>
+                        <th>Contact</th>
                         <th>Lijst</th>
-                        <th sec:authorize="hasRole('ROLE_COORDINATOR')" >Editeer</th>
+                        <th sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" >Editeer</th>
                         <th sec:authorize="hasRole('ROLE_COORDINATOR')">Verwijder</th>
                     </tr>
-                    <tr th:each="schedule : ${schedules}">
-                        <td th:text="${schedule.id}"></td>
-                        <td th:text="${schedule.name}"></td>
-                        <td th:text="${schedule.owner}"></td>
-                        <td><a class="btn btn-block btn-primary" th:href="${'/schedule/show/' + schedule.id}">Bekijk</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
+                    <tr th:each="destination : ${destinations}">
+                        <td th:text="${destination.id}"></td>
+                        <td th:text="${destination.destinationName}"></td>
+                        <td th:text="${destination.contactInfo}"></td>
+                        <td><a class="btn btn-block btn-primary" th:href="${'/destination/show/' + destination.id}">Bekijk</a></td>
+                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="${'/destination/edit/' + destination.id}">Editeer</a></td>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class= "btn btn-block btn-danger"th:href="${'/destination/delete/' + destination.id}">Verwijder</a></td>
                     </tr>
                 </table>
             </div>

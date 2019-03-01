@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Profile("springdatajpa")
@@ -55,5 +56,14 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
         if (schedule.getDrives().size()!=0)
             throw new UnsupportedOperationException("Schedule still has drives please delete users from Schedule");
         scheduleRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Schedule> listAllByUserName(String userName) {
+        List<Schedule> schedules = (List<Schedule>) listAll();
+        return schedules.stream()
+                .filter(schedule -> schedule.getUsers()
+                        .contains(userRepository.findByEmailIgnoreCase(userName)))
+                .collect(Collectors.toList());
     }
 }

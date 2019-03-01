@@ -1,4 +1,4 @@
-package be.voedsaam.vzw.controller;
+package be.voedsaam.vzw.config;
 
 import be.voedsaam.vzw.business.Schedule;
 import org.springframework.context.annotation.Bean;

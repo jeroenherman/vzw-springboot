@@ -39,4 +39,8 @@ public class Authority extends AbstractDomainClass implements GrantedAuthority{
                 "authority='" + authority + '\'' +
                 '}';
     }
+
+    public User getUser() {
+        return user;
+    }
 }

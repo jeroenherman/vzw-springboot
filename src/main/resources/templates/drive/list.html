@@ -11,7 +11,8 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" href="../../" class="list-group-item list-group-item-action bg-light">Start</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
