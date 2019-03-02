@@ -8,4 +8,5 @@ import java.util.List;
 public interface DriveService extends CRUDService<Drive> {
 
     List<Drive> listAllByUser(String name);
+    void deleteAllDrivesWithoutSchedule();
 }

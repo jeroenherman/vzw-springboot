@@ -19,11 +19,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Qualifier("daoAuthenticationProvider")
     private AuthenticationProvider authenticationProvider;
 
-//    @Autowired // possible cause nullpointer
-//    @Qualifier("daoAuthenticationProvider")
-//    public void setAuthenticationProvider(AuthenticationProvider authenticationProvider) {
-//        this.authenticationProvider = authenticationProvider;
-//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -55,13 +50,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/static/css").permitAll()
                 .and().authorizeRequests().antMatchers("/js").permitAll()
                 .and().formLogin().loginPage("/login").permitAll()
-
+                    //uncomment to open everything
 //                .and().authorizeRequests().antMatchers("/task/**").permitAll()
 //                .and().authorizeRequests().antMatchers("/destination/**").permitAll()
 //                .and().authorizeRequests().antMatchers("/schedule/**").permitAll()
 //                .and().authorizeRequests().antMatchers("/drive/**").permitAll()
 //                .and().authorizeRequests().antMatchers("/user/**").permitAll()
-
+                // comment out to disable security
                 .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
@@ -75,20 +70,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
 
-//    @Autowired
-//    StrongPasswordEncryptor passwordEncoder;
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//
-//        auth
-//                .userDetailsService(userDetailsService)
-//                .passwordEncoder(passwordEncoder);
-//    }
-
 // in memory security
 //    @Autowired
 //    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -101,30 +82,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .and().withUser("user").password("user").roles( "USER");
 //    }
 
-
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/", "/index/**", "/drive/**", "/schedule", "/destination").permitAll()
-//
-//                .and().authorizeRequests().antMatchers("/static/css/**","/js/**", "/images/**", "/**/favicon.ico").permitAll()
-//                .and().formLogin().loginPage("/login").defaultSuccessUrl("/user/").permitAll();
-//        http.headers().frameOptions().disable(); // access H2 database
-//        http.csrf().disable(); //Disable CRSF (Cross-Site Request Forgery). By default, Spring Security will protect against CRSF attacks.
-//
-//    }
-//}
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().antMatchers("/", "/index/**", "/drive/**", "/schedule", "/destination").permitAll()
-//                .and().authorizeRequests().antMatchers("/login","logout").permitAll()
-//                .and().authorizeRequests().antMatchers("/static/css/**","/js/**", "/images/**", "/**/favicon.ico").permitAll()
-//                .and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
-//                .and().logout()
-//                .deleteCookies("remove")
-//                .invalidateHttpSession(true)
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/logout-success")
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//        ;
-//    }
 
 }

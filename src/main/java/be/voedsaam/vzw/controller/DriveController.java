@@ -1,9 +1,6 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.Destination;
-import be.voedsaam.vzw.business.Drive;
-import be.voedsaam.vzw.business.Schedule;
-import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.*;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.security.UserSecurity;
 import be.voedsaam.vzw.service.DestinationService;
@@ -35,12 +32,17 @@ public class DriveController {
     private ScheduleService scheduleService;
     private UserService userService;
     private ScheduleMapper scheduleMapper;
-    private UserMapper userMapper;
     private DriveService driveService;
     private DriveMapper driveMapper;
     private EventMapper eventMapper;
     private DestinationMapper destinationMapper;
     private DestinationService destinationService;
+    private VolunteerMapper volunteerMapper;
+    @Autowired
+    public void setEmployeeMapper(VolunteerMapper volunteerMapper) {
+        this.volunteerMapper = volunteerMapper;
+    }
+
     @Autowired
     public void setDestinationMapper(DestinationMapper destinationMapper) {
         this.destinationMapper = destinationMapper;
@@ -70,10 +72,6 @@ public class DriveController {
         this.userService = userService;
     }
 
-    @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     @Autowired
     public void setScheduleService(ScheduleService scheduleService) {
@@ -102,12 +100,14 @@ public class DriveController {
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model) {
         Drive drive = driveService.getById(id.longValue());
+        if (drive==null)
+            return "redirect:/error";
         model.addAttribute("event", eventMapper.mapToDTO(drive));
         model.addAttribute("drive", driveMapper.mapToDTO(drive));
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("schedule", scheduleMapper.mapToDTO(drive.getSchedule()));
-        List<User> currentUsers = drive.getUsers();
-        model.addAttribute("currentUsers", userMapper.mapToDTO(currentUsers));
+        List<Volunteer> currentUsers = drive.getUsers();
+        model.addAttribute("currentUsers", volunteerMapper.mapToDTO(currentUsers));
         List<Destination> currentDestinations = drive.getDestinations();
         model.addAttribute("currentDestinations" ,destinationMapper.mapToDTO(currentDestinations));
         return "drive/show";
@@ -121,13 +121,13 @@ public class DriveController {
         model.addAttribute("now", LocalDateTime.now());
         model.addAttribute("schedule", scheduleMapper.mapToDTO(drive.getSchedule()));
 
-        List<User> currentUsers = drive.getUsers();
-        List<User> possibleUsers = userService.listByRole(Role.DRIVER);
-        possibleUsers.addAll(userService.listByRole(Role.ATTENDEE));
-        possibleUsers.addAll(userService.listByRole(Role.DEPOTHELP));
+        List<Volunteer> currentUsers = drive.getUsers();
+        List<Volunteer> possibleUsers = userService.listVolunteerByRole(Role.DRIVER);
+        possibleUsers.addAll(userService.listVolunteerByRole(Role.ATTENDEE));
+        possibleUsers.addAll(userService.listVolunteerByRole(Role.DEPOTHELP));
         possibleUsers.removeAll(currentUsers);
-        model.addAttribute("currentUsers", userMapper.mapToDTO(currentUsers));
-        model.addAttribute("possibleUsers", userMapper.mapToDTO(possibleUsers));
+        model.addAttribute("currentUsers", volunteerMapper.mapToDTO(currentUsers));
+        model.addAttribute("possibleUsers", volunteerMapper.mapToDTO(possibleUsers));
         List<Destination> currentDestinations = drive.getDestinations();
         List<Destination> possibleDestinations = (List<Destination>)destinationService.listAll();
         possibleDestinations.removeAll(currentDestinations);
@@ -157,31 +157,35 @@ public class DriveController {
     public String saveOrUpdate(EventDTO dto) {
         Drive drive = eventMapper.mapToObj(dto);
         driveService.saveOrUpdate(drive);
-        return "redirect:/drive/edit/" + drive.getId();
+        return "redirect:/drive/show/" + drive.getId();
     }
     @Secured({"ROLE_COORDINATOR"})
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        Drive drive = driveService.getById(id.longValue());
-        drive.clear();
-        driveService.saveOrUpdate(drive);
         driveService.delete(id.longValue());
+        return "redirect:/drive/list";
+    }
+
+    @Secured({"ROLE_COORDINATOR"})
+    @RequestMapping("/removeOrphans")
+    public String deleteOrphans() {
+        driveService.deleteAllDrivesWithoutSchedule();
         return "redirect:/drive/list";
     }
 
     @RequestMapping("{idDrive}/deleteuser/{idUser}")
     public String deletUserFromDrive(@PathVariable Integer idDrive, @PathVariable Integer idUser) {
         Drive drive = driveService.getById(idDrive.longValue());
-        User user = userService.getById(idUser.longValue());
+        Volunteer user = userService.getVolunteerById(idUser.longValue());
         drive.removeUser(user);
-         driveService.saveOrUpdate(drive);
+        driveService.saveOrUpdate(drive);
         return "redirect:/drive/edit/" + drive.getId();
     }
 
     @RequestMapping("{idDrive}/adduser/{idUser}")
     public String addUserFromDrive(@PathVariable Integer idDrive, @PathVariable Integer idUser) {
         Drive drive = driveService.getById(idDrive.longValue());
-        User user = userService.getById(idUser.longValue());
+        Volunteer user = userService.getVolunteerById(idUser.longValue());
         drive.addUser(user);
         driveService.saveOrUpdate(drive);
         return "redirect:/drive/edit/" + drive.getId();

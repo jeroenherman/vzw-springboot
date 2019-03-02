@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Entity
-public class User extends AbstractDomainClass {
+public abstract  class User extends AbstractDomainClass {
 
 	private String firstName;
 	private String lastName;
@@ -25,17 +25,8 @@ public class User extends AbstractDomainClass {
 	@Transient
 	private String password;
 
-	@ManyToMany(fetch = FetchType.EAGER,
-			cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "USER_DRIVE",
-			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "drive_id")})
-	private List<Drive> drives = new CopyOnWriteArrayList<>();
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	@JoinTable(name = "USER_SCHEDULE",
-			joinColumns = {@JoinColumn(name = "user_id")},
-			inverseJoinColumns = {@JoinColumn(name = "schedule_id")})
-	private List<Schedule> schedules = new ArrayList<>();
+
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authority> authorities = new HashSet<>();
 
@@ -68,33 +59,6 @@ public class User extends AbstractDomainClass {
 		authority.setUser(this);
 	}
 
-	public void addDrive(Drive drive) {
-		if (!drives.contains(drive)) {
-			drives.add(drive);
-			drive.addUser(this);
-		}
-	}
-
-	public void removeDrive(Drive drive) {
-		if (drives.contains(drive)) {
-			drive.removeUser(this);
-			drives.remove(drive);
-		}
-	}
-
-	public void addSchedule(Schedule schedule) {
-		if (!schedules.contains(schedule)) {
-			this.schedules.add(schedule);
-			schedule.addUser(this);
-		}
-	}
-
-	public void removeSchedule(Schedule schedule) {
-		if (schedules.contains(schedule)) {
-			this.schedules.remove(schedule);
-			schedule.removeUser(this);
-		}
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -232,13 +196,6 @@ public class User extends AbstractDomainClass {
 
 	}
 
-	public List<Schedule> getSchedules() {
-		return Collections.unmodifiableList(schedules);
-	}
-
-	public List<Drive> getDrives() {
-		return Collections.unmodifiableList(drives);
-	}
 
 	public Set<Authority> getAuthorities() {
 		return authorities;

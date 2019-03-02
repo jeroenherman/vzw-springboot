@@ -1,7 +1,9 @@
 package be.voedsaam.vzw.business.repository.impl;
 
 
+import be.voedsaam.vzw.business.Employee;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.Volunteer;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.security.EncryptionService;
@@ -67,13 +69,45 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
-    public List<User> listByRole(Role role) {
-        return userRepository.findAllByRole(role);
+    public List<Volunteer> listVolunteerByRole(Role role) {
+        List<Volunteer> volunteers = new ArrayList<>();
+        userRepository.findAllByRole(role).forEach(user ->volunteers.add((Volunteer) user ));
+        return volunteers;
     }
 
-//    @Override
-//    public User Login(String email, String password) {
-//        return userRepository.findByEmailIgnoreCaseAndPassword(email,password);
-//    }
+    @Override
+    public List<Employee> listEmployeeByRole(Role role) {
+        List<Employee> employees = new ArrayList<>();
+        userRepository.findAllByRole(role).forEach(user ->employees.add((Employee) user ));
+        return employees;
+    }
+
+    @Override
+    public Volunteer getVolunteerById(Long id) {
+        return (Volunteer) getById(id);
+    }
+
+    @Override
+    public Employee getEmployeeById(Long id) {
+        return (Employee) getById(id);
+    }
+
+    @Override
+    public List<Employee> listAllEmployees() {
+        List<Employee> employees = new ArrayList<>();
+        listEmployeeByRole(Role.COORDINATOR).forEach(employees::add);
+        listEmployeeByRole(Role.LOGISTICS).forEach(employees::add);
+        return employees;
+    }
+
+    @Override
+    public List<Volunteer> listAllVolunteers() {
+        List<Volunteer> volunteers = new ArrayList<>();
+        listVolunteerByRole(Role.DRIVER).forEach(volunteers::add);
+        listVolunteerByRole(Role.VOLUNTEER).forEach(volunteers::add);
+        listVolunteerByRole(Role.ATTENDEE).forEach(volunteers::add);
+        listVolunteerByRole(Role.DEPOTHELP).forEach(volunteers::add);
+        return volunteers;
+}
 
 }

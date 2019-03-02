@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class DriveDTO {
+	private Long id;
 	private String description;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
 	private LocalDateTime startTime;
@@ -15,7 +16,8 @@ public class DriveDTO {
 	private List<String> attendees;
 	private List<String> depotHelps;
 	private String schedule;
-	private Long id;
+	private boolean users;
+
 
 	public DriveDTO() {
 		startTime = LocalDateTime.now();
@@ -95,6 +97,14 @@ public class DriveDTO {
 
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
+	}
+
+	public boolean isUsers() {
+		return users;
+	}
+
+	public void setUsers(boolean users) {
+		this.users = users;
 	}
 
 	@Override

@@ -2,29 +2,23 @@ package be.voedsaam.vzw.business;
 
 import be.voedsaam.vzw.enums.Role;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import javax.persistence.*;
+import java.util.*;
 
 @Entity
 public class Schedule extends AbstractDomainClass {
     private String name;
     @ManyToMany( cascade = {CascadeType.MERGE, CascadeType.PERSIST} , mappedBy = "schedules")
-    private Collection<User> users = new ArrayList<>();
-    @OneToMany(cascade = CascadeType.ALL)
+    private Collection<Employee> users = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<Drive> drives = new ArrayList<>();
 
     public String getName() {
         return name;
     }
 
-    public List<User> getUsers() {
-        return Collections.unmodifiableList((List<User>) users);
+    public List<Employee> getUsers() {
+        return Collections.unmodifiableList((List<Employee>) users);
     }
 
     public List<Drive> getDrives() {
@@ -45,10 +39,11 @@ public class Schedule extends AbstractDomainClass {
     public void removeDrive(Drive drive) {
         if (drives.contains(drive)) {
             drives.remove(drive);
+            drive.setSchedule(null);
         }
     }
 
-    public void addUser(User user) throws UnsupportedOperationException {
+    public void addUser(Employee user) throws UnsupportedOperationException {
         if (!users.contains(user)) {
             if (user.getRole().equals(Role.COORDINATOR)) {
                 for (User u : users) {
@@ -61,10 +56,23 @@ public class Schedule extends AbstractDomainClass {
         }
     }
 
-    public void removeUser(User user) {
+    public void removeUser(Employee user) {
         if (users.contains(user)) {
             users.remove(user);
             user.removeSchedule(this);
         }
+    }
+
+    public void removeDrives(){
+        for (Iterator<Drive> iterator =  drives.iterator(); iterator.hasNext();) {
+            Drive drive = iterator.next();
+            drive.clear();
+        }
+        drives.clear();
+    }
+    @PreRemove
+    public void clear(){
+        users.clear();
+        drives.clear();
     }
 }

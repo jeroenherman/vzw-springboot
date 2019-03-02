@@ -51,14 +51,14 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Schedule schedule = new Schedule();
         schedule.setName("Test Schedule");
         scheduleService.saveOrUpdate(schedule);
-        schedule.addUser(userService.findByEmail("jeroen.herman@voedsaam.be"));
+        schedule.addUser((Employee) userService.findByEmail("jeroen.herman@voedsaam.be"));
         List<Drive> drives = (List<Drive>)driveService.listAll();
         drives.forEach(schedule::addDrive);
         schedule = new Schedule();
         schedule.setName("Ritten Els");
         scheduleService.saveOrUpdate(schedule);
-        schedule.addUser(userService.findByEmail("els.vandeSteene@voedsaam.be"));
-        schedule.addUser(userService.findByEmail("cindy.depuydt@voedsaam.be"));
+        schedule.addUser((Employee) userService.findByEmail("els.vandeSteene@voedsaam.be"));
+        schedule.addUser((Employee) userService.findByEmail("cindy.depuydt@voedsaam.be"));
     }
 
     private void loadDestinations() {
@@ -116,13 +116,13 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private void loadDrives() {
         List<Destination> destinations = (List<Destination>)destinationService.listAll();
-        List<User> users = (List<User>) userService.listAll();
+        List<Volunteer> users = userService.listAllVolunteers();
 
         Drive drive1 = new Drive();
         drive1.setDescription("Rit Voedsaam -> Depot");
-        drive1.addUser(users.get(5));
-        drive1.addUser(users.get(6));
-        drive1.addUser(users.get(7));
+        drive1.addUser(users.get(0));
+        drive1.addUser(users.get(2));
+        drive1.addUser(users.get(3));
         drive1.setStartTime(LocalDateTime.of(2019, 01, 01, 9, 30));
         drive1.setEndTime(LocalDateTime.of(2019, 01, 01, 10, 30));
         drive1.addDestination(destinations.get(0));
@@ -131,8 +131,8 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
         Drive drive2 = new Drive();
         drive2.setDescription("Rit Depot -> Belorta");
-        drive2.addUser(users.get(5));
-        drive2.addUser(users.get(6));
+        drive2.addUser(users.get(0));
+        drive2.addUser(users.get(2));
         drive2.setStartTime(LocalDateTime.of(2019, 02, 01, 9, 30));
         drive2.setEndTime(LocalDateTime.of(2019, 02, 01, 10, 30));
         drive2.addDestination(destinations.get(0));
@@ -140,7 +140,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
         Drive drive3 = new Drive();
         drive3.setDescription("Rit Voedsaam -> Depot -> Belorta");
-        drive3.addUser(users.get(5));
+        drive3.addUser(users.get(0));
         drive3.setStartTime(LocalDateTime.of(2019, 03, 01, 9, 30));
         drive3.setEndTime(LocalDateTime.of(2019, 03, 01, 10, 30));
         drive3.addDestination(destinations.get(0));
@@ -154,7 +154,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadUsers(){
-        User admin = new User();
+        User admin = new Employee();
         admin.setFullName("admin voedsaam");
         admin.setEmail("admin@voedsaam.be");
         admin.setPassword("Test123");
@@ -172,14 +172,14 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         User partner;
         Address a1;
         a1 = new Address("Sportlaan",33,9170,"Sint-Niklaas");
-        jeroen = new User("jeroen", "herman","jeroen.herman@voedsaam.be", "037797243",a1, Role.COORDINATOR, Color.RED);
-        logistics = new User("Cindy","DePuydt","cindy.depuydt@voedsaam.be", "03 /780.52.35");
+        jeroen = new Employee("jeroen", "herman","jeroen.herman@voedsaam.be", "037797243",a1, Role.COORDINATOR, Color.RED);
+        logistics = new Employee("Cindy","DePuydt","cindy.depuydt@voedsaam.be", "03 /780.52.35");
         logistics.setRole(Role.LOGISTICS);
-        coordinator  = new User("Els", "VandeSteene", "els.vandesteene@voedsaam.be","0492/250641");
+        coordinator  = new Employee("Els", "VandeSteene", "els.vandesteene@voedsaam.be","0492/250641");
         coordinator.setRole(Role.COORDINATOR);
-        partner = new User("Kathy","blomme", "kathy.blomme@gmail.com", "unknown");
-        partner.setRole(Role.PARTNER);
-        volunteer = new User("leonard", "cleys", "cleysveedee@telenet.be", "unknown");
+       // partner = new Partner("Kathy","blomme", "kathy.blomme@gmail.com", "unknown");
+        //partner.setRole(Role.PARTNER);
+        volunteer = new Volunteer("leonard", "cleys", "cleysveedee@telenet.be", "unknown");
         volunteer.setRole(Role.VOLUNTEER);
         volunteer.setColor(Color.WHITE);
         jeroen.setPassword("Test123");
@@ -189,23 +189,23 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         userService.saveOrUpdate(coordinator);
         userService.saveOrUpdate(jeroen);
         userService.saveOrUpdate(logistics);
-        userService.saveOrUpdate(partner);
+     //   userService.saveOrUpdate(partner);
         userService.saveOrUpdate(volunteer);
         User driver;
         User attendee;
         User depotHelp;
-        driver = new User("Kevin Van Leugenhaege");
+        driver = new Volunteer("Kevin Van Leugenhaege");
         driver.setEmail("kevin@voedsaam.be");
         driver.setPassword("Test123");
         driver.setTel("0472 40 07 94");
         driver.setRole(Role.DRIVER);
 
-        attendee = new User("Veerle Van Overtvelt");
+        attendee = new Volunteer("Veerle Van Overtvelt");
         attendee.setTel("0497 16 36 26");
         attendee.setRole(Role.ATTENDEE);
 
 
-        depotHelp = new User("Marie-Noëlle Delarbre");
+        depotHelp = new Volunteer("Marie-Noëlle Delarbre");
         depotHelp.setTel("0474 84 75 91");
         depotHelp.setRole(Role.DEPOTHELP);
 

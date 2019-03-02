@@ -2,6 +2,7 @@ package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Address;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.Volunteer;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
 import be.voedsaam.vzw.service.dto.UserDTO;
@@ -12,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class UserMapper extends AbstractMapper<User, UserDTO>{
+public class VolunteerMapper extends AbstractMapper<Volunteer, UserDTO>{
 
 	private UserRepository userRepository;
 	@Autowired
@@ -21,7 +22,7 @@ public class UserMapper extends AbstractMapper<User, UserDTO>{
 	}
 
 	@Override
-	public UserDTO mapToDTO(User b) {
+	public UserDTO mapToDTO(Volunteer b) {
 		if (b==null)
 			return null;
 		UserDTO dto = new UserDTO();
@@ -39,16 +40,15 @@ public class UserMapper extends AbstractMapper<User, UserDTO>{
 		dto.setStreetNumber(b.getAddress().getNumber());
 		dto.setPostalCode(b.getAddress().getPostalCode());
 		}
-		dto.setSchedules(b.getSchedules().stream().map(schedule -> schedule.getName()).collect(Collectors.toList()));
 		dto.setDrives(b.getDrives().stream().map(drive -> drive.getDescription()).collect(Collectors.toList()));
 		return dto;
 	}
 
 	@Override
-	public User mapToObj(UserDTO d) {
+	public Volunteer mapToObj(UserDTO d) {
 		if (d==null)
 			return null;
-		User b = new User();
+		User b = new Volunteer();
 		Optional<User> o = Optional.empty();
 		if (d.getId()!=null)
 			o= userRepository.findById(d.getId());
@@ -69,7 +69,7 @@ public class UserMapper extends AbstractMapper<User, UserDTO>{
 		b.setColor(d.getColor());
 		b.setRole(d.getRole());
 		b.setAddress(address);
-		return b;
+		return (Volunteer) b;
 	}
 	
 

@@ -1,7 +1,9 @@
 package be.voedsaam.vzw.business.repository.impl;
 
+import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.repository.DriveRepository;
 import be.voedsaam.vzw.business.repository.ScheduleRepository;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.service.ScheduleService;
@@ -20,6 +22,11 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
 
     private ScheduleRepository scheduleRepository;
     private UserRepository userRepository;
+    private DriveRepository driveRepository;
+    @Autowired
+    public void setDriveRepository(DriveRepository driveRepository) {
+        this.driveRepository = driveRepository;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -65,5 +72,12 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
                 .filter(schedule -> schedule.getUsers()
                         .contains(userRepository.findByEmailIgnoreCase(userName)))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void removeDrives(Integer id) {
+        Schedule schedule = getById(id.longValue());
+        schedule.removeDrives();
     }
 }

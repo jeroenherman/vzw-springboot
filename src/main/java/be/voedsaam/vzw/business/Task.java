@@ -41,4 +41,27 @@ public class Task extends AbstractDomainClass{
 	public Destination getDestination() {
 		return destination;
 	}
+
+	@PreRemove
+	public void clear(){
+		setDestination(null);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Task task = (Task) o;
+
+		if (!title.equals(task.title)) return false;
+		return role == task.role;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = title.hashCode();
+		result = 31 * result + role.hashCode();
+		return result;
+	}
 }

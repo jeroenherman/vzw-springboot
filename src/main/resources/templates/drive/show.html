@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
@@ -12,6 +12,7 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/edit/' + drive.id}" href="../edit" class="list-group-item list-group-item-action bg-light">Editeer</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

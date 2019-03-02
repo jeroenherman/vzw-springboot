@@ -10,9 +10,12 @@ import org.junit.Before;
 import org.junit.Test;
 import be.voedsaam.vzw.business.Destination;
 
+import java.time.LocalDateTime;
+
 public class DestinationTest {
 
 private Destination classUnderTest;
+
 
 @Before
 public void setup() {
@@ -27,17 +30,17 @@ public void testAddress() {
 
 @Test
 public void testAgreements() {
-	assertNull(classUnderTest.getAgreements());
+	assertEquals(0,classUnderTest.getAgreements().size());
 }
 
 @Test
 public void testTasks() {
-	assertNull(classUnderTest.getTasks());
+	assertEquals(0,classUnderTest.getTasks().size());
 }
 
 @Test
 public void testDrives() {
-	assertNull(classUnderTest.getDrives());
+	assertEquals(0,classUnderTest.getDrives().size());
 }
 
 @Test
@@ -58,42 +61,69 @@ public void testDestinationName() {
 
 @Test
 public void testEquals() {
-	fail("Not yet implemented");
-}
+	testDestinationName();
+	Destination d = new Destination();
+	d.setDestinationName("test2 destinationName");
+	assertEquals(d,classUnderTest);
+	assertEquals(d.hashCode(),classUnderTest.hashCode());
 
-@Test
-public void testHashCode() {
-	fail("Not yet implemented");
 }
 
 @Test
 public void testAddDrive() {
-	fail("Not yet implemented");
+	Drive d = new Drive();
+	d.setDescription("testRit");
+	d.setStartTime(LocalDateTime.of(2019,02,02,9,00));
+	d.setEndTime(LocalDateTime.of(2019,02,02,10,00));
+	classUnderTest.addDrive(d);
+	assertEquals(1,classUnderTest.getDrives().size());
+	assertEquals(d,classUnderTest.getDrives().get(0));
 }
 
 @Test
 public void testRemoveDrive() {
-	fail("Not yet implemented");
+	testAddDrive();
+	Drive d = new Drive();
+	d.setDescription("testRit");
+	d.setStartTime(LocalDateTime.of(2019,02,02,9,00));
+	d.setEndTime(LocalDateTime.of(2019,02,02,10,00));
+	assertEquals(d.getDescription(),classUnderTest.getDrives().get(0).getDescription());
+	assertEquals(d,classUnderTest.getDrives().get(0));
+	classUnderTest.removeDrive(d);
+	assertEquals(0,classUnderTest.getDrives().size());
+
 }
 
 @Test
 public void testAddTask() {
-	fail("Not yet implemented");
+
+	Task t = new Task();
+	t.setTitle("new task");
+	classUnderTest.addTask(t);
+	assertEquals(1,classUnderTest.getTasks().size());
+	assertEquals(t,classUnderTest.getTasks().get(0));
 }
 
 @Test
 public void testRemoveTask() {
-	fail("Not yet implemented");
+	testAddTask();
+	Task t = new Task();
+	t.setTitle("new task");
+	classUnderTest.removeTask(t);
+	assertEquals(0,classUnderTest.getTasks().size());
 }
 
 @Test
 public void testRemoveAgreement() {
-	fail("Not yet implemented");
+	testAddAgreement();
+	classUnderTest.removeAgreement("new agreement");
+	assertEquals(0,classUnderTest.getAgreements().size());
 }
 
 @Test
 public void testAddAgreement() {
-	fail("Not yet implemented");
+	classUnderTest.addAgreement("new agreement");
+	assertEquals("new agreement", classUnderTest.getAgreements().get(0));
 }
 
 }

@@ -1,6 +1,7 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.Employee;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Role;
@@ -9,9 +10,9 @@ import be.voedsaam.vzw.service.ScheduleService;
 import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.EventDTO;
 import be.voedsaam.vzw.service.dto.ScheduleDTO;
+import be.voedsaam.vzw.service.mapper.EmployeeMapper;
 import be.voedsaam.vzw.service.mapper.EventMapper;
 import be.voedsaam.vzw.service.mapper.ScheduleMapper;
-import be.voedsaam.vzw.service.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,7 @@ public class ScheduleController {
     private ScheduleService scheduleService;
     private UserService userService;
     private ScheduleMapper scheduleMapper;
-    private UserMapper userMapper;
+    private EmployeeMapper employeeMapper;
     private Schedule selectedSchedule;
     private DriveService driveService;
     private  EventMapper eventMapper;
@@ -47,8 +48,8 @@ public class ScheduleController {
         this.userService = userService;
     }
     @Autowired
-    public void setUserMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public void setUserMapper(EmployeeMapper employeeMapper) {
+        this.employeeMapper = employeeMapper;
     }
     @Autowired
     public void setScheduleService(ScheduleService scheduleService) {
@@ -75,9 +76,8 @@ public class ScheduleController {
     @Secured("ROLE_COORDINATOR")
     @RequestMapping("/clear/{id}")
     public String clearSchedule(@PathVariable Integer id) {
-        selectedSchedule = scheduleService.getById(id.longValue());
-        selectedSchedule.getDrives().forEach(selectedSchedule::removeDrive);
-        return "/show/"+ id;
+        scheduleService.removeDrives(id);
+        return "redirect:/schedule/show/" + id;
     }
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model){
@@ -102,22 +102,20 @@ public class ScheduleController {
         selectedSchedule = scheduleService.getById(id.longValue());
         model.addAttribute("schedule", scheduleMapper.mapToDTO(selectedSchedule));
         System.out.println(scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
-        List<User> currentUsers = scheduleService.getById(id.longValue()).getUsers()
+        List<Employee> currentUsers = scheduleService.getById(id.longValue()).getUsers()
                 .stream()
-                // .filter(u -> u.getRole()
-                //        .equals(Role.LOGISTICS))
                 .collect(Collectors.toList());
-        List<User> possibleUsers = userService.listByRole(Role.LOGISTICS);
+        List<Employee> possibleUsers = userService.listEmployeeByRole(Role.LOGISTICS);
         possibleUsers.removeAll(currentUsers);
-        model.addAttribute("currentUsers",userMapper.mapToDTO(currentUsers));
-        model.addAttribute("possibleUsers",userMapper.mapToDTO(possibleUsers));
+        model.addAttribute("currentUsers",employeeMapper.mapToDTO(currentUsers));
+        model.addAttribute("possibleUsers",employeeMapper.mapToDTO(possibleUsers));
         return "schedule/form";
     }
     @Secured("ROLE_COORDINATOR")
     @RequestMapping("/new")
     public String newUser(Model model){
         model.addAttribute("schedule", new ScheduleDTO());
-        model.addAttribute("coordinators", userMapper.mapToDTO(userService.listByRole(Role.COORDINATOR)));
+        model.addAttribute("coordinators", employeeMapper.mapToDTO(userService.listEmployeeByRole(Role.COORDINATOR)));
         return "schedule/newscheduleform";
     }
 
@@ -143,7 +141,7 @@ public class ScheduleController {
     @RequestMapping("{idSchedule}/deleteuser/{idUser}")
     public String deletUserFromSchedule(@PathVariable Integer idSchedule ,@PathVariable Integer idUser){
         Schedule schedule = scheduleService.getById(idSchedule.longValue());
-        User user = userService.getById(idUser.longValue());
+        Employee user = userService.getEmployeeById(idUser.longValue());
         try {
             schedule.removeUser(user);
         }
@@ -157,7 +155,7 @@ public class ScheduleController {
     @RequestMapping("{idSchedule}/adduser/{idUser}")
     public String addUserToSchedule(@PathVariable Integer idSchedule ,@PathVariable Integer idUser){
         Schedule schedule = scheduleService.getById(idSchedule.longValue());
-        User user = userService.getById(idUser.longValue());
+        Employee user = userService.getEmployeeById(idUser.longValue());
         try {
             schedule.addUser(user);
         }

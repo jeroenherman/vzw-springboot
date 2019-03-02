@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -13,10 +14,13 @@ public class Drive extends AbstractDomainClass {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST}, mappedBy = "drives")
-    private List<User> users;
+            cascade = {CascadeType.ALL})
+    @JoinTable(name = "DRIVE_VOLUNTEER",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "drive_id")})
+    private List<Volunteer> users;
     @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {	CascadeType.MERGE})
+            cascade = {	CascadeType.ALL})
     @JoinTable(name = "DRIVE_DESTINATION",
             joinColumns = { @JoinColumn(name = "drive_id") },
             inverseJoinColumns = { @JoinColumn(name = "destination_id") })
@@ -68,32 +72,25 @@ public class Drive extends AbstractDomainClass {
         }
     }
 
-    public List<User> getUsers() {
+    public List<Volunteer> getUsers() {
         return Collections.unmodifiableList(users);
     }
 
-    public void addUser(User user) {
+    public void addUser(Volunteer user) {
         if (!users.contains(user)) {
             users.add(user);
             user.addDrive(this);
         }
     }
 
-    public void removeUser(User user) {
+    public void removeUser(Volunteer user) {
         if (users.contains(user)) {
             users.remove(user);
             user.removeDrive(this);
         }
     }
+    @PreRemove
     public void clear(){
-        for (int i = 0; i < users.size() ; i++) {
-            users.get(i).removeDrive(this);
-        }
-        for (int i = 0; i <destinations.size() ; i++) {
-            destinations.get(i).removeDrive(this);
-        }
-        if (schedule!=null)
-        schedule.removeDrive(this);
         users.clear();
         destinations.clear();
         setSchedule(null);
@@ -105,6 +102,22 @@ public class Drive extends AbstractDomainClass {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void removeUsers() {
+        for (Volunteer u: users) {
+            u.removeDrive(this);
+        }
+        users.clear();
     }
 
     @Override
@@ -125,13 +138,5 @@ public class Drive extends AbstractDomainClass {
         result = 31 * result + getStartTime().hashCode();
         result = 31 * result + getEndTime().hashCode();
         return result;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
     }
 }

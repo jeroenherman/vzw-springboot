@@ -32,6 +32,8 @@ public class DestinationMapper extends AbstractMapper<Destination, DestinationDT
 		d.setContactInfo(b.getContactInfo());
 		d.setDestinationName(b.getDestinationName());
 		d.setAgreements(b.getAgreements());
+		if (b.getDrives().size()!=0)
+			d.setDrives(true);
 		return d;
 	}
 

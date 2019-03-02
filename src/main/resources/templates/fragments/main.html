@@ -50,11 +50,14 @@
     <div id="page-content-wrapper">
 
         <nav th:fragment="topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-            <button sec:authorize="isAuthenticated()" class="btn btn-danger" id="menu-toggle">Menu</button>
-            <span sec:authorize="isAuthenticated()" >
-                Username: <span sec:authentication="name"></span>
-                Roles: <span sec:authentication="principal.authorities"></span>
+            <div class="col-sm6">
+                <button sec:authorize="isAuthenticated()" class="btn btn-danger" id="menu-toggle">Menu</button>
+            </div>
+           <div class="col-sm-6">
+                  <span  sec:authorize="isAuthenticated()" >
+                Gebruikersnaam: <span sec:authentication="name"></span>
             </span>
+           </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>

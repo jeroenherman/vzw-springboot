@@ -8,4 +8,5 @@ import java.util.List;
 public interface ScheduleService extends CRUDService<Schedule> {
 
     List<Schedule> listAllByUserName(String userName);
+    void removeDrives(Integer id);
 }

@@ -56,12 +56,13 @@
                         <label class=" form-check-label">Dag Event</label>
                     </div>
                     <div class="col-lg-2"></div>
-                    <div class="col-lg-10">
+                    <div th:if="${event.title!=null}" class="col-lg-10">
                         <button type="submit" class="btn btn-primary">Bevestig</button>
                     </div>
                 </form>
             </div>
         </div>
+        <div th:if="${event.title!=null}">
         <div class="jumbotron" name="volunteers">
             <H2>Vrijwilligers</H2>
             <H3>Huidige:</H3>
@@ -131,7 +132,7 @@
                 </table>
             </div>
         </div>
-
+        </div>
         <!-- 1:1 aspect ratio -->
         <!--         <div class="embed-responsive embed-responsive-1by1">
                      <iframe class="embed-responsive-item" src="http://voedsaam.synology.me/tictactoe"></iframe>

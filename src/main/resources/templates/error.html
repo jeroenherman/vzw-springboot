@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<head th:replace="fragments/sub :: header" lang="en"></head>
+
+<body>
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="fragments/sub.html ::sidemenu" class="bg-light border-right" id="sidebar-wrapper"></div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav th:replace="fragments/main.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+
+      <div class="container-fluid">
+        <h1 class="mt-4">Voedsaam Ritten planner</h1>
+        <H3>Foutje</H3>
+        <p>Oops daar ging iets mis</p>
+        <p>Ga snel terug naar het overzicht.</p>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Menu Toggle Script -->
+  <script>
+    $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      $("#wrapper").toggleClass("toggled");
+    });
+  </script>
+
+</body>
+
+</html>

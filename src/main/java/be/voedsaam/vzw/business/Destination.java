@@ -22,7 +22,6 @@ public class Destination extends AbstractDomainClass {
 
     public Destination() {
         drives = new ArrayList<>();
-        this.address = new Address();
         agreements = new ArrayList<>();
         tasks = new ArrayList<>();
     }
@@ -73,7 +72,7 @@ public class Destination extends AbstractDomainClass {
     public void removeDrive(Drive drive) {
         if (drives.contains(drive)) {
             drives.remove(drive);
-            drive.addDestination(this);
+            drive.removeDestination(this);
         }
     }
 
@@ -107,28 +106,20 @@ public class Destination extends AbstractDomainClass {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Destination that = (Destination) o;
+
+        if (address != null ? !address.equals(that.address) : that.address != null) return false;
+        return destinationName.equals(that.destinationName);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Destination other = (Destination) obj;
-        if (address == null) {
-            if (other.address != null)
-                return false;
-        } else if (!address.equals(other.address))
-            return false;
-        return true;
+    public int hashCode() {
+        int result = address != null ? address.hashCode() : 0;
+        result = 31 * result + destinationName.hashCode();
+        return result;
     }
-
 }

@@ -44,17 +44,18 @@ public class DriveServiceRepoImpl implements DriveService {
 
     @Override
     public Drive getById(Long id) {
-       return driveRepository.findById(id).get();
+       Optional<Drive> drive = driveRepository.findById(id);
+       if (drive.isPresent())
+       return drive.get();
+        else return null;
     }
 
     @Override
-    @Transactional
     public Drive saveOrUpdate(Drive domainObject) {
         return driveRepository.save(domainObject);
     }
 
     @Override
-    @Transactional
     public void delete(Long id) {
         Optional<Drive> o = driveRepository.findById(id);
         if (o.isPresent()) {
@@ -65,5 +66,11 @@ public class DriveServiceRepoImpl implements DriveService {
     @Override
     public List<Drive> listAllByUser(String name) {
         return driveRepository.findAllByUsersContaining(userRepository.findByEmailIgnoreCase(name));
+    }
+
+    @Override
+    public void deleteAllDrivesWithoutSchedule() {
+        List<Drive> toDelete = driveRepository.findAllByScheduleEquals(null);
+        toDelete.forEach(drive -> delete(drive.getId()));
     }
 }

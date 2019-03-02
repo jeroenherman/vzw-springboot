@@ -1,5 +1,6 @@
 package be.voedsaam.vzw.service.mapper;
 
+import be.voedsaam.vzw.business.Employee;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.ScheduleRepository;
@@ -34,7 +35,7 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
         ScheduleDTO d = new ScheduleDTO();
         d.setId(b.getId());
         d.setName(b.getName());
-        Optional<User> owner = b.getUsers().stream().filter(user -> user.getRole().equals(Role.COORDINATOR)).findAny();
+        Optional<Employee> owner = b.getUsers().stream().filter(user -> user.getRole().equals(Role.COORDINATOR)).findAny();
         if (owner.isPresent())
         d.setOwner(owner.get().getFullName());
         b.getDrives().stream().map(drive -> drive.getDescription()).forEach(d.getDrives()::add);
@@ -44,7 +45,7 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
 
     @Override
     public Schedule mapToObj(ScheduleDTO d) {
-        User owner = null;
+        Employee owner = null;
         if (d == null)
             return null;
         Schedule b = new Schedule();
@@ -55,7 +56,7 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
             b = o.get();
 
         if((d.getId()==null)&&(d.getName()!=null))
-        owner = userRepository.findByEmailIgnoreCase(d.getOwner());
+        owner = (Employee) userRepository.findByEmailIgnoreCase(d.getOwner());
         if (owner!=null)
             b.addUser(owner);
         b.setName(d.getName());

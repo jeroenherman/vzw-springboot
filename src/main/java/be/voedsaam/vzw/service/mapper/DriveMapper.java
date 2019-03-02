@@ -42,6 +42,8 @@ public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
 		d.setEndTime(b.getEndTime());
 		if (b.getSchedule()!=null)
 		d.setSchedule(b.getSchedule().getName());
+		if (b.getUsers().size()!=0)
+			d.setUsers(true);
 		return d;
 	}
 

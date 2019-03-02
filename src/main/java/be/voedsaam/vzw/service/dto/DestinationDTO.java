@@ -11,6 +11,7 @@ public class DestinationDTO {
 	private String contactInfo;
 	private String destinationName;
 	private List<String> agreements;
+	private boolean drives;
 	
 	public Long getId() {
 		return id;
@@ -60,5 +61,13 @@ public class DestinationDTO {
 	}
 	public void setAgreements(List<String> agreements) {
 		this.agreements = agreements;
+	}
+
+	public boolean isDrives() {
+		return drives;
+	}
+
+	public void setDrives(boolean drives) {
+		this.drives = drives;
 	}
 }
