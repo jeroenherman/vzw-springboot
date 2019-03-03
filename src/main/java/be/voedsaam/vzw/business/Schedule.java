@@ -1,5 +1,6 @@
 package be.voedsaam.vzw.business;
 
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;

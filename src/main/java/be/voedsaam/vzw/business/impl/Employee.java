@@ -1,5 +1,8 @@
-package be.voedsaam.vzw.business;
+package be.voedsaam.vzw.business.impl;
 
+import be.voedsaam.vzw.business.Address;
+import be.voedsaam.vzw.business.Schedule;
+import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
 
@@ -18,6 +21,7 @@ public class Employee extends User {
     public Employee(){
 
     }
+
 
     public Employee(String fn, String ln, String email, String tel, Address a1, Role r, Color c) {
         super( fn,  ln,  email,  tel,  a1,  r,  c);

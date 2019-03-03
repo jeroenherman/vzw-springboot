@@ -55,8 +55,10 @@ public abstract  class User extends AbstractDomainClass {
 	}
 
 	public void addAuthority(Authority authority){
-		this.authorities.add(authority);
-		authority.setUser(this);
+		if (!authorities.contains(authority)) {
+			this.authorities.add(authority);
+			authority.setUser(this);
+		}
 	}
 
 
@@ -141,6 +143,7 @@ public abstract  class User extends AbstractDomainClass {
 	}
 
 	public void setRole(Role role) {
+		authorities.clear();
 		this.role = role;
 		addAuthority(new Authority(role.toString()));
 	}

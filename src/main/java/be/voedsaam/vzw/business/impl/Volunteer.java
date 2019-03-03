@@ -1,4 +1,8 @@
-package be.voedsaam.vzw.business;
+package be.voedsaam.vzw.business.impl;
+
+import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
 import java.util.Collections;
@@ -13,7 +17,7 @@ public class Volunteer extends User {
     private List<Drive> drives = new CopyOnWriteArrayList<>();
 
     public Volunteer(){
-
+        setRole(Role.VOLUNTEER);
     }
 
     public Volunteer(String fullName) {
@@ -42,4 +46,11 @@ public class Volunteer extends User {
         return Collections.unmodifiableList(drives);
     }
 
+    @Override
+    public void setRole(Role role) {
+        if (role.equals(Role.COORDINATOR)||role.equals(Role.LOGISTICS))
+        super.setRole(Role.VOLUNTEER);
+        else
+        super.setRole(role);
+    }
 }

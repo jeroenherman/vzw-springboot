@@ -1,7 +1,7 @@
 package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Address;
-import be.voedsaam.vzw.business.Employee;
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;

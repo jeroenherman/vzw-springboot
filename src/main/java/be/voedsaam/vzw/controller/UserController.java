@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.Employee;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;

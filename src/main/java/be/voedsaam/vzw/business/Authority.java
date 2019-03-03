@@ -33,14 +33,22 @@ public class Authority extends AbstractDomainClass implements GrantedAuthority{
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return
-                "authority='" + authority + '\'' +
-                '}';
-    }
-
     public User getUser() {
         return user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Authority authority1 = (Authority) o;
+
+        return getAuthority().equals(authority1.getAuthority());
+    }
+
+    @Override
+    public int hashCode() {
+        return getAuthority().hashCode();
     }
 }

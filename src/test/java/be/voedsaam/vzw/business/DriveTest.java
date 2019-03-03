@@ -6,10 +6,11 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import be.voedsaam.vzw.business.impl.Employee;
+import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Role;
 import org.junit.Before;
 import org.junit.Test;
-import be.voedsaam.vzw.business.Drive;
 
 import java.time.LocalDateTime;
 

@@ -1,9 +1,7 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.Drive;
-import be.voedsaam.vzw.business.Employee;
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.Schedule;
-import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.DriveService;
 import be.voedsaam.vzw.service.ScheduleService;

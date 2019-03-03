@@ -1,14 +1,10 @@
 package be.voedsaam.vzw.business;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import org.junit.Before;
 import org.junit.Test;
 import be.voedsaam.vzw.business.Address;
+
+import static org.junit.Assert.*;
 
 public class AddressTest {
 
@@ -47,12 +43,35 @@ public void testCity() {
 
 @Test
 public void testEquals() {
-	fail("Not yet implemented");
+	classUnderTest.setStreet("testStreet");
+	classUnderTest.setNumber(10);
+	classUnderTest.setCity("stad");
+	classUnderTest.setPostalCode(123);
+	classUnderTest.setId(new Long(10));
+
+	Address a = new Address();
+
+	a.setStreet("testStreet");
+	a.setNumber(10);
+	a.setCity("stad");
+	a.setPostalCode(123);
+	a.setId(new Long(10));
+
+	assertEquals(a, classUnderTest);
+	assertEquals(a.hashCode(),classUnderTest.hashCode());
+
+	a.setId(null);
+
+	assertEquals(a, classUnderTest);
+	assertEquals(a.hashCode(),classUnderTest.hashCode());
+
+	a.setStreet(null);
+
+	assertNotEquals(a, classUnderTest);
+	assertNotEquals(a.hashCode(),classUnderTest.hashCode());
+
+
 }
 
-@Test
-public void testHashCode() {
-	fail("Not yet implemented");
-}
 
 }

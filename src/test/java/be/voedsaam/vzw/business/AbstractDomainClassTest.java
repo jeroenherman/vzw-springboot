@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import be.voedsaam.vzw.business.AbstractDomainClass;
 
+import java.util.Date;
+
 public class AbstractDomainClassTest {
 
 private AbstractDomainClass classUnderTest;
@@ -36,7 +38,9 @@ public void testLastUpdated() {
 
 @Test
 public void testUpdateTimeStamps() {
-	fail("Not yet implemented");
+	classUnderTest.updateTimeStamps();
+	assertEquals(new Date(),classUnderTest.getDateCreated());
+	assertEquals(new Date(),classUnderTest.getLastUpdated());
 }
 
 }

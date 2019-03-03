@@ -1,9 +1,9 @@
 package be.voedsaam.vzw.business.repository.impl;
 
 
-import be.voedsaam.vzw.business.Employee;
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.User;
-import be.voedsaam.vzw.business.Volunteer;
+import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.security.EncryptionService;

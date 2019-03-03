@@ -1,10 +1,11 @@
 package be.voedsaam.vzw.business;
 
+import be.voedsaam.vzw.business.impl.Employee;
+import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Role;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.awt.*;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;

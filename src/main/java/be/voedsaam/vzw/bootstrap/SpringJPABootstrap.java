@@ -2,6 +2,8 @@ package be.voedsaam.vzw.bootstrap;
 
 
 import be.voedsaam.vzw.business.*;
+import be.voedsaam.vzw.business.impl.Employee;
+import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.DestinationService;
