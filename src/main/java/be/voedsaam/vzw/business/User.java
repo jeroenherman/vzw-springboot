@@ -196,7 +196,8 @@ public abstract  class User extends AbstractDomainClass {
 			setFirstName(split[0]);
 			setLastName(split[1] + " " + split[2]);
 		}
-
+		if (split.length<2||split.length>3)
+			throw new UnsupportedOperationException("full name must contain 2 or 3 words separated with space ");
 	}
 
 

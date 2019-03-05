@@ -16,11 +16,7 @@ import java.util.Optional;
 public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
 
     private ScheduleRepository scheduleRepository;
-    private UserRepository userRepository;
-    @Autowired
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+
 
     @Autowired
     public void setScheduleRepository(ScheduleRepository scheduleRepository) {
@@ -44,7 +40,6 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
 
     @Override
     public Schedule mapToObj(ScheduleDTO d) {
-        Employee owner = null;
         if (d == null)
             return null;
         Schedule b = new Schedule();
@@ -53,11 +48,6 @@ public class ScheduleMapper extends AbstractMapper<Schedule, ScheduleDTO> {
             o = scheduleRepository.findById(d.getId());
         if (o.isPresent())
             b = o.get();
-
-        if((d.getId()==null)&&(d.getName()!=null))
-        owner = (Employee) userRepository.findByEmailIgnoreCase(d.getOwner());
-        if (owner!=null)
-            b.addUser(owner);
         b.setName(d.getName());
         b.setId(d.getId());
         return b;

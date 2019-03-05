@@ -1,5 +1,6 @@
 package be.voedsaam.vzw.service.mapper;
 
+import be.voedsaam.vzw.business.Address;
 import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.repository.DestinationRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
@@ -50,6 +51,9 @@ public class DestinationMapper extends AbstractMapper<Destination, DestinationDT
 				b = o.get();
 
 			b.setId(d.getId());
+			if (b.getAddress()==null){
+				b.setAddress(new Address());
+			}
 			b.getAddress().setCity(d.getCity());
 			b.getAddress().setStreet(d.getStreet());
 			b.getAddress().setNumber(d.getStreetNumber());
