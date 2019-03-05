@@ -2,7 +2,9 @@ package be.voedsaam.vzw.service.dto;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 public class DriveDTO {
@@ -20,15 +22,10 @@ public class DriveDTO {
 
 
 	public DriveDTO() {
-		startTime = LocalDateTime.now();
+		LocalTime time = LocalTime.of(9,00);
+		startTime = LocalDateTime.of(LocalDate.now(), time);
 		endTime = startTime.plusHours(1);
 
-	}
-
-	public DriveDTO(LocalDateTime startTime, LocalDateTime endTime) {
-		super();
-		this.startTime = startTime;
-		this.endTime = endTime;
 	}
 
 	public LocalDateTime getStartTime() {
@@ -49,10 +46,8 @@ public class DriveDTO {
 		this.endTime = endTime;
 	}
 
-
 	public void setId(Long id) {
 		this.id = id;
-
 	}
 	
 	public Long getId() {
@@ -129,16 +124,4 @@ public class DriveDTO {
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("DriveDTO{");
-		sb.append("description='").append(description).append('\'');
-		sb.append(", startTime=").append(startTime);
-		sb.append(", endTime=").append(endTime);
-		sb.append(", drivers=").append(drivers);
-		sb.append(", attendees=").append(attendees);
-		sb.append(", depotHelps=").append(depotHelps);
-		sb.append('}');
-		return sb.toString();
-	}
 }

@@ -42,12 +42,13 @@ public void testOwner() {
 
 @Test
 public void testViewers() {
-	assertNull(classUnderTest.getViewers());
+	assertEquals(0,classUnderTest.getViewers().size());
 }
 
 @Test
 public void testDrives() {
-	assertNull(classUnderTest.getDrives());
+
+	assertEquals(0,classUnderTest.getDrives().size());
 }
 
 }
