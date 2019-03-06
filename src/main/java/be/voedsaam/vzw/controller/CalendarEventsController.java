@@ -18,7 +18,7 @@ public class CalendarEventsController {
 
     private DriveService driveService;
     private EventMapper eventMapper;
-    private Schedule selectedSchedule;
+
     @Autowired
     public void setDriveService(DriveService driveService) {
         this.driveService = driveService;
@@ -26,10 +26,6 @@ public class CalendarEventsController {
     @Autowired
     public void setEventMapper(EventMapper eventMapper) {
         this.eventMapper = eventMapper;
-    }
-    @Autowired
-    public void setSelectedSchedule(Schedule selectedSchedule) {
-        this.selectedSchedule = selectedSchedule;
     }
 
     @GetMapping(value = "/events", produces = "application/json")
@@ -40,7 +36,6 @@ public class CalendarEventsController {
         List<EventDTO> events = new ArrayList<>();
 
         events.addAll(eventMapper.mapToDTO((List<Drive>)driveService.listAll()));
-       // events.addAll(eventMapper.mapToDTO(selectedSchedule.getDrives()));
 
         return events;
     }
