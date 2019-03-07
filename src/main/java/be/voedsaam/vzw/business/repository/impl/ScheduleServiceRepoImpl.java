@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +48,12 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
 
     @Override
     public Schedule getById(Long id) {
-        return scheduleRepository.findById(id).get();
+        if(id!=null) {
+            Optional<Schedule> o = scheduleRepository.findById(id);
+            if (o.isPresent())
+            return o.get();
+        }
+        return null;
     }
 
     @Override
@@ -58,11 +64,13 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
     @Override
     public void delete(Long id) throws UnsupportedOperationException{
         Schedule schedule = getById(id);
-        if (schedule.getUsers().size()!=0)
-            throw new UnsupportedOperationException("Schedule still has users please delete users from Schedule");
-        if (schedule.getDrives().size()!=0)
-            throw new UnsupportedOperationException("Schedule still has drives please delete users from Schedule");
-        scheduleRepository.deleteById(id);
+        if (schedule!=null) {
+            if (schedule.getUsers().size() != 0)
+                throw new UnsupportedOperationException("Schedule still has users please delete users from Schedule");
+            if (schedule.getDrives().size() != 0)
+                throw new UnsupportedOperationException("Schedule still has drives please delete users from Schedule");
+            scheduleRepository.deleteById(id);
+        }
     }
 
     @Override

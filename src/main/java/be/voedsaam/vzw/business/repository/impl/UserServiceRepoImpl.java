@@ -44,7 +44,11 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public User getById(Long id) {
-        return userRepository.findById(id).get();
+      Optional<User> o= userRepository.findById(id);
+        if (o.isPresent())
+        return o.get();
+        return null;
+
     }
 
     @Override
@@ -58,9 +62,11 @@ public class UserServiceRepoImpl implements UserService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Optional<User> o = userRepository.findById(id);
-        if (o.isPresent())
-        userRepository.delete(o.get());
+        if (id!=null) {
+            Optional<User> o = userRepository.findById(id);
+            if (o.isPresent())
+                userRepository.delete(o.get());
+        }
     }
 
     @Override
@@ -70,6 +76,8 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public List<Volunteer> listVolunteerByRole(Role role) {
+        if ((role.equals(Role.COORDINATOR)||role.equals(Role.LOGISTICS)))
+            throw new UnsupportedOperationException("Volunteers cant have this role: " + role);
         List<Volunteer> volunteers = new ArrayList<>();
         userRepository.findAllByRole(role).forEach(user ->volunteers.add((Volunteer) user ));
         return volunteers;
@@ -77,6 +85,8 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public List<Employee> listEmployeeByRole(Role role) {
+        if (!((role.equals(Role.COORDINATOR)||role.equals(Role.LOGISTICS))))
+            throw new UnsupportedOperationException("Employees cant have this role: " + role);
         List<Employee> employees = new ArrayList<>();
         userRepository.findAllByRole(role).forEach(user ->employees.add((Employee) user ));
         return employees;
@@ -84,12 +94,19 @@ public class UserServiceRepoImpl implements UserService {
 
     @Override
     public Volunteer getVolunteerById(Long id) {
+         User user =  getById(id);
+        if (user!=null&&user.getClass().equals(Volunteer.class))
         return (Volunteer) getById(id);
+        return null;
     }
 
     @Override
     public Employee getEmployeeById(Long id) {
-        return (Employee) getById(id);
+        User user =  getById(id);
+        if (user!=null&&user.getClass().equals(Employee.class))
+            return (Employee) getById(id);
+        return null;
+
     }
 
     @Override
