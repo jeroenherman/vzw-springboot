@@ -1,13 +1,19 @@
 package be.voedsaam.vzw.business.repository.impl;
 
+import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.business.repository.TaskRepository;
 import be.voedsaam.vzw.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
+@Profile("springdatajpa")
 public class TaskServiceRepoImpl implements TaskService{
 
     private TaskRepository taskRepository;
@@ -25,9 +31,11 @@ public class TaskServiceRepoImpl implements TaskService{
 
     @Override
     public Task getById(Long id) {
-        return taskRepository.findById(id).get();
+        Optional<Task> o = taskRepository.findById(id);
+        if (o.isPresent())
+            return o.get();
+        return null;
     }
-
     @Override
     public Task saveOrUpdate(Task domainObject) {
         return taskRepository.save(domainObject);
@@ -35,6 +43,10 @@ public class TaskServiceRepoImpl implements TaskService{
 
     @Override
     public void delete(Long id) {
-        taskRepository.deleteById(id);
+        if (id != null) {
+            Optional<Task> o = taskRepository.findById(id);
+            if (o.isPresent())
+                taskRepository.delete(o.get());
+        }
     }
 }

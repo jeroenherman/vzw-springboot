@@ -16,6 +16,7 @@ import java.util.Optional;
 public class DestinationServiceRepoImpl implements DestinationService {
 
     private DestinationRepository destinationRepository;
+
     @Autowired
     public void setDestinationRepository(DestinationRepository destinationRepository) {
         this.destinationRepository = destinationRepository;
@@ -23,14 +24,17 @@ public class DestinationServiceRepoImpl implements DestinationService {
 
     @Override
     public List<?> listAll() {
-      List<Destination> destinations = new ArrayList<>();
+        List<Destination> destinations = new ArrayList<>();
         destinationRepository.findAll().forEach(destinations::add);
         return destinations;
     }
 
     @Override
     public Destination getById(Long id) {
-      return destinationRepository.findById(id).get();
+        Optional<Destination> o = destinationRepository.findById(id);
+        if (o.isPresent())
+            return o.get();
+        return null;
     }
 
     @Override
@@ -40,8 +44,10 @@ public class DestinationServiceRepoImpl implements DestinationService {
 
     @Override
     public void delete(Long id) {
-        Optional<Destination> o =  destinationRepository.findById(id);
-        if (o.isPresent())
-            destinationRepository.delete(o.get());
+        if (id != null) {
+            Optional<Destination> o = destinationRepository.findById(id);
+            if (o.isPresent())
+                destinationRepository.delete(o.get());
+        }
     }
 }
