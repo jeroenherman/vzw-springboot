@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/edit-show.html :: header" lang="en"></head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="list-group list-group-flush">
+            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+               th:href="${'/destination/edit/' + destination.id}" href="../edit"
+               class="list-group-item list-group-item-action bg-light">Editeer</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/edit-show.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        </nav>
+
+        <div class="container-fluid">
+            <h1 th:text="${destination.destinationName}" class="mt-4">Bekijk Bestemming</h1>
+
+            <div class="row " name="event-volunteer">
+                <div class="col-sm-6">
+                    <!-- Bestemming info  -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off">
+                                <div class="form-group row">
+                                    <label class=" col-lg-3 col-form-label form-control-label">Naam</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.destinationName}">
+                                            firstName</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="  col-lg-3 col-form-label form-control-label">Contact Info</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.contactInfo}">lastName</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Adress info  -->
+
+                    <!-- form user info -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Adres</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Straat</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.street}">Street</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Huisnummer</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.streetNumber}">Nr</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Stad /
+                                        Gemeente</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.city}">city</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${destination.postalCode}">9100</p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- /form user info -->
+                    </div>
+                </div>
+
+                <div th:if="${destination.agreements!=null and !destination.agreements.isEmpty()}" class="col-sm-6">
+                    <div class="card" name="agreements">
+                        <div class="card-header">
+                            <H4>Afspraken</H4>
+                        </div>
+                        <div class=" card-body">
+                            <table class="table table-striped table-light">
+                                <tr th:each="agreement : ${destination.agreements}">
+                                    <td th:text="${agreement}"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  th:if="${tasks!=null and !tasks.isEmpty()}" class="jumbotron" name="tasks">
+                <H3>Taken</H3>
+                <table class="table table-striped table-light">
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beschrijving</th>
+                        <th>Gebruikersrol</th>
+                    </tr>
+                    <tr th:each="task : ${tasks}">
+                        <td th:text="${task.title}"></td>
+                        <td th:text="${task.description}">beschrijving</td>
+                        <td th:text="${task.role.value}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</body>
+
+</html>
