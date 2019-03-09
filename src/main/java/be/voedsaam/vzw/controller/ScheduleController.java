@@ -111,7 +111,7 @@ public class ScheduleController {
     }
     @Secured("ROLE_COORDINATOR")
     @RequestMapping("/new")
-    public String newUser(Model model){
+    public String newSchedule(Model model){
         model.addAttribute("schedule", new ScheduleDTO());
         model.addAttribute("coordinators", employeeMapper.mapToDTO(userService.listEmployeeByRole(Role.COORDINATOR)));
         return "schedule/newscheduleform";

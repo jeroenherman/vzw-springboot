@@ -10,6 +10,7 @@ import java.util.List;
 public class Destination extends AbstractDomainClass {
     @OneToOne(cascade = {CascadeType.ALL})
     private Address address;
+    @Lob
     @ElementCollection
     private List<String> agreements;
     @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "destination")

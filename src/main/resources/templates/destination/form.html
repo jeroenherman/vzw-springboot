@@ -15,6 +15,9 @@
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
                th:href="${'/destination/show/' + destination.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+               th:href="${'/task/new/' + destination.id}" href="../edit"
+               class="list-group-item list-group-item-action bg-light">Nieuwe Taak</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -83,7 +86,7 @@
                                         <button type="submit" class="btn btn-primary">Bevestig</button>
                                     </div>
                                 </div>
-                            </form>
+
                         </div>
                         <!-- /form user info -->
                     </div>
@@ -95,28 +98,32 @@
                             <H4>Afspraken</H4>
                         </div>
                         <div class=" card-body">
-                            <textarea rows="10" class="form-control" th:field="*{destination.agreements}"></textarea>
+                            <textarea rows="15" class="form-control" th:field="*{destination.agreements}"></textarea>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="jumbotron" name="tasks">
+            </form>
+            <div   th:if="${tasks!=null and !tasks.isEmpty()}"  class="jumbotron" name="tasks">
                 <H3>Taken</H3>
                 <table class="table table-striped table-light">
                     <tr>
                         <th>Titel</th>
                         <th>Beschrijving</th>
                         <th>Gebruikersrol</th>
+                        <th>Editeer</th>
+                        <th>Verwijder</th>
                     </tr>
                     <tr th:each="task : ${tasks}">
                         <td th:text="${task.title}"></td>
                         <td th:text="${task.description}">beschrijving</td>
                         <td th:text="${task.role.value}"></td>
+                        <td ><a class="btn btn-block btn-success" th:href="${'/task/edit/' + task.id}">Editeer</a></td>
+                        <td ><a class= "btn btn-block btn-danger"th:href="${'/task/delete/' + task.id}">Verwijder</a></td>
                     </tr>
                 </table>
             </div>
         </div>
-
 
         <!-- /#page-content-wrapper -->
 

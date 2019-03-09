@@ -6,7 +6,9 @@ import be.voedsaam.vzw.service.dto.DestinationDTO;
 import be.voedsaam.vzw.service.mapper.DestinationMapper;
 import be.voedsaam.vzw.service.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,4 +65,19 @@ public class DestinationController {
          destination = destinationService.saveOrUpdate(destination);
         return "redirect:/destination/show/" + destination.getId();
     }
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping("/new")
+    public String newDestination() throws UnsupportedOperationException{
+        Destination destination = new Destination();
+        destination = destinationService.saveOrUpdate(destination);
+        return "redirect:/destination/edit/" + destination.getId();
+    }
+
+    @RequestMapping("/delete/{id}")
+    @Transactional
+    public String delete(@PathVariable Integer id){
+        destinationService.delete(id.longValue());
+        return "redirect:/destination/list";
+    }
+
 }

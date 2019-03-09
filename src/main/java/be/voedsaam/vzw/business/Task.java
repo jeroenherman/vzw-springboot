@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Task extends AbstractDomainClass{
 
 	private String title;
+	@Lob
 	private String discription;
 	@ManyToOne()
 	private Destination destination;
