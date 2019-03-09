@@ -71,6 +71,13 @@ public class ScheduleController {
         model.addAttribute("schedules" ,scheduleMapper.mapToDTO(scheduleService.listAllByUserName(user.getName())));
         return "schedule/list";
     }
+
+    @RequestMapping({"/listorphans"})
+    public String listOrphanSchedules(Model model){
+        List<Schedule> orphans = scheduleService.listAllOrphans();
+        model.addAttribute("schedules" ,scheduleMapper.mapToDTO(orphans));
+        return "schedule/list";
+    }
     @Secured("ROLE_COORDINATOR")
     @RequestMapping("/clear/{id}")
     public String clearSchedule(@PathVariable Integer id) {

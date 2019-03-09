@@ -88,4 +88,10 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
         Schedule schedule = getById(id.longValue());
         schedule.removeDrives();
     }
+
+    @Override
+    public List<Schedule> listAllOrphans() {
+      List<Schedule> orphans = ((List<Schedule>) listAll()).stream().filter(schedule -> schedule.getUsers().size()==0).collect(Collectors.toList());
+        return orphans;
+    }
 }

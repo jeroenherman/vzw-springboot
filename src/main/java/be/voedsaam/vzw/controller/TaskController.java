@@ -72,6 +72,7 @@ public class TaskController {
     public String newTask(@PathVariable Integer id) throws UnsupportedOperationException{
         Task task = new Task();
         task.setTitle("Nieuwe Taak");
+        task.setRole(Role.VOLUNTEER);
         Destination destination = destinationService.getById(id.longValue());
         task.setDestination(destination);
         task = taskService.saveOrUpdate(task);
