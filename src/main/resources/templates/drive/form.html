@@ -74,7 +74,7 @@
                 </tr>
                 <tr th:each="user : ${currentUsers}">
                     <td th:text="${user.fullName}"></td>
-                    <td th:text="${user.role}"></td>
+                    <td th:text="${user.role.value}"></td>
                     <td><a class="btn btn-block, btn-danger"
                            th:href="${'/drive/'+ drive.id + '/deleteuser/' + user.id}">Verwijder</a></td>
                 </tr>
@@ -89,7 +89,7 @@
                     </tr>
                     <tr th:each="user : ${possibleUsers}">
                         <td th:text="${user.fullName}"></td>
-                        <td th:text="${user.role}"></td>
+                        <td th:text="${user.role.value}"></td>
                         <td><a class="btn btn-block, btn-success"
                                th:href="${'/drive/'+ drive.id + '/adduser/' + user.id}">Voeg Toe</a></td>
                     </tr>

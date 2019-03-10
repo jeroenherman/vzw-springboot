@@ -106,7 +106,7 @@ public class UserController {
         String path ="";
         if (dto.getRole().equals(Role.LOGISTICS) || dto.getRole().equals(Role.COORDINATOR)){
          user = employeeMapper.mapToObj(dto);
-        path = "user";
+        path = "employee";
         }
         else{
             user = volunteerMapper.mapToObj(dto);
