@@ -4,12 +4,10 @@ package be.voedsaam.vzw.bootstrap;
 import be.voedsaam.vzw.business.*;
 import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.impl.Volunteer;
+import be.voedsaam.vzw.enums.ArticleType;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
-import be.voedsaam.vzw.service.DestinationService;
-import be.voedsaam.vzw.service.DriveService;
-import be.voedsaam.vzw.service.ScheduleService;
-import be.voedsaam.vzw.service.UserService;
+import be.voedsaam.vzw.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -29,13 +27,16 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     private DestinationService destinationService;
     private DriveService driveService;
     private ScheduleService scheduleService;
+    private ArticleService articleService;
+
 
     @Autowired
-    public SpringJPABootstrap(UserService userService, DestinationService destinationService, DriveService driveService, ScheduleService scheduleService) {
+    public SpringJPABootstrap(UserService userService, DestinationService destinationService, DriveService driveService, ScheduleService scheduleService, ArticleService articleService) {
         this.userService = userService;
         this.destinationService = destinationService;
         this.driveService = driveService;
         this.scheduleService = scheduleService;
+        this.articleService = articleService;
     }
 
     @Override
@@ -46,7 +47,112 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         loadDestinations();
         loadDrives();
         addDrivesToSchedule();
+        loadArticles();
 
+    }
+
+    private void loadArticles() {
+
+        Article main1 =  new Article();
+        main1.setArticleType(ArticleType.HOME);
+        main1.setTitle("Welkom");
+        Paragraph paragraph1 = new Paragraph();
+        paragraph1.setTitle("Rittenplanner");
+        paragraph1.setText("Elk jaar wordt naar schatting een derde van onze wereldwijde voedselproductie verspild, samen goed voor 89 miljoen ton per jaar. Paradoxaal genoeg leven 79 miljoen Europeanen onder de armoedegrens waarvan 1,6 miljoen Belgen of 15% van onze bevolking. Het aantal dat daarvan terugvalt op voedselhulp is 16 miljoen in Europa en 130.030 in België.\n" +
+                "\n" +
+                "VoedSaam vzw is een sociaal distributieplatform en helpende hand in strijd tegen deze voedseloverschotten en armoede in het Waasland. Concreet willen wij overschotten detecteren, transporteren, opslaan en distribueren aan Wase organisaties (vzw’s en OCMW’s) die o.a. levensmiddelen aanbieden aan mensen in armoede. Met deze bijdrage willen we er mede voor zorgen dat elke Wase burger in armoede, in zijn gemeente beroep kan doen op een uitgebreider en gezonder aanbod voedselhulp. Wij willen ook een faciliterende rol spelen bij het smeden en versterken van partnerschappen zodat we sámen de strijd tegen armoede in het Waasland kunnen intensiveren.\n" +
+                "\n" +
+                "De coördinatie verloopt vanuit de kantoren van Interwaas (Lamstraat 113, Sint-Niklaas). Het voedseldepot is gevestigd in Kringwinkel Den Azalee (Krijgsbaan 247, Temse). Meer informatie: vind je in de projectnota en flyer onderaan deze pagina of kan je opvragen bij coördinator Els Van de Steene (T 03 780 52 35 – info(at)voedsaam.be) of door ons te volgen op Facebook.");
+        main1.addParagraph(paragraph1);
+        Picture crate = new Picture();
+        crate.setUrl("crate.jpg");
+        crate.setAlternateText("crate");
+        main1.setPicture(crate);
+        Article main2 = new Article();
+        main2.setArticleType(ArticleType.HOME);
+        main2.setTitle("Welkom bij Voedsaam");
+        Paragraph pa1 = new Paragraph();
+        pa1.setTitle("Samen VoedselStromen herbestemmen");
+        pa1.setText("Voedsaam vzw is een sociaal distributieplatform dat voedseloverschotten detecteert. /n" +
+                " transporteert, stockeert en distrubeeert naar Wase OCMW's en vzws die via voedselondersteuning gezinnen met een budget beperkt begeleiden.");
+        main2.addParagraph(pa1);
+        Picture p1 = new Picture();
+        p1.setUrl("Flyer VoedSaam.jpg");
+        p1.setAlternateText("Flyer");
+        main2.setPicture(p1);
+        //
+        Article vrijwilligers = new Article();
+        vrijwilligers.setTitle("Onze Vrijwilligers");
+        vrijwilligers.setArticleType(ArticleType.ABOUT);
+        Paragraph pa2 = new Paragraph();
+        pa2.setTitle("Vele handen maken licht werk");
+        pa2.setText("De dagelijkse werking van VoedSaam steunt volledig op vrijwilligers:" +
+                " als chauffeur voor de ritten van en naar de verschillende leveranciers en partners, als hulp in het depot," +
+                " als administratieve ondersteuning,…… VoedSaam is dan ook voortdurend op zoek naar mensen die bereid zijn een deel van hun vrije tijd te spenderen aan het herbestemmen van voedselrestromen.");
+        vrijwilligers.addParagraph(pa2);
+        Picture p2 = new Picture();
+        p2.setAlternateText("vrijwiller1");
+        p2.setUrl("vrijwilliger1.jpg");
+        vrijwilligers.addLink(p2);
+        Picture p3 = new Picture();
+        p3.setAlternateText("vrijwiller2");
+        p3.setUrl("vrijwilliger2.jpg");
+        vrijwilligers.addLink(p3);
+        Picture p4 = new Picture();
+        p4.setAlternateText("vrijwiller3");
+        p4.setUrl("vrijwilliger3.jpg");
+        vrijwilligers.addLink(p4);
+        p4.setAlternateText("vrijwiller4");
+        p4.setUrl("vrijwilliger4.jpg");
+        vrijwilligers.addLink(p4);
+        Picture p5 = new Picture();
+        p5.setAlternateText("vrijwiller5");
+        p5.setUrl("vrijwilliger5.jpg");
+        vrijwilligers.addLink(p5);
+        Picture p6 = new Picture();
+        p6.setAlternateText("vrijwiller6");
+        p6.setUrl("vrijwilliger6.jpg");
+        vrijwilligers.addLink(p6);
+        Picture p7 = new Picture();
+        p7.setAlternateText("vrijwiller7");
+        p7.setUrl("vrijwilliger7.jpg");
+        vrijwilligers.addLink(p7);
+        //
+        Article news = new Article();
+        news.setArticleType(ArticleType.NEWS);
+        Picture p8 = new Picture();
+        p8.setAlternateText("rotary");
+        p8.setUrl( "rotary.jpg");
+        news.setPicture(p8);
+        news.setTitle("Rotary Waasland steunt VoedSaam met nieuwe bestelwagen");
+        Paragraph pa3 = new Paragraph();
+        pa3.setTitle("De vzw Voedsaam heeft een bestelwagen gekregen van Rotary Waasland. Daarmee komt een einde aan de lange zoektocht van de organisatie naar een eigen transportmiddel om de distributie van voedseloverschotten in het Waasland te verbeteren. ");
+        pa3.setText("VoedSaam vzw is een sociaal distributieplatform en een helpende hand in de strijd tegen voedseloverschotten en armoede in het Waasland, in de schoot van Interwaas. Het spoort voedseloverschotten op bij verschillende leveranciers, haalt ze bij hen op, stockeert ze in het depot en distribueert ze naar verscheidene partners in het Waasland. Deze partner-vzw’s en -OCMW’s bezorgen deze voeding bij de gezinnen die ze ondersteunen en begeleiden. De coördinatie van VoedSaam verloopt vanuit de kantoren van Interwaas in Sint-Niklaas, het voedseldepot is gevestigd in Kringwinkel Den Azalee aan de Krijgsbaan in Temse.\n" +
+                "\n" +
+                "“Bedoeling is de voedselondersteuning die gezinnen ontvangen gevarieerder en verser te maken. Hiervoor sluiten we overeenkomsten af met warenhuizen, land- en tuinbouwbedrijven en veilingen. Het ophalen van deze voeding en het leveren in het depot is een intense logistieke oefening, waarbij transport een cruciale factor is”, schetst coördinator Els Van de Steene van VoedSaam.");
+        news.addParagraph(pa3);
+        pa3.setTitle("Verrassing");
+        pa3.setText("Met de schenking van een bestelwagen van de rotaryclubs van het Waasland krijgt VoedSaam nu een eigen transportmiddel, een cruciale stap in de uitbreiding van haar werking. “Het was een grote verrassing. We gingen een presentatie over onze werking geven op een bijeenkomst van de serviceclub, in het vooruitzicht van de sponsoring van thermische boxen. We keerden echter huiswaarts met de boodschap dat bovenop de aankoop van dat professioneel koelmateriaal ook zal gezorgd worden voor een bestelwagen voor de vzw!”\n" +
+                "\n" +
+                "“Deze camionette is de belangrijkste troef in de uitbreidingsplannen van ons distributieplatform”, aldus Van de Steene. “We moeten over een eigen transportmiddel beschikken om nieuwe leveranciers te bezoeken en dus nieuwe producten te kunnen ophalen. De kosten voor gehuurd transport nemen een grote hap uit het beschikbare budget en daardoor was de actieradius ook beperkt. Die beperking is nu verleden tijd. We zullen onze werking kunnen uitbreiden. Het logo van VoedSaam op de bestelwagen zorgt bovendien voor een grotere herkenning en naambekendheid.”"
+        );
+        news.addParagraph(pa3);
+        Paragraph pa4 = new Paragraph();
+        pa4.setTitle("Vrijwilligers welkom");
+        pa4.setText("VoedSaam is ook nog op zoek naar vrijwilligers. Een chauffeur voor de bestelwagen, een begeleider van de ritten, hulp in het depot: het zijn taken waarvoor mensen zich kunnen aanmelden. Wie zich geroepen voelt om bij de vrijwilligersploeg van VoedSaam te komen, kan contact opnemen met Els Van de Steene via het nummer 0492/25.06.41 of via e-mail naar els.vandesteene@voedsaam.be. ");
+        news.addParagraph(pa4);
+        Picture p9 = new Picture();
+        p9.setAlternateText("bestelwagen");
+        p9.setUrl("bestelwagen.jpg");
+        news.addLink(p9);
+        Link link = new Link();
+        link.setTitle("Lees origineel artikel");
+        link.setUrl("https://www.hln.be/regio/temse/rotary-waasland-steunt-voedsaam-met-nieuwe-bestelwagen~a4c8a847/?referer=https%3A%2F%2Fwww.google.com%2F");
+        news.addLink(link);
+        articleService.saveOrUpdate(main2);
+        articleService.saveOrUpdate(main1);
+        articleService.saveOrUpdate(vrijwilligers);
+        articleService.saveOrUpdate(news);
     }
 
     private void addDrivesToSchedule() {
