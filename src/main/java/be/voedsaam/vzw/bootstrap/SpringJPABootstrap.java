@@ -3,19 +3,19 @@ package be.voedsaam.vzw.bootstrap;
 
 import be.voedsaam.vzw.business.*;
 import be.voedsaam.vzw.business.impl.Employee;
+import be.voedsaam.vzw.business.impl.Partner;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Color;
+import be.voedsaam.vzw.enums.ProductType;
 import be.voedsaam.vzw.enums.Role;
-import be.voedsaam.vzw.service.DestinationService;
-import be.voedsaam.vzw.service.DriveService;
-import be.voedsaam.vzw.service.ScheduleService;
-import be.voedsaam.vzw.service.UserService;
+import be.voedsaam.vzw.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,19 +23,25 @@ import java.util.List;
  * Created by jt on 12/9/15.
  */
 @Component
-public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent>{
+public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
     private UserService userService;
     private DestinationService destinationService;
     private DriveService driveService;
     private ScheduleService scheduleService;
+    private ProductService productService;
+    private StockService stockService;
 
     @Autowired
-    public SpringJPABootstrap(UserService userService, DestinationService destinationService, DriveService driveService, ScheduleService scheduleService) {
+    public SpringJPABootstrap(UserService userService, DestinationService destinationService,
+                              DriveService driveService, ScheduleService scheduleService,
+                              ProductService productService, StockService stockService) {
         this.userService = userService;
         this.destinationService = destinationService;
         this.driveService = driveService;
         this.scheduleService = scheduleService;
+        this.productService = productService;
+        this.stockService = stockService;
     }
 
     @Override
@@ -46,6 +52,69 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         loadDestinations();
         loadDrives();
         addDrivesToSchedule();
+        loadProducts();
+        loadStock();
+
+    }
+
+    private void loadStock() {
+        Stock voedsaam = new Stock();
+        voedsaam.setName("Voedsaam");
+        voedsaam.setLocation("Depot Sint niklaas");
+        Stock ocmwTemse = new Stock();
+        ocmwTemse.setName("Ocmw Temse");
+        ocmwTemse.setLocation("depot Sint-Niklaas");
+        ocmwTemse.addUser((Partner) userService.findByEmail("kathy.blomme@gmail.com"));
+        List<Product> productList = (List<Product>)productService.listAll();
+        productList.forEach(product ->
+        {
+            voedsaam.addProduct(product,100);
+            ocmwTemse.addProduct(product,10);
+        });
+
+        stockService.saveOrUpdate(voedsaam);
+        stockService.saveOrUpdate(ocmwTemse);
+    }
+
+    private void loadProducts() {
+        Product fruit;
+        Product groente;
+        Product fead;
+        Product meat;
+
+        fead = new Product();
+        fead.setProductType(ProductType.FEAD);
+        fead.setName("Magere melk");
+        fead.setDescription("verpakt per 6");
+        fead.setUnitOfMeasure(new Double(6));
+        fead.setSchelfLife(LocalDate.of(2019,12,1));
+        fead.setDeliveryNr("123456");
+
+        groente = new Product();
+        groente.setProductType(ProductType.VEGETABLES);
+        groente.setName("bloemkool");
+        groente.setDescription("per stuk");
+        groente.setUnitOfMeasure(new Double(0.5));
+        groente.setSchelfLife(LocalDate.of(2019,6,1));
+
+
+        fruit = new Product();
+        fruit.setProductType(ProductType.FRUIT);
+        fruit.setName("Appelen");
+        fruit.setDescription("per 4 verpakt");
+        fruit.setUnitOfMeasure(new Double(0.9));
+        fruit.setSchelfLife(LocalDate.of(2019,4,1));
+        meat = new Product();
+        meat.setProductType(ProductType.MEAT);
+        meat.setName("hesp");
+        meat.setDescription("100 gr per verpakking");
+        meat.setUnitOfMeasure(new Double(0.1));
+        meat.setSchelfLife(LocalDate.of(2019,6,30));
+
+        productService.saveOrUpdate(fead);
+        productService.saveOrUpdate(fruit);
+        productService.saveOrUpdate(groente);
+        productService.saveOrUpdate(meat);
 
     }
 
@@ -54,7 +123,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         schedule.setName("Test Schedule");
         scheduleService.saveOrUpdate(schedule);
         schedule.addUser((Employee) userService.findByEmail("jeroen.herman@voedsaam.be"));
-        List<Drive> drives = (List<Drive>)driveService.listAll();
+        List<Drive> drives = (List<Drive>) driveService.listAll();
         drives.forEach(schedule::addDrive);
         schedule = new Schedule();
         schedule.setName("Ritten Els");
@@ -68,7 +137,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Destination destination2 = new Destination();
         Destination destination3 = new Destination();
 
-        Address a1  = new Address();
+        Address a1 = new Address();
         a1.setCity("Sint-Niklaas");
         a1.setPostalCode(9100);
         a1.setStreet("LamStraat");
@@ -77,7 +146,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         destination1.setDestinationName("Vzw Voedsaam");
         destination1.setAddress(a1);
 
-        Address a2  = new Address();
+        Address a2 = new Address();
         a2.setCity("Temse");
         a2.setPostalCode(9100);
         a2.setStreet("Krijgsbaan");
@@ -86,7 +155,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         destination2.setDestinationName("Voedsel Depot: Den azalee");
         destination2.setAddress(a2);
 
-        Address a3  = new Address();
+        Address a3 = new Address();
         a3.setCity("Sint-Katelijne-Waver");
         a3.setPostalCode(2860);
         a3.setStreet("Mechelsesteenweg");
@@ -117,7 +186,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     }
 
     private void loadDrives() {
-        List<Destination> destinations = (List<Destination>)destinationService.listAll();
+        List<Destination> destinations = (List<Destination>) destinationService.listAll();
         List<Volunteer> users = userService.listAllVolunteers();
 
         Drive drive1 = new Drive();
@@ -155,7 +224,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     }
 
-    private void loadUsers(){
+    private void loadUsers() {
         User admin = new Employee();
         admin.setFullName("admin voedsaam");
         admin.setEmail("admin@voedsaam.be");
@@ -173,14 +242,14 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         User volunteer;
         User partner;
         Address a1;
-        a1 = new Address("Sportlaan",33,9170,"Sint-Niklaas");
-        jeroen = new Employee("jeroen", "herman","jeroen.herman@voedsaam.be", "037797243",a1, Role.COORDINATOR, Color.RED);
-        logistics = new Employee("Cindy","DePuydt","cindy.depuydt@voedsaam.be", "03 /780.52.35");
+        a1 = new Address("Sportlaan", 33, 9170, "Sint-Niklaas");
+        jeroen = new Employee("jeroen", "herman", "jeroen.herman@voedsaam.be", "037797243", a1, Role.COORDINATOR, Color.RED);
+        logistics = new Employee("Cindy", "DePuydt", "cindy.depuydt@voedsaam.be", "03 /780.52.35");
         logistics.setRole(Role.LOGISTICS);
-        coordinator  = new Employee("Els", "VandeSteene", "els.vandesteene@voedsaam.be","0492/250641");
+        coordinator = new Employee("Els", "VandeSteene", "els.vandesteene@voedsaam.be", "0492/250641");
         coordinator.setRole(Role.COORDINATOR);
-       // partner = new Partner("Kathy","blomme", "kathy.blomme@gmail.com", "unknown");
-        //partner.setRole(Role.PARTNER);
+        partner = new Partner("Kathy","blomme", "kathy.blomme@gmail.com", "unknown");
+        partner.setRole(Role.PARTNER);
         volunteer = new Volunteer("leonard", "cleys", "cleysveedee@telenet.be", "unknown");
         volunteer.setRole(Role.VOLUNTEER);
         volunteer.setColor(Color.WHITE);
@@ -191,7 +260,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         userService.saveOrUpdate(coordinator);
         userService.saveOrUpdate(jeroen);
         userService.saveOrUpdate(logistics);
-     //   userService.saveOrUpdate(partner);
+        userService.saveOrUpdate(partner);
         userService.saveOrUpdate(volunteer);
         User driver;
         User attendee;
