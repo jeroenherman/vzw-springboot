@@ -18,7 +18,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Created by jt on 12/9/15.
+ * The Spring JPA bootstrap class is triggered by the ContextRefreshedEvent on startup in Spring.
+ * It autowires all the used service interfaces in one Constructor making sure that all services are loaded in context
+ * Implementation that is used is based on the spring.profiles.active=springdatajpa property in application.properties
  */
 @Component
 public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -51,6 +53,9 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     @Override
     // to avoid detached entities use @Transactional !!!!
     @Transactional
+    /**
+     * method takes the contextRefreshedEvent and loads all test data in the database witch is specified in the application.properties file under recources
+     */
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         loadUsers();
         loadDestinations();
