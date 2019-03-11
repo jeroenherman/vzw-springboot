@@ -9,9 +9,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 @Entity
+// table name must be different from order because order is a restricted verb in sql
+@Table(name = "ORDER_PRT")
 public class Order extends AbstractDomainClass {
     private LocalDateTime pickupDateTime;
-    private OrderStatus status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
     @ElementCollection
     @CollectionTable(name="ORDER_QUANTITY")
     @MapKeyJoinColumn(name="PRODUCT_ID")
@@ -50,12 +53,12 @@ public class Order extends AbstractDomainClass {
         this.pickupDateTime = pickupDateTime;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public Partner getPartner() {
