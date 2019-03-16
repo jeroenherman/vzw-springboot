@@ -88,7 +88,7 @@ public class UserController {
         roles.add(Role.COORDINATOR); roles.add(Role.LOGISTICS);
         model.addAttribute("roles",roles);
         model.addAttribute("colors",Color.values());
-        return "user/form";
+        return "user/new";
     }
     @RequestMapping("/newvolunteer")
     public String newVolunteer(Model model){
@@ -97,7 +97,7 @@ public class UserController {
         roles.add(Role.DRIVER); roles.add(Role.ATTENDEE); roles.add(Role.DEPOTHELP); roles.add(Role.VOLUNTEER);
         model.addAttribute("roles",roles);
         model.addAttribute("colors",Color.values());
-        return "user/form";
+        return "user/new";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

@@ -13,10 +13,10 @@
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
-               th:href="${'/destination/show/' + destination.id}" href="../edit"
+               th:href="@{'~/vzw/destination/show/' + ${destination.id}}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
-               th:href="${'/task/new/' + destination.id}" href="../edit"
+               th:href="@{'~/vzw/task/new/' + ${destination.id}}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Nieuwe Taak</a>
         </div>
     </div>
@@ -118,8 +118,8 @@
                         <td th:text="${task.title}"></td>
                         <td th:text="${task.description}">beschrijving</td>
                         <td th:text="${task.role.value}"></td>
-                        <td ><a class="btn btn-block btn-success" th:href="${'/task/edit/' + task.id}">Editeer</a></td>
-                        <td ><a class= "btn btn-block btn-danger"th:href="${'/task/delete/' + task.id}">Verwijder</a></td>
+                        <td ><a class="btn btn-block btn-success" th:href="@{'~/vzw/task/edit/' + ${task.id}}">Editeer</a></td>
+                        <td ><a class= "btn btn-block btn-danger"th:href="@{'~/vzw/task/delete/' + ${task.id}}">Verwijder</a></td>
                     </tr>
                 </table>
             </div>

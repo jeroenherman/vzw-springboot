@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
@@ -12,8 +12,8 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a th:href="${'/drive/new/' + schedule.id}" href="../drive/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="${'/schedule/clear/' + schedule.id}" href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Wis Ritten</a>
+            <a th:href="@{'~/vzw/drive/new/' + ${schedule.id}}" href="../drive/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="@{'~/vzw/schedule/clear/' + ${schedule.id}}" href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Wis Ritten</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -58,7 +58,7 @@
                             <td th:text="${user.fullName}"></td>
                             <td th:text="${user.role}"></td>
                             <td><a class="btn btn-block, btn-danger"
-                                   th:href="${'/schedule/'+ schedule.id + '/deleteuser/' + user.id}">Verwijder</a></td>
+                                   th:href="${'vzw/schedule/'+ schedule.id + '/deleteuser/' + user.id}">Verwijder</a></td>
                         </tr>
                     </table>
                     <H2>Voeg toe</H2>
@@ -72,7 +72,7 @@
                             <td th:text="${user.fullName}"></td>
                             <td th:text="${user.role}"></td>
                             <td><a class="btn btn-block, btn-success"
-                                   th:href="${'/schedule/'+ schedule.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                                   th:href="${'vzw/schedule/'+ schedule.id + '/adduser/' + user.id}">Voeg Toe</a></td>
                         </tr>
                     </table>
                     <div class="row">

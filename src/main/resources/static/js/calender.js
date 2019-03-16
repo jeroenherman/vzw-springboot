@@ -14,7 +14,7 @@ function callCalendar() {
     $('#calendar').fullCalendar({
         eventClick: function(calEvent, jsEvent, view) {
 
-            location.replace('/drive/show/' + calEvent.id);
+            location.replace('/vzw/drive/show/' + calEvent.id);
         },
         header : {
             left : 'prev,next today',
@@ -25,7 +25,7 @@ function callCalendar() {
         height: 500,
         navLinks : true,
         eventLimit : true,
-        events : '/schedule/events/'
+        events : '/vzw/schedule/events/'
     });
 
 }

@@ -12,8 +12,8 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/new" class="list-group-item list-group-item-action bg-light">Nieuw Schema</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/listorphans" class="list-group-item list-group-item-action bg-light">Toon Wezen</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="@{~/vzw/schedule/new}" href="vzw/schedule/new" class="list-group-item list-group-item-action bg-light">Nieuw Schema</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')"th:href="@{~/vzw/schedule/listorphans}"  href="vzw/schedule/listorphans" class="list-group-item list-group-item-action bg-light">Toon Wezen</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

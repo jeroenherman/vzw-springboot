@@ -121,7 +121,7 @@ public class ScheduleController {
     public String newSchedule(Model model){
         model.addAttribute("schedule", new ScheduleDTO());
         model.addAttribute("coordinators", employeeMapper.mapToDTO(userService.listEmployeeByRole(Role.COORDINATOR)));
-        return "schedule/newscheduleform";
+        return "schedule/new";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)

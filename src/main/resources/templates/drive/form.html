@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
@@ -12,6 +12,8 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'~/vzw/drive/show/' + ${drive.id}}" href="../edit" class="list-group-item list-group-item-action bg-light">Bekijk</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'~/vzw/schedule/show/' + ${schedule.id}}" href="../edit" class="list-group-item list-group-item-action bg-light">Bekijk Schema</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -76,7 +78,7 @@
                     <td th:text="${user.fullName}"></td>
                     <td th:text="${user.role.value}"></td>
                     <td><a class="btn btn-block, btn-danger"
-                           th:href="${'/drive/'+ drive.id + '/deleteuser/' + user.id}">Verwijder</a></td>
+                           th:href="@{'~/vzw/drive/'+ ${drive.id} + '/deleteuser/' + ${user.id}}">Verwijder</a></td>
                 </tr>
             </table>
             <div th:if="${possibleUsers!=null and !possibleUsers.isEmpty()}">
@@ -91,7 +93,7 @@
                         <td th:text="${user.fullName}"></td>
                         <td th:text="${user.role.value}"></td>
                         <td><a class="btn btn-block, btn-success"
-                               th:href="${'/drive/'+ drive.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                               th:href="@{'~/vzw/drive/'+ ${drive.id} + '/adduser/' + ${user.id}}">Voeg Toe</a></td>
                     </tr>
                 </table>
             </div>
@@ -109,7 +111,7 @@
                     <td th:text="${destination.destinationName}"></td>
                     <td th:text="${destination.contactInfo}"></td>
                     <td><a class="btn btn-block, btn-danger"
-                           th:href="${'/drive/'+ drive.id + '/deletedestination/' + destination.id}">Verwijder</a>
+                           th:href="@{'~/vzw/drive/'+ ${drive.id} + '/deletedestination/' + ${destination.id}}">Verwijder</a>
                     </td>
                 </tr>
             </table>
@@ -125,7 +127,7 @@
                         <td th:text="${destination.destinationName}"></td>
                         <td th:text="${destination.contactInfo}"></td>
                         <td><a class="btn btn-block, btn-success"
-                               th:href="${'/drive/'+ drive.id + '/adddestination/' + destination.id}">Voeg
+                               th:href="@{'~/vzw/drive/'+ ${drive.id} + '/adddestination/' + ${destination.id}}">Voeg
                             Toe</a>
                         </td>
                     </tr>

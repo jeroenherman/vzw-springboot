@@ -43,19 +43,19 @@
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
                             <td th:text="${user.role.value}"></td>
-                            <td><a class="btn btn-block , btn-primary" th:href="${'/user/showemployee/' + user.id}">Bekijk</a>
+                            <td><a class="btn btn-block , btn-primary" th:href="@{'~/vzw/user/showemployee/' + ${user.id}}">Bekijk</a>
                             </td>
-                            <td><a class="btn btn-block, btn-success" th:href="${'/user/editemployee/' + user.id}">Editeer</a>
+                            <td><a class="btn btn-block, btn-success" th:href="@{'~/vzw/user/editemployee/' + ${user.id}}">Editeer</a>
                             </td>
                             <td th:if="${user.schedules.empty}"><a class="btn btn-block, btn-danger"
-                                                                   th:href="${'/user/delete/' + user.id}">Verwijder</a>
+                                                                   th:href="@{'~/vzw/user/delete/' + ${user.id}}">Verwijder</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="/user/newemployee" class="btn btn-primary">Nieuwe Werknemer</a>
+                        <a th:href="@{'~/vzw/user/newemployee'} "href="/user/newemployee" class="btn btn-primary">Nieuwe Werknemer</a>
                     </div>
 
                 </div>
@@ -82,19 +82,19 @@
                             <td th:text="${user.firstName}"></td>
                             <td th:text="${user.lastName}"></td>
                             <td th:text="${user.role.value}"></td>
-                            <td><a class="btn btn-block , btn-primary" th:href="${'/user/showvolunteer/' + user.id}">Bekijk</a>
+                            <td><a class="btn btn-block , btn-primary" th:href="@{'~/vzw/user/showvolunteer/' + ${user.id}}">Bekijk</a>
                             </td>
-                            <td><a class="btn btn-block, btn-success" th:href="${'/user/editvolunteer/' + user.id}">Editeer</a>
+                            <td><a class="btn btn-block, btn-success" th:href="@{'~/vzw/user/editvolunteer/' + ${user.id}}">Editeer</a>
                             </td>
                             <td th:if="${user.drives.empty}"><a class="btn btn-block, btn-danger"
-                                                                th:href="${'/user/delete/' + user.id}">Verwijder</a>
+                                                                th:href="@{'~/vzw/user/delete/' + ${user.id}}">Verwijder</a>
                             </td>
                         </tr>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        <a href="/user/newvolunteer" class="btn btn-primary">Nieuwe Vrijwilliger</a>
+                        <a th:href="@{'~/vzw/user/newvolunteer'}" href="/user/newvolunteer" class="btn btn-primary">Nieuwe Vrijwilliger</a>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@
         <div class="list-group list-group-flush">
             <a sec:authorize="hasAnyRole('ROLE_DRIVER')" href="../../" class="list-group-item list-group-item-action bg-light">Start</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/destination/new" class="list-group-item list-group-item-action bg-light">Nieuwe Bestemming</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="@{'~/vzw/destination/new'}" href="/destination/new" class="list-group-item list-group-item-action bg-light">Nieuwe Bestemming</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -42,9 +42,9 @@
                         <td th:text="${destination.id}"></td>
                         <td th:text="${destination.destinationName}"></td>
                         <td th:text="${destination.contactInfo}"></td>
-                        <td><a class="btn btn-block btn-primary" th:href="${'/destination/show/' + destination.id}">Bekijk</a></td>
-                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="${'/destination/edit/' + destination.id}">Editeer</a></td>
-                        <td th:if="${!destination.drives}" sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class= "btn btn-block btn-danger"th:href="${'/destination/delete/' + destination.id}">Verwijder</a></td>
+                        <td><a class="btn btn-block btn-primary" th:href="@{'~/vzw/destination/show/' + ${destination.id}}">Bekijk</a></td>
+                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="@{'~/vzw/destination/edit/' + ${destination.id}}">Editeer</a></td>
+                        <td th:if="${!destination.drives}" sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class= "btn btn-block btn-danger"th:href="@{'~/vzw/destination/delete/' + ${destination.id}}">Verwijder</a></td>
                     </tr>
                 </table>
             </div>

@@ -13,7 +13,7 @@
         <div class="list-group list-group-flush">
             <a sec:authorize="hasAnyRole('ROLE_DRIVER')" href="../../" class="list-group-item list-group-item-action bg-light">Start</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{/drive/removeOrphans}" href="../" class="list-group-item list-group-item-action bg-light">Verwijder zonder schema</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{~/vzw/drive/removeOrphans}" href="../" class="list-group-item list-group-item-action bg-light">Verwijder zonder schema</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -50,14 +50,14 @@
                             </time>
                         </td>
                         <td th:text="${drive.schedule}"></td>
-                        <td th:if="${drive.schedule!=null}"><a class="btn btn-block btn-primary" th:href="${'/drive/show/' + drive.id}">Bekijk</a></td>
-                        <td th:if="${drive.schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="${'/drive/edit/' + drive.id}">Editeer</a></td>
-                        <td th:if="${!drive.users&&drive.schedule==null}" sec:authorize="hasRole('ROLE_COORDINATOR')"><a class= "btn btn-block btn-danger"th:href="${'/drive/delete/' + drive.id}">Verwijder</a></td>
+                        <td th:if="${drive.schedule!=null}"><a class="btn btn-block btn-primary" th:href="@{'~/vzw/drive/show/' + ${drive.id}}">Bekijk</a></td>
+                        <td th:if="${drive.schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="@{'~/vzw/drive/edit/' + ${drive.id}}">Editeer</a></td>
+                        <td th:if="${!drive.users&&drive.schedule==null}" sec:authorize="hasRole('ROLE_COORDINATOR')"><a class= "btn btn-block btn-danger"th:href="@{'~/vzw/drive/delete/' + ${drive.id}}">Verwijder</a></td>
                     </tr>
                 </table>
                 <div th:if="${session.idSchedule != null}" class="row">
                     <div class="col-sm-3">
-                        <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/new/' + session.idSchedule}" href="/drive/form" class="btn btn-primary">Nieuwe Rit</a>
+                        <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'~/vzw/drive/new/' + ${session.idSchedule}}" href="/drive/form" class="btn btn-primary">Nieuwe Rit</a>
                     </div>
                 </div>
             </div>
