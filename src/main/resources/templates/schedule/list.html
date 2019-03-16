@@ -42,9 +42,9 @@
                         <td th:text="${schedule.id}"></td>
                         <td th:text="${schedule.name}"></td>
                         <td th:text="${schedule.owner}"></td>
-                        <td><a class="btn btn-block btn-primary" th:href="${'/schedule/show/' + schedule.id}">Bekijk</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
+                        <td><a class="btn btn-block btn-primary" th:href="@{'~/vzw/schedule/show/' + ${schedule.id}}">Bekijk</a></td>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class="btn btn-block btn-success" th:href="@{'~/vzw/schedule/edit/' + ${schedule.id}}">Editeer</a></td>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="@{'~/vzw/schedule/delete/' + ${schedule.id}}">Verwijder</a></td>
                     </tr>
                 </table>
             </div>
