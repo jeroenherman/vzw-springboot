@@ -64,8 +64,8 @@
                                 <li><a href="about.html" th:href="@{/about}">Over ons</a></li>
                                 <li><a href="causes.html" th:href="@{/causes}">Doelstellingen</a></li>
                                 <li><a href="news.html" th:href="@{/news}">Nieuws</a></li>
-                                <li><a href="contact.html" th:href="@{/contact}">Contact</a></li>
-                                <li class="current-menu-item"><a href="login.html" th:href="@{/login}">Login</a></li>
+                                <li class="current-menu-item"><a href="contact.html" th:href="@{/contact}">Contact</a></li>
+                                <li><a href="login.html" th:href="@{/login}">Login</a></li>
                             </ul>
                         </nav><!-- .site-navigation -->
 
@@ -85,71 +85,58 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <h1>Login</h1>
+                    <h1>Contact</h1>
                 </div><!-- .col -->
             </div><!-- .row -->
         </div><!-- .container -->
     </div><!-- .page-header -->
 
-    <div class="login-page-wrap">
+    <div class="contact-page-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-5">
                     <div class="entry-content">
-                        <h2>Login voor partners</h2>
+                        <h2>Contacteer Ons</h2>
 
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
+
+                        <ul class="contact-social d-flex flex-wrap align-items-center">
+                            <li><a href="https://www.facebook.com/VoedSaamvzw/"><i class="fa fa-facebook"></i></a></li>
+							
+							<!-- 	Other Social media					
+							<li><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li> -->
+                        </ul>
+
+                        <ul class="contact-info p-0">
+                            <li><i class="fa fa-phone"></i><span>T 03 780 52 35</span></li>
+                            <li><i class="fa fa-envelope"></i><span>info@voedsaam.be</span></li>
+                            <li><i class="fa fa-map-marker"></i><span>Lamstraat 113 - 9100 Sint-Niklaas</span></li>
+                        </ul>
                     </div>
                 </div><!-- .col -->
 
                 <div class="col-12 col-lg-7">
-                    <form class="form-horizontal" th:object="${loginCommand}" th:action="@{/login}" method="post">
+                    <form class="contact-form">
+                        <input type="text" placeholder="Naam">
+                        <input type="email" placeholder="Email">
+                        <textarea rows="15" cols="6" placeholder="Boodschap"></textarea>
 
-                        <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                            <p th:text="#{loginCommand.hasErrors}">Error Message</p>
-                        </div>
-
-                        <div th:if="${param.error}" class="alert alert-danger">
-                            <p>Ongeldige gebruikersnaam of paswoord.</p>
-                        </div>
-
-                        <div th:if="${param.logout}" class="alert alert-success">
-                            <p>U bent uitgelogd.</p>
-                        </div>
-
-                        <div class="form-group"
-                             th:class="${#fields.hasErrors('username')} ? 'form-group has-error' : 'form-group'">
-                            <label class="col-sm-2 control-label">Gebruikersnaam:</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" name="username" id="username"/>
-                                <span class="help-block" th:if="${#fields.hasErrors('username')}">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('username')}" th:text="${err}"/>
-                                </ul>
-                            </span>
-                            </div>
-                        </div>
-
-                        <div class="form-group"
-                             th:class="${#fields.hasErrors('password')} ? 'form-group has-error' : 'form-group'">
-                            <label class="col-sm-2 control-label">Paswoord:</label>
-                            <div class="col-sm-10">
-                                <input type="password" class="form-control" name="password" id="password"/>
-                                <span class="help-block" th:if="${#fields.hasErrors('password')}">
-                                <ul>
-                                    <li th:each="err : ${#fields.errors('password')}" th:text="${err}"/>
-                                </ul>
-                            </span>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn gradient-bg">Log in</button>
-                    </form>
-                   <!-- .login-form -->
+                        <span>
+                            <input class="btn gradient-bg" type="submit" value="Contacteer ons">
+                        </span>
+                    </form><!-- .contact-form -->
 
                 </div><!-- .col -->
 
-              
+               <!-- Google¨Maps API 
+			   <div class="col-12">
+                    <div class="contact-gmap">
+                        <iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=usa&key=AIzaSyC2LvnNLzWxHgFm_XfpFG9wHUuyEj6rXSs" allowfullscreen></iframe>
+                    </div> -->
                 </div>
             </div><!-- .row -->
         </div><!-- .container -->

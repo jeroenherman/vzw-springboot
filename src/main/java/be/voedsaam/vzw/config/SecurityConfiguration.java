@@ -45,7 +45,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().ignoringAntMatchers("/h2console").disable()
                 .authorizeRequests().antMatchers("/**/favicon.ico").permitAll()
-                .and().authorizeRequests().antMatchers("/product/**").permitAll()
+                .and().authorizeRequests().antMatchers("/*").permitAll()
                 .and().authorizeRequests().antMatchers("/webjars/**").permitAll()
                 .and().authorizeRequests().antMatchers("/static/css").permitAll()
                 .and().authorizeRequests().antMatchers("/js").permitAll()

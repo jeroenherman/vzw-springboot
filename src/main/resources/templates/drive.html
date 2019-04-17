@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/main :: header" lang="en">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Vzw Voedsaam Ritten Planner</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="../../static/vendor/bootstrap/css/bootstrap.min.css"
+          th:href="@{webjars/bootstrap/4.3.1/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../../static/css/simple-sidebar.css"
+          th:href="@{css/simple-sidebar.css}" rel="stylesheet">
+
+    <!-- JQuery -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="../../static/vendor/jquery/jquery.min.js"
+            th:src="@{webjars/jquery/2.1.4/jquery.min.js}"></script>
+    <script src="../../static/vendor/bootstrap/js/bootstrap.bundle.min.js"
+            th:src="@{webjars/bootstrap/4.3.1/js/bootstrap.bundle.min.js}"></script>
+
+
+</head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div th:replace="fragments/main.html ::sidemenu" class="bg-light border-right" id="sidebar-wrapper"></div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/main.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+
+        <div class="container-fluid" name="start">
+            <div class="jumbotron" th:each="article : ${articles}">
+            <h1 class="mt-4" th:text="${title}">Voedsaam Ritten planner</h1>
+                <img th:src="@{'/images/main/'+${article.picture.url}}" src="../static/images/main/Flyer VoedSaam.jpg" th:alt="${article.picture.alternateText}" alt="welcome">
+            <div th:each="paragraph : ${article.paragraphs}" >
+                <h2 th:text="${paragraph.title}">paragraph titel</h2>
+                <p th:text="${paragraph.text}">paragraph text</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+</body>
+
+</html>

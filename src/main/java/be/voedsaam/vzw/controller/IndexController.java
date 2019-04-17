@@ -16,10 +16,38 @@ public class IndexController {
         this.articleService = articleService;
     }
 
-    @RequestMapping({"/", ""})
+    @RequestMapping({"/", "", "index.html"})
     public String index(Model model){
         model.addAttribute("articles", articleService.listHome());
 
         return "index";
     }
+    @RequestMapping({"/drive"})
+    public String drive(Model model){
+        model.addAttribute("articles", articleService.listHome());
+
+        return "drive";
+    }
+    @RequestMapping({"/about"})
+    public String about(Model model){
+        model.addAttribute("articles", articleService.listAbout());
+        return "about";
+    }
+
+    @RequestMapping({"/news"})
+    public String news(Model model){
+        model.addAttribute("articles", articleService.listNews());
+        return "news";
+    }
+
+    @RequestMapping({"/causes"})
+    public String goals(Model model){
+        model.addAttribute("articles", articleService.listGoals());
+        return "causes";
+    }
+    @RequestMapping({"/contact"})
+    public String contact(Model model){
+        return "contact";
+    }
+
 }
