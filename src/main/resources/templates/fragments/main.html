@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Vzw Voedsaam Ritten Planner</title>
+    <title>Vzw Voedsaam portaal</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../static/vendor/bootstrap/css/bootstrap.min.css"
@@ -34,12 +34,19 @@
 
     <!-- Sidebar -->
     <div sec:authorize="isAuthenticated()" th:fragment="sidemenu" class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="sidebar-heading">Voedsaam Portaal</div>
         <div class="list-group list-group-flush">
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="article/list" class="list-group-item list-group-item-action bg-light">Publieke Artikels</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="contact/list" class="list-group-item list-group-item-action bg-light">Contact formulieren</a>
+
             <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
             <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="drive/list" class="list-group-item list-group-item-action bg-light">Ritten</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="product/list" class="list-group-item list-group-item-action bg-light">Producten</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="stock/list" class="list-group-item list-group-item-action bg-light">Stock</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="order/list" class="list-group-item list-group-item-action bg-light">Bestellingen</a>
+
             <a sec:authorize="hasAnyRole('ROLE_DRIVER')"href="drive/listbyuser" class="list-group-item list-group-item-action bg-light">Mijn Ritten</a>
         </div>
     </div>

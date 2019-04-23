@@ -49,21 +49,29 @@ public class Article extends AbstractDomainClass {
 	}
 
 	public void addParagraph(Paragraph paragraph){
-		paragraph.setArticle(this);
-		paragraphs.add(paragraph);
+		if (!(paragraphs.contains(paragraph))) {
+			paragraph.setArticle(this);
+			paragraphs.add(paragraph);
+		}
 	}
 	public void removeParagraph(Paragraph paragraph){
-		paragraph.setArticle(null);
-		paragraphs.remove(paragraph);
+		if (paragraphs.contains(paragraph)) {
+			paragraph.setArticle(null);
+			paragraphs.remove(paragraph);
+		}
 	}
 
 	public void addLink(Link link){
-		link.setArticle(this);
-		links.add(link);
+		if (!(paragraphs.contains(link))) {
+			link.setArticle(this);
+			links.add(link);
+		}
 	}
 	public void removeLink(Link link){
-		link.setArticle(null);
-		links.remove(link);
+		if (paragraphs.contains(link)) {
+			link.setArticle(null);
+			links.remove(link);
+		}
 	}
 
 	public List<Paragraph> getParagraphs() {
@@ -73,4 +81,5 @@ public class Article extends AbstractDomainClass {
 	public List<Link> getLinks() {
 		return  Collections.unmodifiableList(links);
 	}
+
 }

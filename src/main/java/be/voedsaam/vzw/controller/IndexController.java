@@ -22,11 +22,11 @@ public class IndexController {
 
         return "index";
     }
-    @RequestMapping({"/drive"})
+    @RequestMapping({"/portal"})
     public String drive(Model model){
         model.addAttribute("articles", articleService.listHome());
 
-        return "drive";
+        return "portal";
     }
     @RequestMapping({"/about"})
     public String about(Model model){

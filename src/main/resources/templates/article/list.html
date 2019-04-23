@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/sub :: header" lang="en"></head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="list-group list-group-flush">
+            <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a href="/article/new" class="list-group-item list-group-item-action bg-light">Nieuw Artikel</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/sub.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+
+        <div class="container">
+            <h1 class="mt-4">Artikels</h1>
+            <div class="container">
+                <div th:if="${not #lists.isEmpty(articles)}">
+                    <table class="table table-striped table-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Titel</th>
+                            <th>Type</th>
+                            <th>Lijst</th>
+                            <th>Editeer</th>
+                            <th>Verwijder</th>
+                        </tr>
+                        <tr th:each="article : ${articles}">
+                            <td th:text="${article.id}"></td>
+                            <td th:text="${article.title}"></td>
+                            <td th:text="${article.articleType.value}"></td>
+                            <td><a class="btn btn-block , btn-primary" th:href="${'/article/showarticle/' + article.id}">Bekijk</a>
+                            </td>
+                            <td><a class="btn btn-block, btn-success" th:href="${'/article/editarticle/' + article.id}">Editeer</a>
+                            </td>
+                            <td ><a class="btn btn-block, btn-danger" th:href="${'/article/delete/' + article.id}">Verwijder</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="/article/new" class="btn btn-primary">Nieuw Artikel</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+</body>
+
+</html>

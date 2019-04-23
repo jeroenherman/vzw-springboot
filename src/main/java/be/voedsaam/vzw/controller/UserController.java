@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by jt on 12/17/15.
- */
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
