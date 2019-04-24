@@ -43,9 +43,10 @@ public class ArticleController {
         return "article/list";
     }
 
-    @RequestMapping("/showarticle/{id}")
+    @RequestMapping("/show/{id}")
     public String getEmployee(@PathVariable Integer id, Model model){
         Article article = articleService.getById(id.longValue());
+        System.out.println("nrOfParagraphs: "+article.getParagraphs().size());
         model.addAttribute("article", article);
         //todo remove bugfix article service duplicates paragraphs on number of links
         Set<Paragraph> paragraphs = new HashSet<>();
@@ -54,14 +55,20 @@ public class ArticleController {
         return "article/show";
     }
 
-    @RequestMapping("/editarticle/{id}")
+    @RequestMapping("/edit/{id}")
     public String editEmployee(@PathVariable Integer id, Model model){
-        model.addAttribute("article", articleService.getById(id.longValue()));
+        Article article = articleService.getById(id.longValue());
+        System.out.println("nrOfParagraphs: "+article.getParagraphs().size());
+        model.addAttribute("article", article);
+        //todo remove bugfix article service duplicates paragraphs on number of links
+        Set<Paragraph> paragraphs = new HashSet<>();
+        paragraphs.addAll(article.getParagraphs());
+        model.addAttribute("paragraphs", paragraphs);
         model.addAttribute("types",ArticleType.values());
         return "article/form";
     }
 
-    @RequestMapping("/newarticle")
+    @RequestMapping("/new")
     public String newEmployee(Model model){
         model.addAttribute("article", new Article());
         model.addAttribute("types",ArticleType.values());

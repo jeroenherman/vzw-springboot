@@ -13,11 +13,8 @@
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
-               th:href="${'/destination/show/' + destination.id}" href="../edit"
+               th:href="${'/article/show/' + article.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
-               th:href="${'/task/new/' + destination.id}" href="../edit"
-               class="list-group-item list-group-item-action bg-light">Nieuwe Taak</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -30,113 +27,118 @@
         </nav>
 
         <div class="container-fluid">
-            <h1 th:text="${destination.destinationName}" class="mt-4">Editeer Bestemming</h1>
-            <div class="row " name="event-volunteer">
+            <h1 th:text="${article.title}" class="mt-4">titel</h1>
 
+            <div class="row " name="article-detail">
                 <div class="col-sm-6">
-                    <!-- Bestemming info  -->
+                    <!-- article info  -->
                     <div class="card">
                         <div class="card-header">
                             <h4>Details</h4>
                         </div>
                         <div class="card-body">
-                            <form class="form" role="form" th:object="${destination}" th:action="@{/destination/}"
-                                  method="post">
-                                <input type="hidden" th:field="*{id}"/>
+                            <form class="form" role="form" autocomplete="off">
                                 <div class="form-group row">
-                                    <label class=" col-lg-3 col-form-label form-control-label">Naam Bestemming</label>
+                                    <label class=" col-lg-3 col-form-label form-control-label">Titel</label>
                                     <div class="col-lg-9">
-                                        <input class="form-control" th:field="*{destinationName}"></input>
+                                        <p class="form-control" th:text="${article.title}">
+                                            title</p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="  col-lg-3 col-form-label form-control-label">Contact Info</label>
+                                    <label class="  col-lg-3 col-form-label form-control-label">Locatie</label>
                                     <div class="col-lg-9">
-                                        <textarea class="form-control" th:field="*{contactInfo}"></textarea>
+                                        <p class="form-control" th:text="${article.articleType.value}">Home</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Straat</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" th:field="*{street}"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Huis Nr</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" th:field="*{streetNumber}"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Stad /
-                                        Gemeente</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" th:field="*{city}"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
-                                    <div class="col-lg-9">
-                                        <input class="form-control" th:field="*{postalCode}"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="  col-lg-3 col-form-label form-control-label"></label>
-                                    <div class="col-lg-9">
-                                        <button type="submit" class="btn btn-primary">Bevestig</button>
-                                    </div>
-                                </div>
-
+                            </form>
                         </div>
-                        <!-- /form user info -->
                     </div>
-                </div>
+                    <!-- links info  -->
+                        <div th:if="${article.links!=null and !article.links.isEmpty()}" class="card" name="links">
+                            <div class="card-header">
+                                <H4>Links</H4>
+                            </div>
+                            <div class=" card-body">
+                                <table class="table table-striped table-light">
+                                    <tr>
 
-                <div class="col-sm-6">
-                    <div class="card" name="agreements">
+                                    </tr>
+                                    <tr th:each="link : ${article.links}">
+                                        <td th:text="${link.title}"></td>
+                                        <td th:text="${link.url}"></td>
+                                        <td ><a class="btn btn-block btn-success" th:href="${'/link/edit/' + link.id}">Editeer</a></td>
+                                        <td ><a class= "btn btn-block btn-danger"th:href="${'/link/delete/' + link.id}">Verwijder</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                <!-- left half -->
+
+                <!-- picture info  -->
+                <div th:if="${article.picture!=null }" class="col-sm-6">
+                    <div class="card">
                         <div class="card-header">
-                            <H4>Afspraken</H4>
+                            <h4>Afbeelding</h4>
                         </div>
-                        <div class=" card-body">
-                            <textarea rows="15" class="form-control" th:field="*{destination.agreements}"></textarea>
+                        <div class="card-body">
+                            <form class="form" role="form" autocomplete="off">
+                                <div class="form-group row">
+                                    <label class="col-lg-3 col-form-label form-control-label">Url</label>
+                                    <div class="col-lg-9">
+                                        <p class="form-control" th:text="${article.picture.url}">url</p>
+                                        <img class="rounded" th:src="@{'/images/'+${article.articleType}+'/'+${article.picture.url}}"
+                                             src="../static/images/main/Flyer VoedSaam.jpg"
+                                             th:alt="${article.picture.alternateText}" alt="welcome" width="200"
+                                             height="200">
+                                        <table>
+                                            <td ><a class="btn btn-block btn-success" th:href="${'/picture/edit/' + article.picture.id}">Editeer</a></td>
+                                            <td ><a class= "btn btn-block btn-danger"th:href="${'/picture/delete/' + article.picture.id}">Verwijder</a></td>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
+                        <!-- /picture info -->
                     </div>
                 </div>
+
+                <!-- Paragraph info  -->
+                <div th:if="${paragraphs!=null and !paragraphs.isEmpty()}" class="jumbotron" name="paragraphs">
+                    <H3>Paragrafen</H3>
+                    <table class="table table-striped table-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Titel</th>
+                            <th>Text</th>
+                            <th>Editeer</th>
+                            <th>Verwijder</th>
+                        </tr>
+                        <tr th:each="paragraph : ${paragraphs}">
+                            <td th:text="${paragraph.id}"></td>
+                            <td th:text="${paragraph.title}"></td>
+                            <td th:text="${paragraph.text}"></td>
+                            <td ><a class="btn btn-block btn-success" th:href="${'/paragraph/edit/' + paragraph.id}">Editeer</a></td>
+                            <td ><a class= "btn btn-block btn-danger"th:href="${'/paragraph/delete/' + paragraph.id}">Verwijder</a></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
-            </form>
-            <div   th:if="${tasks!=null and !tasks.isEmpty()}"  class="jumbotron" name="tasks">
-                <H3>Taken</H3>
-                <table class="table table-striped table-light">
-                    <tr>
-                        <th>Titel</th>
-                        <th>Beschrijving</th>
-                        <th>Gebruikersrol</th>
-                        <th>Editeer</th>
-                        <th>Verwijder</th>
-                    </tr>
-                    <tr th:each="task : ${tasks}">
-                        <td th:text="${task.title}"></td>
-                        <td th:text="${task.description}">beschrijving</td>
-                        <td th:text="${task.role.value}"></td>
-                        <td ><a class="btn btn-block btn-success" th:href="${'/task/edit/' + task.id}">Editeer</a></td>
-                        <td ><a class= "btn btn-block btn-danger"th:href="${'/task/delete/' + task.id}">Verwijder</a></td>
-                    </tr>
-                </table>
-            </div>
+
+            <!-- /#page-content-wrapper -->
+
         </div>
+        <!-- /#wrapper -->
 
-        <!-- /#page-content-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
+        <!-- Menu Toggle Script -->
+        <script>
+            $("#menu-toggle").click(function (e) {
+                e.preventDefault();
+                $("#wrapper").toggleClass("toggled");
+            });
+        </script>
 
 </body>
 

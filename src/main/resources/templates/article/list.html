@@ -40,9 +40,9 @@
                             <td th:text="${article.id}"></td>
                             <td th:text="${article.title}"></td>
                             <td th:text="${article.articleType.value}"></td>
-                            <td><a class="btn btn-block , btn-primary" th:href="${'/article/showarticle/' + article.id}">Bekijk</a>
+                            <td><a class="btn btn-block , btn-primary" th:href="${'/article/show/' + article.id}">Bekijk</a>
                             </td>
-                            <td><a class="btn btn-block, btn-success" th:href="${'/article/editarticle/' + article.id}">Editeer</a>
+                            <td><a class="btn btn-block, btn-success" th:href="${'/article/edit/' + article.id}">Editeer</a>
                             </td>
                             <td ><a class="btn btn-block, btn-danger" th:href="${'/article/delete/' + article.id}">Verwijder</a>
                             </td>
