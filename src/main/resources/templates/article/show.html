@@ -55,13 +55,13 @@
                         </div>
                     </div>
                     <!-- links info  -->
-                        <div th:if="${article.links!=null and !article.links.isEmpty()}" class="card" name="links">
+                        <div th:if="${links!=null and !links.isEmpty()}" class="card" name="links">
                             <div class="card-header">
                                 <H4>Links</H4>
                             </div>
                             <div class=" card-body">
                                 <table class="table table-striped table-light">
-                                    <tr th:each="link : ${article.links}">
+                                    <tr th:each="link : ${links}">
                                         <td th:text="${link.title}"></td>
                                         <td th:text="${link.url}"></td>
                                     </tr>
@@ -83,10 +83,10 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Url</label>
                                     <div class="col-lg-9">
-                                        <p class="form-control" th:text="${article.picture.url}">url</p>
-                                        <img class="rounded" th:src="@{'/images/'+${article.articleType}+'/'+${article.picture.url}}"
+                                        <p class="form-control" th:text="${picture.url}">url</p>
+                                        <img class="rounded" th:src="@{'/images/'+${article.articleType}+'/'+${picture.url}}"
                                              src="../static/images/main/Flyer VoedSaam.jpg"
-                                             th:alt="${article.picture.alternateText}" alt="welcome" width="200"
+                                             th:alt="${picture.alternateText}" alt="welcome" width="200"
                                              height="200">
                                     </div>
                                 </div>

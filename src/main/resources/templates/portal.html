@@ -45,7 +45,7 @@
         <div class="container-fluid" name="start">
             <div class="jumbotron" th:each="article : ${articles}">
             <h1 class="mt-4" th:text="${title}">Voedsaam Ritten planner</h1>
-                <img th:src="@{'/images/main/'+${article.picture.url}}" src="../static/images/home/Flyer%20VoedSaam.jpg" th:alt="${article.picture.alternateText}" alt="welcome">
+                <img th:if="${article.picture!=null}"  th:src="@{'/images/main/'+${article.picture.url}}" src="../static/images/home/Flyer%20VoedSaam.jpg" th:alt="${article.picture.alternateText}" alt="welcome">
             <div th:each="paragraph : ${article.paragraphs}" >
                 <h2 th:text="${paragraph.title}">paragraph titel</h2>
                 <p th:text="${paragraph.text}">paragraph text</p>

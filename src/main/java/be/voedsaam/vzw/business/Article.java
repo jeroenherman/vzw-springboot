@@ -1,12 +1,11 @@
 package be.voedsaam.vzw.business;
 
 import be.voedsaam.vzw.enums.ArticleType;
+import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Article extends AbstractDomainClass {
@@ -17,9 +16,9 @@ public class Article extends AbstractDomainClass {
 	@OneToOne(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Picture picture;
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Paragraph> paragraphs = new ArrayList<>();
-	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Link> links= new ArrayList<>();
+	private Set<Paragraph> paragraphs = new LinkedHashSet<>();
+	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Link> links= new LinkedHashSet<>();
 
 	public Article() {}
 
@@ -49,37 +48,33 @@ public class Article extends AbstractDomainClass {
 	}
 
 	public void addParagraph(Paragraph paragraph){
-		if (!(paragraphs.contains(paragraph))) {
 			paragraph.setArticle(this);
 			paragraphs.add(paragraph);
-		}
 	}
 	public void removeParagraph(Paragraph paragraph){
-		if (paragraphs.contains(paragraph)) {
 			paragraph.setArticle(null);
 			paragraphs.remove(paragraph);
-		}
 	}
 
 	public void addLink(Link link){
-		if (!(paragraphs.contains(link))) {
 			link.setArticle(this);
 			links.add(link);
-		}
 	}
 	public void removeLink(Link link){
-		if (paragraphs.contains(link)) {
 			link.setArticle(null);
 			links.remove(link);
-		}
 	}
 
 	public List<Paragraph> getParagraphs() {
-		return Collections.unmodifiableList(paragraphs);
+		List result = new ArrayList();
+		CollectionUtils.addAll(result,paragraphs);
+		return Collections.unmodifiableList(result);
 	}
 
 	public List<Link> getLinks() {
-		return  Collections.unmodifiableList(links);
+		List result = new ArrayList();
+		CollectionUtils.addAll(result,links);
+		return Collections.unmodifiableList(result);
 	}
 
 }

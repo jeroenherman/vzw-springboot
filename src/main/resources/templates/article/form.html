@@ -12,9 +12,18 @@
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+            <a th:if="${article.title!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
                th:href="${'/article/show/' + article.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>
+            <a th:if="${article.id!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+               th:href="${'/article/newpicture/' + article.id}" href="../edit"
+               class="list-group-item list-group-item-action bg-light">Nieuwe Foto</a>
+            <a th:if="${article.id!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+               th:href="${'/article/newparagraph/' + article.id}" href="../edit"
+               class="list-group-item list-group-item-action bg-light">Nieuwe Paragraaf</a>
+            <a th:if="${article.id!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+               th:href="${'/article/newlink/' + article.id}" href="../edit"
+               class="list-group-item list-group-item-action bg-light">Nieuwe Link</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -37,25 +46,38 @@
                             <h4>Details</h4>
                         </div>
                         <div class="card-body">
-                            <form class="form" role="form" autocomplete="off">
+                            <form class="form" role="form" th:object="${article}" th:action="@{/article/}"
+                                  method="post">
+                                <input type="hidden" th:field="*{id}"/>
                                 <div class="form-group row">
                                     <label class=" col-lg-3 col-form-label form-control-label">Titel</label>
                                     <div class="col-lg-9">
-                                        <p class="form-control" th:text="${article.title}">
-                                            title</p>
+                                        <input type="text" class="form-control" th:field="*{title}"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="  col-lg-3 col-form-label form-control-label">Locatie</label>
                                     <div class="col-lg-9">
-                                        <p class="form-control" th:text="${article.articleType.value}">Home</p>
+                                        <select class="form-control" th:field="*{articleType}">
+                                            <option th:each="typeEach : ${types}"
+                                                    th:value="${{typeEach}}"
+                                                    th:selected="${typeEach.equals(article.articleType)}"
+                                                    th:text="${typeEach.value}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="  col-lg-3 col-form-label form-control-label"></label>
+                                    <div class="col-lg-9">
+                                        <button type="submit" class="btn btn-primary">Bevestig</button>
                                     </div>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <!-- links info  -->
-                        <div th:if="${article.links!=null and !article.links.isEmpty()}" class="card" name="links">
+                        <div th:if="${links!=null and !links.isEmpty()}" class="card" name="links">
                             <div class="card-header">
                                 <H4>Links</H4>
                             </div>
@@ -64,7 +86,7 @@
                                     <tr>
 
                                     </tr>
-                                    <tr th:each="link : ${article.links}">
+                                    <tr th:each="link : ${links}">
                                         <td th:text="${link.title}"></td>
                                         <td th:text="${link.url}"></td>
                                         <td ><a class="btn btn-block btn-success" th:href="${'/link/edit/' + link.id}">Editeer</a></td>
@@ -88,14 +110,14 @@
                                 <div class="form-group row">
                                     <label class="col-lg-3 col-form-label form-control-label">Url</label>
                                     <div class="col-lg-9">
-                                        <p class="form-control" th:text="${article.picture.url}">url</p>
-                                        <img class="rounded" th:src="@{'/images/'+${article.articleType}+'/'+${article.picture.url}}"
+                                        <p class="form-control" th:text="${picture.url}">url</p>
+                                        <img class="rounded" th:src="@{'/images/'+${article.articleType}+'/'+${picture.url}}"
                                              src="../static/images/main/Flyer VoedSaam.jpg"
-                                             th:alt="${article.picture.alternateText}" alt="welcome" width="200"
+                                             th:alt="${picture.alternateText}" alt="welcome" width="200"
                                              height="200">
                                         <table>
-                                            <td ><a class="btn btn-block btn-success" th:href="${'/picture/edit/' + article.picture.id}">Editeer</a></td>
-                                            <td ><a class= "btn btn-block btn-danger"th:href="${'/picture/delete/' + article.picture.id}">Verwijder</a></td>
+                                            <td ><a class="btn btn-block btn-success" th:href="${'/picture/edit/' + picture.id}">Editeer</a></td>
+                                            <td ><a class= "btn btn-block btn-danger"th:href="${'/picture/delete/' + picture.id}">Verwijder</a></td>
                                         </table>
                                     </div>
                                 </div>

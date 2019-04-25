@@ -5,6 +5,8 @@ import be.voedsaam.vzw.business.Paragraph;
 import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.ParagraphService;
+import be.voedsaam.vzw.service.dto.ParagraphDTO;
+import be.voedsaam.vzw.service.mapper.ParagraphMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +22,20 @@ import java.util.List;
 @RequestMapping("/paragraph")
 public class ParagraphController {
     private ParagraphService paragraphService;
+    private ParagraphMapper paragraphMapper;
+    @Autowired
+    public void setParagraphMapper(ParagraphMapper paragraphMapper) {
+        this.paragraphMapper = paragraphMapper;
+    }
+
     @Autowired
     public void setParagraphService(ParagraphService paragraphService) {
         this.paragraphService = paragraphService;
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public String saveOrUpdate(Paragraph paragraph){
+    public String saveOrUpdate(ParagraphDTO dto){
+        Paragraph paragraph = paragraphMapper.mapToObj(dto);
         paragraph = paragraphService.saveOrUpdate(paragraph);
         return "redirect:/article/edit/" + paragraph.getArticle().getId();
     }
