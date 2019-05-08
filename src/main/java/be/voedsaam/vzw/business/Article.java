@@ -39,6 +39,7 @@ public class Article extends AbstractDomainClass {
 	}
 
 	public void setPicture(Picture picture) {
+		if (picture!=null)
 		picture.setArticle(this);
 		this.picture = picture;
 	}

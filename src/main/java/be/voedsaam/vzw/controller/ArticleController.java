@@ -1,8 +1,6 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.Article;
-import be.voedsaam.vzw.business.Paragraph;
-import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.*;
 import be.voedsaam.vzw.enums.ArticleType;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
@@ -97,6 +95,26 @@ public class ArticleController {
         Article article = articleService.getById(id.longValue());
         Paragraph paragraph = new Paragraph();
         article.addParagraph(paragraph);
+        article = articleService.saveOrUpdate(article);
+        return "redirect:/article/edit/"+ article.getId();
+
+    }
+    @RequestMapping("/newlink/{id}")
+    public String newLink(@PathVariable Integer id , Model model){
+        Article article = articleService.getById(id.longValue());
+        Link link = new Link();
+        article.addLink(link);
+        article = articleService.saveOrUpdate(article);
+        return "redirect:/article/edit/"+ article.getId();
+
+    }
+    @RequestMapping("/newpicture/{id}")
+    public String newPicture(@PathVariable Integer id , Model model){
+        Article article = articleService.getById(id.longValue());
+        Picture picture = new Picture();
+        picture.setUrl("url");
+        picture.setAlternateText("alt");
+        article.setPicture(picture);
         article = articleService.saveOrUpdate(article);
         return "redirect:/article/edit/"+ article.getId();
 

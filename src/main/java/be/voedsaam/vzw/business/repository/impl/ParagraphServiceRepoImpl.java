@@ -2,7 +2,6 @@ package be.voedsaam.vzw.business.repository.impl;
 
 import be.voedsaam.vzw.business.Paragraph;
 import be.voedsaam.vzw.business.repository.ParagraphRepository;
-
 import be.voedsaam.vzw.service.ParagraphService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;

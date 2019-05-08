@@ -43,7 +43,7 @@ public class ParagraphController {
     @RequestMapping("/edit/{id}")
     public String editTask(@PathVariable Integer id, Model model){
         Paragraph paragraph = paragraphService.getById(id.longValue());
-        model.addAttribute("paragraph", paragraph);
+        model.addAttribute("paragraph", paragraphMapper.mapToDTO(paragraph));
         return "paragraph/form";
     }
 
@@ -52,6 +52,7 @@ public class ParagraphController {
     public String delete(@PathVariable Integer id){
         Paragraph paragraph = paragraphService.getById(id.longValue());
         Article article = paragraph.getArticle();
+        article.removeParagraph(paragraph);
         paragraphService.delete(id.longValue());
         return "redirect:/article/edit/" + article.getId();
     }

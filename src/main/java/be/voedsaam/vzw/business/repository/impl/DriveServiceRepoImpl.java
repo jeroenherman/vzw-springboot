@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.business.repository.impl;
 
-import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.repository.DestinationRepository;
 import be.voedsaam.vzw.business.repository.DriveRepository;
@@ -9,7 +8,6 @@ import be.voedsaam.vzw.service.DriveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

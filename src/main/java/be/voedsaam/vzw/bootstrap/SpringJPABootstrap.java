@@ -190,7 +190,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
                 " transporteert, stockeert en distrubeeert naar Wase OCMW's en vzws die via voedselondersteuning gezinnen met een budget beperkt begeleiden.");
         main2.addParagraph(pa1);
         Picture p1 = new Picture();
-        p1.setUrl("Flyer VoedSaam.jpg");
+        p1.setUrl("Flyer.jpg");
         p1.setAlternateText("Flyer");
         main2.setPicture(p1);
         //

@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.business.repository.impl;
 
-import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.business.repository.TaskRepository;
 import be.voedsaam.vzw.service.TaskService;

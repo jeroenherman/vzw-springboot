@@ -1,12 +1,9 @@
 package be.voedsaam.vzw.business.repository.impl;
 
 import be.voedsaam.vzw.business.Article;
-import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.business.repository.ArticleRepository;
-import be.voedsaam.vzw.business.repository.TaskRepository;
 import be.voedsaam.vzw.enums.ArticleType;
 import be.voedsaam.vzw.service.ArticleService;
-import be.voedsaam.vzw.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

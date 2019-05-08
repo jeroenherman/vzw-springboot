@@ -1,8 +1,6 @@
 package be.voedsaam.vzw.business.repository.impl;
 
-import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
-import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.DriveRepository;
 import be.voedsaam.vzw.business.repository.ScheduleRepository;
 import be.voedsaam.vzw.business.repository.UserRepository;

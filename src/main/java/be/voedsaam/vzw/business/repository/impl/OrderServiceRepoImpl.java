@@ -1,12 +1,8 @@
 package be.voedsaam.vzw.business.repository.impl;
 
-import be.voedsaam.vzw.business.Article;
 import be.voedsaam.vzw.business.Order;
-import be.voedsaam.vzw.business.repository.ArticleRepository;
 import be.voedsaam.vzw.business.repository.OrderRepository;
-import be.voedsaam.vzw.enums.ArticleType;
 import be.voedsaam.vzw.enums.OrderStatus;
-import be.voedsaam.vzw.service.ArticleService;
 import be.voedsaam.vzw.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
