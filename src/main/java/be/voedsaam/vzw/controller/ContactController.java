@@ -65,7 +65,7 @@ public class ContactController {
         contact = contactService.saveOrUpdate(contact);
         model.addAttribute("success", true);
         model.addAttribute("contact", new ContactDTO());
-        return "contact";
+        return "redirect:/contactSuccess";
     }
 
     @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})

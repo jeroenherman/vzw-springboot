@@ -52,5 +52,11 @@ public class IndexController {
         model.addAttribute("success", false);
         return "contact";
     }
+    @RequestMapping({"/contactSuccess"})
+    public String contactSuccess(Model model){
+        model.addAttribute("contact", new ContactDTO());
+        model.addAttribute("success", true);
+        return "contact";
+    }
 
 }
