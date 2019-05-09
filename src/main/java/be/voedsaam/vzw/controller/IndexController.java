@@ -1,6 +1,7 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.service.ArticleService;
+import be.voedsaam.vzw.service.dto.ContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,6 +48,8 @@ public class IndexController {
     }
     @RequestMapping({"/contact"})
     public String contact(Model model){
+        model.addAttribute("contact", new ContactDTO());
+        model.addAttribute("success", false);
         return "contact";
     }
 

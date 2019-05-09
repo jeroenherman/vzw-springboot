@@ -179,7 +179,7 @@
         </div>
     </div><!-- .hero-slider -->
 
-    <div class="home-page-icon-boxes">
+    <div th:if="1==0" class="home-page-icon-boxes">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4 mt-4 mt-lg-0">
@@ -236,17 +236,18 @@
         </div><!-- .container -->
     </div><!-- .home-page-icon-boxes -->
 
-    <div class="home-page-welcome">
-        <div class="container">
+    <div   class="home-page-welcome">
+        <div th:each="article : ${articles}" class="container">
             <div class="row">
                 <div class="col-12 col-lg-6 order-2 order-lg-1">
                     <div class="welcome-content">
                         <header class="entry-header">
-                            <h2 class="entry-title">Welkom bij onze VZW</h2>
+                            <h2 th:text="${article.title}" class="entry-title">Welkom bij onze VZW</h2>
                         </header><!-- .entry-header -->
 
-                        <div class="entry-content mt-5">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
+                        <div th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
+                            <h3 th:text="${paragraph.title}" >Paragraph title</h3>
+                            <p th:text="${paragraph.getText()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
                         </div><!-- .entry-content -->
 
                         <div class="entry-footer mt-5">
@@ -256,13 +257,13 @@
                 </div><!-- .col -->
 
                 <div class="col-12 col-lg-6 mt-4 order-1 order-lg-2">
-                    <img src="../static/images/welcome.jpg" th:src="@{/images/welcome.jpg}" alt="welcome">
+                    <img  src="../static/images/welcome.jpg" th:src="@{'/public-pictures/'+${article.articleType}+'/'+${article.picture.url}}" th:alt="${article.picture.getAlternateText()}" alt="welcome">
                 </div><!-- .col -->
             </div><!-- .row -->
         </div><!-- .container -->
     </div><!-- .home-page-icon-boxes -->
 
-    <div class="home-page-events">
+    <div th:if="1==0" class="home-page-events">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-6">
@@ -416,7 +417,7 @@
         </div><!-- .container -->
     </div><!-- .home-page-events -->
 
-    <div class="our-causes">
+    <div th:if="1==0" class="our-causes">
         <div class="container">
             <div class="row">
                 <div class="coL-12">

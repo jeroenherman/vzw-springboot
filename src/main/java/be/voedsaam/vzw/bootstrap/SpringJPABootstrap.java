@@ -168,7 +168,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
         Article main1 = new Article();
         main1.setArticleType(ArticleType.HOME);
-        main1.setTitle("Welkom");
+        main1.setTitle("Nieuwe Rittenplanner");
         Paragraph paragraph1 = new Paragraph();
         paragraph1.setTitle("Rittenplanner");
         paragraph1.setText("Elk jaar wordt naar schatting een derde van onze wereldwijde voedselproductie verspild, samen goed voor 89 miljoen ton per jaar. Paradoxaal genoeg leven 79 miljoen Europeanen onder de armoedegrens waarvan 1,6 miljoen Belgen of 15% van onze bevolking. Het aantal dat daarvan terugvalt op voedselhulp is 16 miljoen in Europa en 130.030 in België.\n" +

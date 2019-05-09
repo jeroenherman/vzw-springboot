@@ -99,8 +99,9 @@
                     <div class="entry-content">
                         <h2>Contacteer Ons</h2>
 
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris. Lorem ipsum dolor sit amet, conse ctetur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Integer accu msan sodales odio, id tempus velit ullamc.</p>
-
+                        <p>... als je een producent bent en je je voedselstromen een tweede, sociaal geinspireerde weg wil laten volgen...</p>
+                        <p>... als je wat vrije uren over hebt en die zinvol wil invullen...</p>
+                        <p>... als je de weg kent om dit distributieplatform een financieel duwtje in de rug (te geven...</p>
                         <ul class="contact-social d-flex flex-wrap align-items-center">
                             <li><a href="https://www.facebook.com/VoedSaamvzw/"><i class="fa fa-facebook"></i></a></li>
 							
@@ -121,14 +122,19 @@
                 </div><!-- .col -->
 
                 <div class="col-12 col-lg-7">
-                    <form class="contact-form">
-                        <input type="text" placeholder="Naam">
-                        <input type="email" placeholder="Email">
-                        <textarea rows="15" cols="6" placeholder="Boodschap"></textarea>
-
-                        <span>
+                    <form class="contact-form" th:object="${contact}" th:action="@{/contact/}" method="post">
+                        <input  th:field="*{name}" type="text" placeholder="Naam">
+                        <input  th:field="*{email}" type="email" placeholder="Email">
+                        <input  th:field="*{tel}" type="text" placeholder="Telefoon">
+                        <input  th:field="*{subject}" type="text" placeholder="Onderwerp">
+                        <textarea th:field="*{message}" rows="15" cols="6" placeholder="Boodschap"></textarea>
+                        <div th:if="${success == true}" class="alert alert-success">
+                            <p>Dank u om ons te contacteren.</p>
+                        </div>
+                        <span th:if="${success == false}"  >
                             <input class="btn gradient-bg" type="submit" value="Contacteer ons">
                         </span>
+
                     </form><!-- .contact-form -->
 
                 </div><!-- .col -->
