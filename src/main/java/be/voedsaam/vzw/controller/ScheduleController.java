@@ -106,7 +106,6 @@ public class ScheduleController {
     public String edit(@PathVariable Integer id, Model model){
         selectedSchedule = scheduleService.getById(id.longValue());
         model.addAttribute("schedule", scheduleMapper.mapToDTO(selectedSchedule));
-        System.out.println(scheduleMapper.mapToDTO(scheduleService.getById(id.longValue())));
         List<Employee> currentUsers = scheduleService.getById(id.longValue()).getUsers()
                 .stream()
                 .collect(Collectors.toList());

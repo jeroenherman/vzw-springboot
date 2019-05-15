@@ -21,6 +21,7 @@ public class UserDTO {
     private Color color;
     private List<String> schedules;
     private List<String> drives;
+    private List<String> stocks;
 
     public UserDTO() {
     }
@@ -165,6 +166,14 @@ public class UserDTO {
 
     public void setDrives(List<String> drives) {
         this.drives = drives;
+    }
+
+    public List<String> getStocks() {
+        return stocks;
+    }
+
+    public void setStocks(List<String> stocks) {
+        this.stocks = stocks;
     }
 
     @Override

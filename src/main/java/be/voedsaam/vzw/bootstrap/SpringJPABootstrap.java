@@ -407,6 +407,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         logistics.setPassword("Test123");
         volunteer.setPassword("Test123");
         coordinator.setPassword("Test123");
+        partner.setPassword("Test123");
         userService.saveOrUpdate(coordinator);
         userService.saveOrUpdate(jeroen);
         userService.saveOrUpdate(logistics);

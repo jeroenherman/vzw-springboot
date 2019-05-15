@@ -25,21 +25,6 @@ public class ProductController {
 
     private ProductService productService;
     private ProductMapper productMapper;
-    private ParagraphMapper paragraphMapper;
-    private LinkMapper linkMapper;
-    private  PictureMapper pictureMapper;
-    @Autowired
-    public void setParagraphMapper(ParagraphMapper paragraphMapper) {
-        this.paragraphMapper = paragraphMapper;
-    }
-    @Autowired
-    public void setLinkMapper(LinkMapper linkMapper) {
-        this.linkMapper = linkMapper;
-    }
-    @Autowired
-    public void setPictureMapper(PictureMapper pictureMapper) {
-        this.pictureMapper = pictureMapper;
-    }
 
     @Autowired
     public void setProductMapper(ProductMapper productMapper) {

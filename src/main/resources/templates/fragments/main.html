@@ -47,7 +47,9 @@
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="stock/list" class="list-group-item list-group-item-action bg-light">Stock</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="order/list" class="list-group-item list-group-item-action bg-light">Bestellingen</a>
 
-            <a sec:authorize="hasAnyRole('ROLE_DRIVER')"href="drive/listbyuser" class="list-group-item list-group-item-action bg-light">Mijn Ritten</a>
+            <a sec:authorize="hasAnyRole('ROLE_PARTNER')"href="stock/listbyuser" class="list-group-item list-group-item-action bg-light">Mijn Stock</a>
+            <a sec:authorize="hasAnyRole('ROLE_PARTNER')"href="order/listbyuser" class="list-group-item list-group-item-action bg-light">Mijn Bestellingen</a>
+
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

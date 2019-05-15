@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
+
+<head th:replace="fragments/sub :: header" lang="en"></head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Stock</div>
+        <div class="list-group list-group-flush">
+            <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a href="/stock/new" class="list-group-item list-group-item-action bg-light">Nieuwe Stock</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/sub.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+
+        <div class="container">
+            <h1 class="mt-4">Stock</h1>
+            <div class="container">
+                <div th:if="${not #lists.isEmpty(stocks)}">
+                    <table id="example" class="table table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Naam</th>
+                            <th>Locatie</th>
+                            <th>Partners</th>
+                            <th>Editeer</th>
+                            <th>Verwijder</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="stock : ${stocks}">
+                            <td th:text="${stock.id}"></td>
+                            <td th:text="${stock.name}"></td>
+                            <td th:text="${stock.location}"></td>
+                            <td th:text="${stock.users}"></td>
+                            <td><a class="btn btn-block, btn-success"
+                                   th:href="${'/stock/edit/' + stock.id}">Editeer</a>
+                            </td>
+                            <td><a  class="btn btn-block, btn-danger" th:href="${'/stock/delete/' + stock.id}">Verwijder</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="/stock/new" class="btn btn-primary">Nieuw Stock</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+
+</html>

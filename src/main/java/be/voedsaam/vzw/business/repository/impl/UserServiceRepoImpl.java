@@ -3,6 +3,7 @@ package be.voedsaam.vzw.business.repository.impl;
 
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.impl.Employee;
+import be.voedsaam.vzw.business.impl.Partner;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.Role;
@@ -110,6 +111,14 @@ public class UserServiceRepoImpl implements UserService {
     }
 
     @Override
+    public Partner getPartnerById(long id) {
+        User user =  getById(id);
+        if (user!=null&&user.getClass().equals(Partner.class))
+            return (Partner) getById(id);
+        return null;
+    }
+
+    @Override
     public List<Employee> listAllEmployees() {
         List<Employee> employees = new ArrayList<>();
         listEmployeeByRole(Role.COORDINATOR).forEach(employees::add);
@@ -126,5 +135,13 @@ public class UserServiceRepoImpl implements UserService {
         listVolunteerByRole(Role.DEPOTHELP).forEach(volunteers::add);
         return volunteers;
 }
+
+    @Override
+    public List<Partner> listAllPartners() {
+        List<Partner> partners = new ArrayList<>();
+        userRepository.findAllByRole(Role.PARTNER).forEach(user ->partners.add((Partner) user ));
+        return partners;
+    }
+
 
 }

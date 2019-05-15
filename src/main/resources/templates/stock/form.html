@@ -9,11 +9,10 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="sidebar-heading">Voedsaam Stock</div>
         <div class="list-group list-group-flush">
             <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a th:href="${'/drive/new/' + schedule.id}" href="../drive/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="${'/schedule/clear/' + schedule.id}" href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Wis Ritten</a>
+            <a th:href="${'/stock/addDelivery/' + stock.id}" href="../stock/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Levering</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -24,12 +23,12 @@
         <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container-fluid">
-            <h1 class="mt-4">Editeer Schema</h1>
+            <h1 class="mt-4">Editeer Stock</h1>
 
 
             <div class="container">
                 <div>
-                    <form class="form-horizontal" th:object="${schedule}" th:action="@{/schedule/}" method="post">
+                    <form class="form-horizontal" th:object="${stock}" th:action="@{/stock/}" method="post">
                         <input type="hidden" th:field="*{id}"/>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Naam:</label>
@@ -38,9 +37,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Eigenaar:</label>
+                            <label class="col-sm-2 control-label">Locatie:</label>
                             <div class="col-sm-10">
-                                <p type="text" class="form-control" th:text="*{owner}"/>
+                                <p type="text" class="form-control" th:text="*{location}"/>
                             </div>
                         </div>
                         <div class="row">
@@ -58,7 +57,7 @@
                             <td th:text="${user.fullName}"></td>
                             <td th:text="${user.role}"></td>
                             <td><a class="btn btn-block, btn-danger"
-                                   th:href="${'/schedule/'+ schedule.id + '/deleteuser/' + user.id}">Verwijder</a></td>
+                                   th:href="${'/stock/'+ stock.id + '/deleteuser/' + user.id}">Verwijder</a></td>
                         </tr>
                     </table>
                     <H2>Voeg toe</H2>
@@ -72,7 +71,7 @@
                             <td th:text="${user.fullName}"></td>
                             <td th:text="${user.role}"></td>
                             <td><a class="btn btn-block, btn-success"
-                                   th:href="${'/schedule/'+ schedule.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                                   th:href="${'/stock/'+ stock.id + '/adduser/' + user.id}">Voeg Toe</a></td>
                         </tr>
                     </table>
                     <div class="row">
