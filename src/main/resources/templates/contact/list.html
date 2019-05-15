@@ -9,10 +9,9 @@
 
     <!-- Sidebar -->
     <div class="bg-light border-right" id="sidebar-wrapper">
-        <div class="sidebar-heading">Voedsaam Website</div>
+        <div class="sidebar-heading">Voedsaam website</div>
         <div class="list-group list-group-flush">
             <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
-            <a href="/article/new" class="list-group-item list-group-item-action bg-light">Nieuw Artikel</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -24,35 +23,30 @@
              class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container">
-            <h1 class="mt-4">Artikels</h1>
+            <h1 class="mt-4">Contact formulieren</h1>
+            <p th:if="${#lists.isEmpty(contacts)}"> Geen openstaande vragen </p>
             <div class="container">
-                <div th:if="${not #lists.isEmpty(articles)}">
+                <div th:if="${not #lists.isEmpty(contacts)}">
                     <table class="table table-striped table-light">
                         <tr>
                             <th>Id</th>
-                            <th>Titel</th>
-                            <th>Type</th>
-                            <th>Lijst</th>
-                            <th>Editeer</th>
+                            <th>Naam</th>
+                            <th>Onderwerp</th>
+                            <th>Bekijk</th>
                             <th>Verwijder</th>
                         </tr>
-                        <tr th:each="article : ${articles}">
-                            <td th:text="${article.id}"></td>
-                            <td th:text="${article.title}"></td>
-                            <td th:text="${article.articleType.value}"></td>
-                            <td><a class="btn btn-block , btn-primary" th:href="${'/article/show/' + article.id}">Bekijk</a>
+                        <tr th:each="contact : ${contacts}">
+                            <td th:text="${contact.id}"></td>
+                            <td th:text="${contact.name}"></td>
+                            <td th:text="${contact.subject}"></td>
+                            <td><a class="btn btn-block , btn-primary" th:href="${'/contact/show/' + contact.id}">Bekijk</a>
                             </td>
-                            <td><a class="btn btn-block, btn-success" th:href="${'/article/edit/' + article.id}">Editeer</a>
                             </td>
-                            <td ><a class="btn btn-block, btn-danger" th:href="${'/article/delete/' + article.id}">Verwijder</a>
+                            <td ><a class="btn btn-block, btn-danger" th:href="${'/contact/delete/' + contact.id}">Verwijder</a>
                             </td>
                         </tr>
                     </table>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <a href="/article/new" class="btn btn-primary">Nieuw Artikel</a>
-                    </div>
 
                 </div>
             </div>

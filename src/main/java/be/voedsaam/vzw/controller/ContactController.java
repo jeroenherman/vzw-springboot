@@ -30,18 +30,9 @@ import java.util.List;
 public class ContactController {
 
     private ContactService contactService;
-    private DestinationService destinationService;
-    private ContactMapper contactMapper;
-    private DestinationMapper destinationMapper;
-    @Autowired
-    public void setDestinationService(DestinationService destinationService) {
-        this.destinationService = destinationService;
-    }
 
-    @Autowired
-    public void setDestinationMapper(DestinationMapper destinationMapper) {
-        this.destinationMapper = destinationMapper;
-    }
+    private ContactMapper contactMapper;
+
 
     @Autowired
     public void setContactService(ContactService contactService) {
@@ -52,12 +43,13 @@ public class ContactController {
         this.contactMapper = contactMapper;
     }
 
-    @RequestMapping("/edit/{id}")
-    public String editContact(@PathVariable Integer id, Model model){
-        Contact contact = contactService.getById(id.longValue());
-        model.addAttribute("contact", contactMapper.mapToDTO(contact));
-        return "contact/form";
+    @RequestMapping({"/list"})
+    public String listArticles(Model model){
+        model.addAttribute("contacts", contactMapper.mapToDTO((List<Contact>)contactService.listAll()));
+
+        return "contact/list";
     }
+
 
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(ContactDTO dto, Model model){
@@ -76,10 +68,18 @@ public class ContactController {
         return "redirect:/contact/edit/" + contact.getId();
     }
 
+    @RequestMapping("/show/{id}")
+    public String get(@PathVariable Integer id, Model model){
+        Contact contact = contactService.getById(id.longValue());
+        model.addAttribute("contact", contactMapper.mapToDTO(contact));
+        return "contact/show";
+    }
+
     @RequestMapping("/delete/{id}")
     @Transactional
     public String delete(@PathVariable Integer id){
         contactService.delete(id.longValue());
-        return "redirect:/contact";
+        return "redirect:/contact/list";
     }
+
 }

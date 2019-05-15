@@ -38,7 +38,7 @@
         <div class="list-group list-group-flush">
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="user/list" class="list-group-item list-group-item-action bg-light">Gebruikers</a>
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="article/list" class="list-group-item list-group-item-action bg-light">Publieke Artikels</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="contact/list" class="list-group-item list-group-item-action bg-light">Contact formulieren</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="contact/list" class="list-group-item list-group-item-action bg-light" th:text="'Contact formulieren ('+ ${nrOfContacts}+ ')' " >Contact formulieren (99)</a>
 
             <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="schedule/list" class="list-group-item list-group-item-action bg-light">Schema's</a>
             <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="destination/list" class="list-group-item list-group-item-action bg-light">Bestemmingen</a>

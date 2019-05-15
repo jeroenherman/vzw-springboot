@@ -1,6 +1,7 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.service.ArticleService;
+import be.voedsaam.vzw.service.ContactService;
 import be.voedsaam.vzw.service.dto.ContactDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     ArticleService articleService;
+    ContactService contactService;
+    @Autowired
+    public void setContactService(ContactService contactService) {
+        this.contactService = contactService;
+    }
+
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
@@ -20,13 +27,11 @@ public class IndexController {
     @RequestMapping({"/", "", "index.html"})
     public String index(Model model){
         model.addAttribute("articles", articleService.listHome());
-
         return "index";
     }
     @RequestMapping({"/portal"})
     public String drive(Model model){
-        model.addAttribute("articles", articleService.listHome());
-
+        model.addAttribute("nrOfContacts", contactService.listAll().size());
         return "portal";
     }
     @RequestMapping({"/about"})

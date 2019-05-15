@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="fragments/edit-show.html :: header" lang="en"></head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Stock</div>
+        <div class="list-group list-group-flush">
+
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/edit-show.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        </nav>
+
+        <div class="container-fluid">
+            <h1 th:text="${product.name}" class="mt-4">Editeer Product </h1>
+
+
+            <div class="container">
+                <div>
+                    <form class="form-horizontal" th:object="${product}" th:action="@{/product/}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Naam:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" th:field="*{name}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Product Type:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" th:field="*{productType}">
+                                    <option th:each="typeEach : ${types}"
+                                            th:value="${{typeEach}}"
+                                            th:selected="${typeEach.equals(product.productType)}"
+                                            th:text="${typeEach.value}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Beschrijving:</label>
+                            <div class="col-sm-10">
+                                <textarea rows="10" type="text" class="form-control" th:field="*{description}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Inhoud (l) / gewicht (kg):</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" th:field="*{unitOfMeasure}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"> Houdbaarheid:</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" th:field="*{shelfLife}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Bevestig</button>
+                        </div>
+                    </form>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+</body>
+
+</html>

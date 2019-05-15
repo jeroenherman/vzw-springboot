@@ -60,8 +60,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
+                .and().authorizeRequests().antMatchers("/portal").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
+                // coordinator access
                 .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/contact/list/").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/contact/show/").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/contact/delete/").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/article/**").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/link/**").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/paragraph/**").hasAuthority("ROLE_COORDINATOR")
 
                 .and().exceptionHandling().accessDeniedPage("/access-denied");
 
