@@ -2,6 +2,7 @@ package be.voedsaam.vzw.business.repository.impl;
 
 import be.voedsaam.vzw.business.Order;
 import be.voedsaam.vzw.business.repository.OrderRepository;
+import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.OrderStatus;
 import be.voedsaam.vzw.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,12 @@ import java.util.Optional;
 public class OrderServiceRepoImpl implements OrderService {
 
     private OrderRepository orderRepository;
+    private UserRepository userRepository;
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
@@ -65,5 +72,10 @@ public class OrderServiceRepoImpl implements OrderService {
     @Override
     public List<Order> listCancelledOrders() {
         return orderRepository.findAllByOrderStatus(OrderStatus.CANCELLED) ;
+    }
+
+    @Override
+    public List<Order> listAllByUser(String name) {
+        return orderRepository.findAllByPartner(userRepository.findByEmailIgnoreCase(name));
     }
 }

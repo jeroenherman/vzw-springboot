@@ -1,11 +1,5 @@
 package be.voedsaam.vzw.business;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Role;
@@ -13,6 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DriveTest {
 

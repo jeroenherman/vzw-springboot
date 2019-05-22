@@ -1,10 +1,5 @@
 package be.voedsaam.vzw.service.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import be.voedsaam.vzw.business.Address;
 import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.repository.DestinationRepository;
@@ -19,6 +14,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DestinationMapperTest {

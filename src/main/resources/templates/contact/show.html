@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
@@ -24,7 +24,7 @@
         </nav>
 
         <div class="container-fluid">
-            <h1 th:text="${contact.name}" class="mt-4">titel</h1>
+            <h1 th:text="${contact.subject}" class="mt-4">titel</h1>
 
             <div class="row " name="contact-detail">
                 <div class="col-sm-6">

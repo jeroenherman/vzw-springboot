@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+
+<head th:replace="fragments/edit-show.html :: header" lang="en"></head>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
+
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Stock</div>
+        <div class="list-group list-group-flush">
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a sec:authorize="hasAnyRole('ROLE_PARTNER')" href="../listbyuser" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav th:replace="fragments/sub.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+
+        <div class="container-fluid">
+            <h1 th:text="'Bestelling van stock: ' + ${stock.name}" class="mt-4">Editeer Bestelling </h1>
+
+
+            <div  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"  class="container">
+                <div>
+                    <form class="form-horizontal" th:object="${order}" th:action="@{/order/}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Afhaal Datum / Tijd:</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" class="form-control" th:field="*{pickupDateTime}"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Order Status:</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" th:field="*{orderStatus}">
+                                    <option th:each="typeEach : ${types}"
+                                            th:value="${{typeEach}}"
+                                            th:selected="${typeEach.equals(order.orderStatus)}"
+                                            th:text="${typeEach.value}">
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Bevestig</button>
+                        </div>
+                    </form>
+                    <div th:if="${currentUser!=null}">
+                        <H2>Besteld door</H2>
+                        <table class="table table-striped table-light">
+                            <tr>
+                                <th>Naam</th>
+                                <th>Email</th>
+                                <th>Tel</th>
+                            </tr>
+                            <tr >
+                                <td th:text="${currentUser.fullName}"></td>
+                                <td th:text="${currentUser.email}"></td>
+                                <td th:text="${currentUser.tel}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div th:if="${possibleUsers!=null and !possibleUsers.isEmpty()}">
+                        <H2>Selecteer Partner</H2>
+                        <table class="table table-striped table-light">
+                            <tr>
+                                <th>Naam</th>
+                                <th>Gebruikersrol</th>
+                                <th>Voeg Toe</th>
+                            </tr>
+                            <tr th:each="user : ${possibleUsers}">
+                                <td th:text="${user.fullName}"></td>
+                                <td th:text="${user.role}"></td>
+                                <td><a class="btn btn-block, btn-success"
+                                       th:href="${'/stock/'+ stock.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div  sec:authorize="hasAnyRole('ROLE_PARTNER')"  class="container">
+                <div>
+                    <form class="form-horizontal" th:object="${order}" th:action="@{/order/}" method="post">
+                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="*{orderStatus}"/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Afhaal Datum / Tijd:</label>
+                            <div class="col-sm-10">
+                                <input type="datetime-local" class="form-control" th:field="*{pickupDateTime}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary">Bevestig</button>
+                        </div>
+                    </form>
+                    <div th:if="${currentUser!=null}">
+                        <H2>Besteld door</H2>
+                        <table class="table table-striped table-light">
+                            <tr>
+                                <th>Naam</th>
+                                <th>Email</th>
+                                <th>Tel</th>
+                            </tr>
+                            <tr >
+                                <td th:text="${currentUser.fullName}"></td>
+                                <td th:text="${currentUser.email}"></td>
+                                <td th:text="${currentUser.tel}"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div th:if="${possibleUsers!=null and !possibleUsers.isEmpty()}">
+                        <H2>Selecteer Partner</H2>
+                        <table class="table table-striped table-light">
+                            <tr>
+                                <th>Naam</th>
+                                <th>Gebruikersrol</th>
+                                <th>Voeg Toe</th>
+                            </tr>
+                            <tr th:each="user : ${possibleUsers}">
+                                <td th:text="${user.fullName}"></td>
+                                <td th:text="${user.role}"></td>
+                                <td><a class="btn btn-block, btn-success"
+                                       th:href="${'/stock/'+ stock.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${not #lists.isEmpty(products)}" class="container">
+                <h1 class="mt-4">Producten in Bestelling</h1>
+                <div class="container">
+                    <div>
+                        <table id="example" class="table table-striped table-light">
+                            <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Naam</th>
+                                <th>Product Type</th>
+                                <th>Beschrijving</th>
+                                <th>Inhoud (l) / Gewicht (kg)</th>
+                                <th>Houdbaarheid</th>
+                                <th>Hoeveelheid</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.id}"></td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.productType.value}"></td>
+                                <td th:text="${product.description}"></td>
+                                <td th:text="${product.unitOfMeasure}"></td>
+                                <td th:text="${product.shelfLife}"></td>
+                                <td th:text="${product.qty}"></td>
+                            </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th colspan="6" style="text-align:right">Totaal Inhoud (l) Gewicht (kg):</th>
+                                <th></th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Menu Toggle Script -->
+    <script>
+        $("#menu-toggle").click(function (e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+
+</body>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            },
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+
+                // Total over all pages
+                total = api
+                    .column( 4 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Total over this page
+                pageTotal = api
+                    .column( 4, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+
+                // Update footer
+                $( api.column( 6 ).footer() ).html(
+                    pageTotal +' ('+ total +' totaal)'
+                );
+            }
+        });
+    });
+</script>
+</html>

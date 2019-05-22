@@ -92,13 +92,14 @@
         </div><!-- .container -->
     </div><!-- .page-header -->
 
-    <div class="welcome-wrap">
-        <div th:each="article : ${articles}" class="container">
+    <div th:each="article : ${articles}"  class="welcome-wrap">
+        <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-6 order-2 order-lg-1">
                     <div class="welcome-content">
                         <header class="entry-header">
                             <h2 th:text="${article.title}" class="entry-title">Welkom bij onze VZW</h2>
+                            <span th:text="${#dates.format(article.dateCreated ,'dd-MM-yyyy HH:mm')}"> 2019-06-06 </span>
                         </header><!-- .entry-header -->
 
                         <div  th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
@@ -106,14 +107,14 @@
                             <p th:text="${paragraph.getText()}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
                         </div><!-- .entry-content -->
 
-                        <div class="entry-footer mt-5">
-                            <a href="#" class="btn gradient-bg mr-2">Read More</a>
+                        <div th:each="link : ${article.getLinks()}" class="entry-footer mt-5">
+                            <a th:href="${link.url}" th:text="${link.title}" href="#" class="btn gradient-bg mr-2">Read More</a>
                         </div><!-- .entry-footer -->
                     </div><!-- .welcome-content -->
                 </div><!-- .col -->
 
-                <div class="col-12 col-lg-6 order-1 order-lg-2">
-                    <img  th:src="@{'/public-pictures/'+${article.articleType}+'/'+${article.picture.url}}" th:alt="${article.picture.getAlternateText()}" src="../static/images/welcome.jpg" alt="welcome">
+                <div th:if="${article.picture!=null}" class="col-12 col-lg-6 order-1 order-lg-2">
+                    <img th:src="@{'/picture/getData/' + ${article.picture.id}}" src="../static/images/welcome.jpg" alt="welcome">
                 </div><!-- .col -->
             </div><!-- .row -->
         </div><!-- .container -->
@@ -205,7 +206,7 @@
                 <div class="col-12 d-flex flex-wrap justify-content-between align-items-center">
                     <h2>Help ons andere te helpen</h2>
 
-                    <a class="btn orange-border" href="#">Doneer nu</a>
+                    <a class="btn orange-border" th:href="@{/causes}" href="#">Doneer nu</a>
                 </div>
             </div>
         </div>

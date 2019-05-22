@@ -4,9 +4,8 @@ import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public abstract  class User extends AbstractDomainClass {

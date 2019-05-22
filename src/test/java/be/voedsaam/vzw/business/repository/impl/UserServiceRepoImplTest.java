@@ -3,9 +3,7 @@ package be.voedsaam.vzw.business.repository.impl;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.impl.Volunteer;
-import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Integration test uses test data brought in via bootstrap package

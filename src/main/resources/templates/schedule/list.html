@@ -29,7 +29,8 @@
                 <div class="alert alert-danger"  th:if="${error!=null}"  >
                     <p th:text="${error}"> error </p>
                 </div>
-                <table class="table table-striped table-light">
+                <table id="example" class="table table-striped table-light">
+                    <thead>
                     <tr>
                         <th>Id</th>
                         <th>Naam</th>
@@ -38,14 +39,17 @@
                         <th sec:authorize="hasRole('ROLE_COORDINATOR')" >Editeer</th>
                         <th sec:authorize="hasRole('ROLE_COORDINATOR')">Verwijder</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr th:each="schedule : ${schedules}">
                         <td th:text="${schedule.id}"></td>
                         <td th:text="${schedule.name}"></td>
                         <td th:text="${schedule.owner}"></td>
                         <td><a class="btn btn-block btn-primary" th:href="${'/schedule/show/' + schedule.id}">Bekijk</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
-                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}"><a class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
+                        <td ><a sec:authorize="hasRole('ROLE_COORDINATOR')"class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
+                        <td><a sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}" class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
                     </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -65,7 +69,35 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

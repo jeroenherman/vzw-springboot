@@ -2,7 +2,6 @@ package be.voedsaam.vzw.business.impl;
 
 import be.voedsaam.vzw.business.Authority;
 import be.voedsaam.vzw.business.Schedule;
-import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.enums.Role;
 import org.junit.Before;

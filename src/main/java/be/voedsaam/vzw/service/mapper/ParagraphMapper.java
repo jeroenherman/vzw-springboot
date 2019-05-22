@@ -1,11 +1,8 @@
 package be.voedsaam.vzw.service.mapper;
 
-import be.voedsaam.vzw.business.Article;
 import be.voedsaam.vzw.business.Paragraph;
-import be.voedsaam.vzw.business.repository.ArticleRepository;
 import be.voedsaam.vzw.business.repository.ParagraphRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
-import be.voedsaam.vzw.service.dto.ArticleDTO;
 import be.voedsaam.vzw.service.dto.ParagraphDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

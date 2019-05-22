@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.business.impl;
 
-import be.voedsaam.vzw.business.Authority;
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.enums.Color;
@@ -8,7 +7,8 @@ import be.voedsaam.vzw.enums.Role;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class VolunteerTest {
     private Volunteer classToTest;

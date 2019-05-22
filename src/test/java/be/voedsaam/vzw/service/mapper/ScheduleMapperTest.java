@@ -1,23 +1,13 @@
 package be.voedsaam.vzw.service.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import be.voedsaam.vzw.business.Address;
-import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.repository.ScheduleRepository;
-import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.dto.ScheduleDTO;
 import org.junit.Before;
 import org.junit.Test;
-import be.voedsaam.vzw.service.mapper.ScheduleMapper;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,6 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ScheduleMapperTest {

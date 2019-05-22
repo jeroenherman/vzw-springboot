@@ -27,7 +27,8 @@
             <p th:if="${#lists.isEmpty(contacts)}"> Geen openstaande vragen </p>
             <div class="container">
                 <div th:if="${not #lists.isEmpty(contacts)}">
-                    <table class="table table-striped table-light">
+                    <table id ="example" class="table table-striped table-light">
+                        <thead>
                         <tr>
                             <th>Id</th>
                             <th>Naam</th>
@@ -35,6 +36,8 @@
                             <th>Bekijk</th>
                             <th>Verwijder</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <tr th:each="contact : ${contacts}">
                             <td th:text="${contact.id}"></td>
                             <td th:text="${contact.name}"></td>
@@ -45,6 +48,7 @@
                             <td ><a class="btn btn-block, btn-danger" th:href="${'/contact/delete/' + contact.id}">Verwijder</a>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
 
@@ -64,7 +68,35 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

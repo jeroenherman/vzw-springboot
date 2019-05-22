@@ -92,7 +92,7 @@
         </div><!-- .container -->
     </div><!-- .page-header -->
 
-     <div class="highlighted-cause">
+     <div th:if="1==0" class="highlighted-cause">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-7 order-2 order-lg-1">
@@ -125,7 +125,7 @@
                     </div><!-- .fund-raised -->
 
                     <div class="entry-footer mt-5">
-                        <a href="#" class="btn gradient-bg">Donate Now</a>
+                        <a href="#" class="btn gradient-bg">Contacteer ons</a>
                     </div><!-- .entry-footer -->
                 </div><!-- .col -->
 
@@ -136,7 +136,7 @@
         </div><!-- .container -->
     </div><!-- .highlighted-cause -->
 
-    <div class="short-content-wrap">
+    <div th:if="1==0"class="short-content-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-4">
@@ -165,105 +165,145 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="donation-form-wrap">
-                    <h2>Make a donation</h2>
+                    <h2>Geef een donatie</h2>
 
-                    <h4 class="mt-5">How much do you want to donate?</h4>
+                    <h4 class="mt-5">Hoeveel wenst u te doneren?</h4>
 
-                    <form class="donation-form">
+                    <form class="donation-form" th:object="${donation}" th:action="@{/contact/donation}" method="post">
                         <div class="donate-amount-wrap d-flex flex-wrap align-items-center mt-5">
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="10" />
-                                <span class="donate-amount">$10</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="10" />
+                                <span class="donate-amount">€10</span>
                             </label>
 
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="20" />
-                                <span class="donate-amount">$20</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="20" />
+                                <span class="donate-amount">€20</span>
                             </label>
 
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="25" checked="checked"/>
-                                <span class="donate-amount">$25</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="25" checked="checked"/>
+                                <span class="donate-amount">€25</span>
                             </label>
 
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="50" />
-                                <span class="donate-amount">$50</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="50" />
+                                <span class="donate-amount">€50</span>
                             </label>
 
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="100" />
-                                <span class="donate-amount">$100</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="100" />
+                                <span class="donate-amount">€100</span>
                             </label>
 
                             <label class="radio-label">
-                                <input type="radio" name="donation_amount" value="custom" />
-                                <span class="donate-amount">Other Amount</span>
+                                <input type="radio" name="donation_amount" th:field="*{amount}" value="nog te bepalen" />
+                                <span class="donate-amount">Ander bedrag</span>
                             </label>
                         </div>
 
                         <div class="payment-type d-flex flex-wrap align-items-center">
-                            <h4 class="w-100 mt-5">Payment Type</h4>
+                            <h4 class="w-100 mt-5">Type Betaling</h4>
 
                             <label class="d-flex align-items-center mt-4">
-                                <input type="radio" name="payment_type" value="One time" />
+                                <input type="radio" name="payment_type" th:field="*{reoccuringType}" value="eenmalige" />
                                 <span class="payment-type-radio"></span>
                                 <span class="centered-dot"></span>
 
-                                One time
+                                Eenmalig
                             </label>
 
                             <label class="d-flex align-items-center mt-4">
-                                <input type="radio" name="payment_type" value="Recurring" checked="checked" />
+                                <input type="radio" name="payment_type"  th:field="*{reoccuringType}" value="wederkerige" checked="checked" />
                                 <span class="payment-type-radio"></span>
                                 <span class="centered-dot"></span>
 
-                                Recurring
+                                Wederkerig
                             </label>
                         </div>
 
                         <div class="billing-information  d-flex flex-wrap justify-content-between align-items-center">
-                            <h4 class="w-100 mt-5 mb-3">Billing Information</h4>
+                            <h4 class="w-100 mt-5 mb-3">Facturatie gegevens</h4>
 
-                            <input type="text" placeholder="Name">
-                            <input type="email" placeholder="E-mail">
-                            <input type="text" placeholder="Address">
-                            <input type="text" placeholder="City">
-                            <input type="number" placeholder="Postcode">
-                            <input type="text" placeholder="Country">
+                            <input  th:field="*{name}" type="text" placeholder="Naam">
+                            <input  th:field="*{email}" type="email" placeholder="Email">
+                            <input  th:field="*{tel}" type="text" placeholder="Telefoon">
                         </div>
 
                         <div class="payment-type d-flex flex-wrap align-items-center">
-                            <h4 class="w-100 mt-5">Payment Method</h4>
+                            <h4 class="w-100 mt-5">Betalingsmiddel</h4>
 
                             <label class="d-flex align-items-center mt-4">
-                                <input type="radio" name="payment_method" value="Credit Card" />
+                                <input type="radio" name="payment_method" th:field="*{paymentType}" value="Kredietkaart" />
                                 <span class="payment-type-radio"></span>
                                 <span class="centered-dot"></span>
 
-                                Credit Card
+                                Kredietkaart
                             </label>
 
                             <label class="d-flex align-items-center mt-4">
-                                <input type="radio" name="payment_method" value="PayPal" checked="checked" />
+                                <input type="radio" name="payment_method" th:field="*{paymentType}" value="PayPal" checked="checked" />
                                 <span class="payment-type-radio"></span>
                                 <span class="centered-dot"></span>
 
                                 PayPal
                             </label>
+                            <label class="d-flex align-items-center mt-4">
+                                <input type="radio" name="payment_method" th:field="*{paymentType}" value="Overschrijving" checked="checked" />
+                                <span class="payment-type-radio"></span>
+                                <span class="centered-dot"></span>
+
+                                Overschrijving
+                            </label>
+                            <label class="d-flex align-items-center mt-4">
+                                <input type="radio" name="payment_method" th:field="*{paymentType}" value="Cash" checked="checked" />
+                                <span class="payment-type-radio"></span>
+                                <span class="centered-dot"></span>
+
+                                Cash
+                            </label>
                         </div>
 
-                        <input class="btn gradient-bg mt-5" type="submit" value="Donate Now">
+                        <input class="btn gradient-bg mt-5" type="submit" value="Contacteer Ons">
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <div th:each="article : ${articles}" class="home-page-welcome">
+        <div  class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 order-2 order-lg-1">
+                    <div class="welcome-content">
+                        <header class="entry-header">
+                            <h2 th:text="${article.title}" class="entry-title">Welkom bij onze VZW</h2>
+                            <span class="entry-content mt-5" th:text="${#dates.format(article.dateCreated ,'dd-MM-yyyy HH:mm')}"> 2019-06-06 </span>
+                        </header><!-- .entry-header -->
+
+                        <div  th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
+                            <h3 th:text="${paragraph.title}" >Paragraph title</h3>
+                            <p th:text="${paragraph.getText()}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
+                        </div><!-- .entry-content -->
+
+                        <div th:each="link : ${article.getLinks()}" class="entry-footer mt-5">
+                            <a th:href="${link.url}" th:text="${link.title}" href="#" class="btn gradient-bg mr-2">Read More</a>
+                        </div><!-- .entry-footer -->
+                    </div><!-- .welcome-content -->
+                </div><!-- .col -->
+
+                <div th:if="${article.picture!=null}" class="col-12 col-lg-6 order-1 order-lg-2">
+                    <img th:src="@{'/picture/getData/' + ${article.picture.id}}" src="../static/images/welcome.jpg" alt="welcome">
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </div><!-- .home-page-icon-boxes -->
+
+
   
     <footer th:replace="fragments/public :: footer" class="site-footer">
         <div class="footer-widgets">
@@ -364,15 +404,15 @@
         </div><!-- .footer-bar -->
     </footer><!-- .site-footer -->
 
-    <script type='text/javascript' src='../static/js/jquery.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.collapsible.min.js'></script>
-    <script type='text/javascript' src='../static/js/swiper.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.countdown.min.js'></script>
-    <script type='text/javascript' src='../static/js/circle-progress.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.countTo.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.barfiller.js'></script>
-    <script type='text/javascript' src='../static/js/custom.js'></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='../static/js/jquery.js' th:src="@{js/jquery.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.collapsible.min.js' th:src="@{js/jquery.collapsible.min.js}"></script>
+    <script type='text/javascript' src='../static/js/swiper.min.js' th:src="@{js/swiper.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.countdown.min.js' th:src="@{js/jquery.countdown.min.js}"></script>
+    <script type='text/javascript' src='../static/js/circle-progress.min.js' th:src="@{js/circle-progress.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.countTo.min.js' th:src="@{js/jquery.countTo.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.barfiller.js' th:src="@{js/jquery.barfiller.js}"></script>
+    <script type='text/javascript' src='../static/js/custom.js' th:src="@{js/custom.js}"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" ></script>
 
 
 

@@ -1,17 +1,11 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.Contact;
-import be.voedsaam.vzw.business.Destination;
-import be.voedsaam.vzw.business.Task;
-import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.ContactService;
-import be.voedsaam.vzw.service.DestinationService;
-import be.voedsaam.vzw.service.TaskService;
 import be.voedsaam.vzw.service.dto.ContactDTO;
-import be.voedsaam.vzw.service.dto.TaskDTO;
+import be.voedsaam.vzw.service.dto.DonationDTO;
 import be.voedsaam.vzw.service.mapper.ContactMapper;
-import be.voedsaam.vzw.service.mapper.DestinationMapper;
-import be.voedsaam.vzw.service.mapper.TaskMapper;
+import be.voedsaam.vzw.service.mapper.DonationMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -21,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,6 +25,8 @@ public class ContactController {
     private ContactService contactService;
 
     private ContactMapper contactMapper;
+    private DonationMapper donationMapper;
+
 
 
     @Autowired
@@ -41,6 +36,10 @@ public class ContactController {
     @Autowired
     public void setContactMapper(ContactMapper contactMapper) {
         this.contactMapper = contactMapper;
+    }
+    @Autowired
+    public void setDonationMapper(DonationMapper donationMapper) {
+        this.donationMapper = donationMapper;
     }
 
     @RequestMapping({"/list"})
@@ -54,6 +53,15 @@ public class ContactController {
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(ContactDTO dto, Model model){
         Contact contact = contactMapper.mapToObj(dto);
+        contact = contactService.saveOrUpdate(contact);
+        model.addAttribute("success", true);
+        model.addAttribute("contact", new ContactDTO());
+        return "redirect:/contactSuccess";
+    }
+
+    @RequestMapping(value = "/donation", method = RequestMethod.POST)
+    public String saveOrUpdateDonation(DonationDTO dto, Model model){
+        Contact contact = donationMapper.mapToObj(dto);
         contact = contactService.saveOrUpdate(contact);
         model.addAttribute("success", true);
         model.addAttribute("contact", new ContactDTO());

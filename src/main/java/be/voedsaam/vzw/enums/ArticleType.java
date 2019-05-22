@@ -4,6 +4,7 @@ public enum ArticleType {
     NEWS("Nieuws"),
     GOAL("Doelstelling"),
     ABOUT("Over ons"),
+    PORTAL("Portaal"),
     HOME("Start Pagina");
 
     private String value;

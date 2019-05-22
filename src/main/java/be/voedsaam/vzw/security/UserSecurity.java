@@ -2,10 +2,7 @@ package be.voedsaam.vzw.security;
 
 import be.voedsaam.vzw.business.Authority;
 import be.voedsaam.vzw.business.User;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
 
 public class UserSecurity extends User implements UserDetails {
 

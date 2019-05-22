@@ -1,5 +1,6 @@
 package be.voedsaam.vzw.config;
 
+import be.voedsaam.vzw.security.MySimpleUrlAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -36,6 +38,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return daoAuthenticationProvider;
     }
 
+    @Bean
+    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
+        return new MySimpleUrlAuthenticationSuccessHandler();
+    }
+
     @Autowired
     public void configureAuthManager(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
@@ -57,11 +64,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .and().authorizeRequests().antMatchers("/drive/**").permitAll()
 //                .and().authorizeRequests().antMatchers("/user/**").permitAll()
                 // comment out to disable security
+                // authenticated
+                .and().authorizeRequests().antMatchers("/account/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
+                // Drive management
                 .and().authorizeRequests().antMatchers("/task/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 .and().authorizeRequests().antMatchers("/destination/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/schedule/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/portal").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_VOLUNTEER", "ROLE_DRIVER")
                 .and().authorizeRequests().antMatchers("/drive/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_DRIVER")
+                // Stock
+                .and().authorizeRequests().antMatchers("/order/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_PARTNER")
+                .and().authorizeRequests().antMatchers("/stock/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_PARTNER")
                 // coordinator access
                 .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/contact/list/").hasAuthority("ROLE_COORDINATOR")
@@ -70,6 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/article/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/link/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/paragraph/**").hasAuthority("ROLE_COORDINATOR")
+                .and().authorizeRequests().antMatchers("/product/**").hasAuthority("ROLE_COORDINATOR")
 
                 .and().exceptionHandling().accessDeniedPage("/access-denied");
 

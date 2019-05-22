@@ -1,9 +1,6 @@
 package be.voedsaam.vzw.business;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.Serializable;
 
 @Entity
 public class Address extends AbstractDomainClass {

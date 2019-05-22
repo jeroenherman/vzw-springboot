@@ -1,6 +1,8 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.*;
+import be.voedsaam.vzw.business.Destination;
+import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.DestinationService;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -85,11 +88,10 @@ public class DriveController {
         //model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
         return "drive/list";
     }
-
+    @Secured({"ROLE_DRIVER"})
     @RequestMapping("listbyuser")
     public String listDrivesbyUser(Model model, Principal user) {
         model.addAttribute("drives", driveMapper.mapToDTO(driveService.listAllByUser(user.getName())));
-        //model.addAttribute("events", eventMapper.mapToDTO((List<Drive>) driveService.listAll()));
         return "drive/list";
     }
 
@@ -139,8 +141,9 @@ public class DriveController {
             throw new UnsupportedOperationException("schedule needs to be set, id can not be null ");
         Schedule schedule = scheduleService.getById(idSchedule.longValue());
         Drive drive = new Drive();
-        drive.setStartTime(LocalDateTime.now().withSecond(0).withNano(0));
-        drive.setEndTime(LocalDateTime.now().withSecond(0).withNano(0));
+        LocalDate date = LocalDate.now();
+        drive.setStartTime(date.atTime(9,00));
+        drive.setEndTime(date.atTime(17,0));
         drive.setDescription("");
         drive = driveService.saveOrUpdate(drive);
         schedule.addDrive(drive);

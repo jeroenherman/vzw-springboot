@@ -92,15 +92,15 @@
                         <div class="row h-100">
                             <div class="col-12 col-lg-8 d-flex flex-column justify-content-center align-items-start">
                                 <header class="entry-header">
-                                    <h1>Samen voedselstromen</h1>
-                                    <h4>herbestemmen</h4>
+
+                                    <h4>Samen Voedselstromen herbestemmen</h4>
                                 </header><!-- .entry-header -->
 
                                 <div class="entry-content mt-4">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
+                                    <p th:if="1==0" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
                                 </div><!-- .entry-content -->
 
-                                <footer class="entry-footer d-flex flex-wrap align-items-center mt-5">
+                                <footer th:if="1==0" class="entry-footer d-flex flex-wrap align-items-center mt-5">
                                     <a href="#" class="btn gradient-bg mr-2">Doneer nu</a>
                                     <a href="#" class="btn orange-border">Lees meer</a>
                                 </footer><!-- .entry-footer -->
@@ -123,10 +123,10 @@
                                 </header><!-- .entry-header -->
 
                                 <div class="entry-content mt-4">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
+                                    <p th:if="1==0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
                                 </div><!-- .entry-content -->
 
-                                <footer class="entry-footer d-flex flex-wrap align-items-center mt-5">
+                                <footer th:if="1==0" class="entry-footer d-flex flex-wrap align-items-center mt-5">
                                     <a href="#" class="btn gradient-bg mr-2">Doneer Nu</a>
                                     <a href="#" class="btn orange-border">Lees meer</a>
                                 </footer><!-- .entry-footer -->
@@ -149,10 +149,10 @@
                                 </header><!-- .entry-header -->
 
                                 <div class="entry-content mt-4">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
+                                    <p th:if="1==0" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus ullamcorper</p>
                                 </div><!-- .entry-content -->
 
-                                <footer class="entry-footer d-flex flex-wrap align-items-center mt-5">
+                                <footer th:if="1==0" class="entry-footer d-flex flex-wrap align-items-center mt-5">
                                     <a href="#" class="btn gradient-bg mr-2">Doneer nu</a>
                                     <a href="#" class="btn orange-border">Lees meer</a>
                                 </footer><!-- .entry-footer -->
@@ -236,8 +236,8 @@
         </div><!-- .container -->
     </div><!-- .home-page-icon-boxes -->
 
-    <div   class="home-page-welcome">
-        <div th:each="article : ${articles}" class="container">
+    <div  th:each="article : ${articles}" class="home-page-welcome">
+        <div  class="container">
             <div class="row">
                 <div class="col-12 col-lg-6 order-2 order-lg-1">
                     <div class="welcome-content">
@@ -250,14 +250,14 @@
                             <p th:text="${paragraph.getText()}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
                         </div><!-- .entry-content -->
 
-                        <div class="entry-footer mt-5">
-                            <a href="#" class="btn gradient-bg mr-2">Read More</a>
+                        <div th:each="link : ${article.getLinks()}" class="entry-footer mt-5">
+                            <a th:href="${link.url}" th:text="${link.title}" href="#" class="btn gradient-bg mr-2">Read More</a>
                         </div><!-- .entry-footer -->
                     </div><!-- .welcome-content -->
                 </div><!-- .col -->
 
-                <div class="col-12 col-lg-6 mt-4 order-1 order-lg-2">
-                    <img  src="../static/images/welcome.jpg" th:src="@{'/public-pictures/'+${article.articleType}+'/'+${article.picture.url}}" th:alt="${article.picture.getAlternateText()}" alt="welcome">
+                <div th:if="${article.picture!=null}" class="col-12 col-lg-6 mt-4 order-1 order-lg-2">
+                    <img src="../static/images/welcome.jpg" th:src="@{'/picture/getData/' + ${article.picture.id}}" th:alt="${article.picture.getAlternateText()}" alt="welcome">
                 </div><!-- .col -->
             </div><!-- .row -->
         </div><!-- .container -->

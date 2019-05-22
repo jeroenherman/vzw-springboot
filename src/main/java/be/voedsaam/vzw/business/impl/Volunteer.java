@@ -4,9 +4,11 @@ import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Role;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 @Entity

@@ -91,8 +91,33 @@
             </div><!-- .row -->
         </div><!-- .container -->
     </div><!-- .page-header -->
+    <div th:each="article : ${articles}" class="home-page-welcome">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 order-2 order-lg-1">
+                    <div class="welcome-content">
+                        <header class="entry-header">
+                            <h2 th:text="${article.title}" class="entry-title">Welkom bij onze VZW</h2>
+                            <span class="entry-content mt-5" th:text="${#dates.format(article.dateCreated ,'dd-MM-yyyy HH:mm')}"> 2019-06-06 </span>
+                        </header><!-- .entry-header -->
 
-    <div class="news-wrap">
+                        <div  th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
+                            <h3 th:text="${paragraph.title}" >Paragraph title</h3>
+                            <p th:text="${paragraph.getText()}" >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
+                        </div><!-- .entry-content -->
+                        <div th:each="link : ${article.getLinks()}" class="entry-footer mt-5">
+                            <a th:href="${link.url}" th:text="${link.title}" href="#" class="btn gradient-bg mr-2">Read More</a>
+                        </div><!-- .entry-footer -->
+                    </div><!-- .welcome-content -->
+                </div><!-- .col -->
+
+                <div th:if="${article.picture!=null}" class="col-12 col-lg-6 order-1 order-lg-2">
+                    <img th:src="@{'/picture/getData/' + ${article.picture.id}}" src="../static/images/welcome.jpg" alt="welcome">
+                </div><!-- .col -->
+            </div><!-- .row -->
+        </div><!-- .container -->
+    </div><!-- .home-page-icon-boxes -->
+    <div th:if="1==0" class="news-wrap">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-8">
@@ -433,15 +458,15 @@
         </div><!-- .footer-bar -->
     </footer><!-- .site-footer -->
 
-    <script type='text/javascript' src='../static/js/jquery.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.collapsible.min.js'></script>
-    <script type='text/javascript' src='../static/js/swiper.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.countdown.min.js'></script>
-    <script type='text/javascript' src='../static/js/circle-progress.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.countTo.min.js'></script>
-    <script type='text/javascript' src='../static/js/jquery.barfiller.js'></script>
-    <script type='text/javascript' src='../static/js/custom.js'></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='../static/js/jquery.js' th:src="@{js/jquery.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.collapsible.min.js' th:src="@{js/jquery.collapsible.min.js}"></script>
+    <script type='text/javascript' src='../static/js/swiper.min.js' th:src="@{js/swiper.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.countdown.min.js' th:src="@{js/jquery.countdown.min.js}"></script>
+    <script type='text/javascript' src='../static/js/circle-progress.min.js' th:src="@{js/circle-progress.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.countTo.min.js' th:src="@{js/jquery.countTo.min.js}"></script>
+    <script type='text/javascript' src='../static/js/jquery.barfiller.js' th:src="@{js/jquery.barfiller.js}"></script>
+    <script type='text/javascript' src='../static/js/custom.js' th:src="@{js/custom.js}"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" ></script>
 
 
 

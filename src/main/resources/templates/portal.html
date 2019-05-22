@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/main :: header" lang="en">
 
@@ -43,13 +43,51 @@
              class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container-fluid" name="start">
-            <div class="jumbotron">
-            <h1 class="mt-4">Welkom op het VoedSaam portaal</h1>
-                <p  th:if="${#authentication.getName()=='anonymousUser'}"> Gelieve in te loggen via Werking -> Log in </p>
+            <div th:style="'background-color:'+${color}" class="jumbotron">
+                <h1 class="mt-4">VoedSaam portaal</h1>
+                <p th:if="${#authentication.getName()=='anonymousUser'}"> Gelieve in te loggen via Werking -> <a
+                        href="login.html" th:href="@{/login}">Login</a></p>
+            </div>
+            <div th:if="${#authentication.getName()!='anonymousUser'}" class="jumbotron">
+                <h3 th:text="'Welkom '+${userName}" class="mt-4">Welkom gebruiker</h3>
+            </div>
         </div>
+        <div th:each="article : ${articles}" class="welcome-wrap">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="welcome-content">
+                            <header class="entry-header">
+                                <h2 th:text="${article.title}" class="entry-title">Welkom bij onze VZW</h2>
+                                <span th:text="${#dates.format(article.dateCreated ,'dd-MM-yyyy HH:mm')}"> 2019-06-06 </span>
+                            </header><!-- .entry-header -->
+
+                            <div th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
+                                <h3 th:text="${paragraph.title}">Paragraph title</h3>
+                                <p th:text="${paragraph.getText()}">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                    elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet,
+                                    consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer
+                                    accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero
+                                    consequat tempus. Quisque molestie convallis tempus. Ut semper purus metus, a
+                                    euismod sapien sodales ac. Duis viverra eleifend fermentum.</p>
+
+                            </div><!-- .entry-content -->
+
+                            <div th:each="link : ${article.getLinks()}" class="entry-footer mt-5">
+                                <a th:href="${link.url}" th:text="${link.title}" href="#" class="btn btn-primary">Read More</a>
+                            </div><!-- .entry-footer -->
+                        </div><!-- .welcome-content -->
+                    </div><!-- .col -->
+
+                    <div th:if="${article.picture!=null}" class="col-sm">
+                        <img th:src="@{'/picture/getData/' + ${article.picture.id}}" src="../static/images/welcome.jpg"
+                             alt="welcome">
+                    </div><!-- .col -->
+                </div><!-- .row -->
+            </div><!-- .container -->
+        </div><!-- .home-page-icon-boxes -->
     </div>
-</div>
-<!-- /#page-content-wrapper -->
+    <!-- /#page-content-wrapper -->
 
 </div>
 <!-- /#wrapper -->

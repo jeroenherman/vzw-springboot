@@ -11,7 +11,8 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" href="../../" class="list-group-item list-group-item-action bg-light">Start</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/portal}" href="/portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/drive/listbyuser}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/edit/' + drive.id}" href="../edit" class="list-group-item list-group-item-action bg-light">Editeer</a>
         </div>
@@ -36,26 +37,30 @@
                 <div class="container rounded bg-light" name="event">
                     <div class="row" name="start">
                         <div class="container rounded bg-warning col-sm-3">
-                            <strong th:text="${#temporals.dayOfWeekName(drive.startTime)}"> woensdag</strong>
+                            <strong th:text="${#temporals.format(drive.startTime, 'E','nl')}"> woensdag</strong>
                             <H1 th:text="${#temporals.day(drive.startTime)}" class="text-justify">5</H1>
-                            <strong th:text="${#temporals.monthName(drive.startTime)}">januari</strong>
+                            <strong th:text="${#temporals.format(drive.startTime, 'MMMM','nl')}">januari</strong>
                         </div>
                         <div class="col-sm-9">
-                            <div class="row">
+                            <div th:if="${drive.allDay}" class="row" >
+                                <div class=col-sm-6>
+                                <h5>Hele dag</h5>
+                                </div>
+                            </div>
+                            <div th:if="${!drive.allDay}" class="row">
                                 <div class=col-sm-6>
                                     <h5 class="text-right">Start tijd:</h5>
                                 </div>
                                 <div class="col-sm-6>">
-                                    <h5 th:text="${#temporals.hour(drive.startTime)} +  ':' + ${#temporals.minute(drive.startTime) }">
-                                        10:00</h5>
+                                    <h5 th:text="${#temporals.format(drive.startTime,'HH:mm','nl')}"> 10:00</h5>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div th:if="${!drive.allDay}" class="row">
                                 <div class=col-sm-6>
                                     <h5 class="text-right">Eind tijd:</h5>
                                 </div>
                                 <div class="col-sm-6>">
-                                    <h5 th:text="${#temporals.hour(drive.endTime)} +  ':' + ${#temporals.minute(drive.endTime) }">
+                                    <h5  th:text="${#temporals.format(drive.endTime,'HH:mm','nl')}">
                                         10:00</h5>
                                 </div>
                             </div>
@@ -63,9 +68,9 @@
                     </div>
                     <div th:if="${drive.startTime.toLocalDate() != drive.endTime.toLocalDate()}" class="row" name="end">
                         <div class="container rounded bg-warning col-sm-3">
-                            <strong th:text="${#temporals.dayOfWeekName(drive.endTime)}"> woensdag</strong>
-                            <H1 class="text-justify" th:text="${#temporals.day(drive.endTime)}">5</H1>
-                            <strong th:text="${#temporals.monthName(drive.endTime)}">januari</strong>
+                            <strong th:text="${#temporals.format(drive.endTime, 'E','nl')}"> woensdag</strong>
+                            <H1 th:text="${#temporals.day(drive.endTime)}" class="text-justify">5</H1>
+                            <strong th:text="${#temporals.format(drive.endTime, 'MMMM','nl')}">januari</strong>
                         </div>
                         <div class="col-sm-9">
 
@@ -73,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div th:if="${currentUsers!=null and !currentUsers.isEmpty()}" class="col-sm-6">
                 <div class="container rounded bg-light" name="volunteers">
                     <H2>Vrijwilligers</H2>
                     <table class="table table-striped table-light">
@@ -82,7 +87,7 @@
                             <th>Telefoon</th>
                             <th>Gebruikersrol</th>
                         </tr>
-                        <tr th:each="user : ${currentUsers}">
+                        <tr th:style="'background-color:'+${user.color.hex}" th:each="user : ${currentUsers}">
                             <td th:text="${user.fullName}"></td>
                             <td th:text="${user.tel}"></td>
                             <td th:text="${user.role.value}"></td>
@@ -91,7 +96,7 @@
                 </div>
             </div>
         </div>
-        <div class="jumbotron" name="destinations">
+        <div th:if="${currentDestinations!=null and !currentDestinations.isEmpty()}" class="jumbotron" name="destinations">
             <H3>Bestemmingen</H3>
             <table class="table table-striped table-light">
                 <tr>

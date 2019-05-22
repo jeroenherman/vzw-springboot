@@ -22,6 +22,8 @@ public class Order extends AbstractDomainClass {
     private Map<Product,Integer> products = new HashMap<>();
     @ManyToOne
     private Partner partner;
+    @ManyToOne
+    private Stock stock;
     public void addProduct(Product product, Integer quantity){
         Integer value = products.get(product);
         if (value==null)
@@ -69,4 +71,11 @@ public class Order extends AbstractDomainClass {
         this.partner = partner;
     }
 
+    public Stock getStock() {
+        return stock;
+    }
+
+    public void setStock(Stock stock) {
+        this.stock = stock;
+    }
 }

@@ -2,8 +2,6 @@ package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.Article;
 import be.voedsaam.vzw.business.Paragraph;
-import be.voedsaam.vzw.business.Task;
-import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.ParagraphService;
 import be.voedsaam.vzw.service.dto.ParagraphDTO;
 import be.voedsaam.vzw.service.mapper.ParagraphMapper;
@@ -14,9 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequestMapping("/paragraph")

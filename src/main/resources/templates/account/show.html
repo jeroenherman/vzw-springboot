@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/edit-show.html :: header" lang="en"></head>
+
+<body>
+
+<div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">Voedsaam Ritten</div>
+        <div class="list-group list-group-flush">
+            <a th:href="@{/portal}" href="/portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+        </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+        <div class="container">
+            <h1 class="mt-4">Gebruikers</h1>
+            <!-- User info  -->
+            <div class="container py-3">
+                <div class="row">
+                    <div class="mx-auto col-sm-6">
+                        <!-- user info -->
+                        <div class="card">
+                            <div th:style="'background-color:'+${user.color.hex}" class="card-header">
+                                <h4 class="mb-0">Gebruikers informatie</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Voornaam</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.firstName}">firstName</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Achternaam</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.lastName}">lastName</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.email}">Email</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Tel</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.tel}">tel</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Gebruikers rol</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.role.value}">Admin</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Kleur</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.color}">Rood</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Adress info  -->
+            <div class="container py-3">
+                <div class="row">
+                    <div class="mx-auto col-sm-6">
+                        <!-- form user info -->
+                        <div class="card">
+                            <div th:style="'background-color:'+${user.color.hex}" class="card-header">
+                                <h4 class="mb-0">Adres</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form" role="form" autocomplete="off">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Straat</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.street}">Street</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Huisnummer</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.streetNumber}">Nr</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Stad /
+                                            Gemeente</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.city}">city</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Postcode</label>
+                                        <div class="col-lg-9">
+                                            <p class="form-control" th:text="${user.postalCode}">9100</p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <!-- /form user info -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+</body>
+
+</html>

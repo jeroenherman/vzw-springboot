@@ -1,8 +1,8 @@
 package be.voedsaam.vzw.service;
 
 
-import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.impl.Partner;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.commons.CRUDService;

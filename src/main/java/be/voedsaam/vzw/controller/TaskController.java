@@ -5,7 +5,6 @@ import be.voedsaam.vzw.business.Task;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.DestinationService;
 import be.voedsaam.vzw.service.TaskService;
-import be.voedsaam.vzw.service.dto.DestinationDTO;
 import be.voedsaam.vzw.service.dto.TaskDTO;
 import be.voedsaam.vzw.service.mapper.DestinationMapper;
 import be.voedsaam.vzw.service.mapper.TaskMapper;

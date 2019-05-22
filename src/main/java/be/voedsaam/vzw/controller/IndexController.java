@@ -1,12 +1,18 @@
 package be.voedsaam.vzw.controller;
 
+import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.service.ArticleService;
 import be.voedsaam.vzw.service.ContactService;
+import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.ContactDTO;
+import be.voedsaam.vzw.service.dto.DonationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 
 
 @Controller
@@ -14,6 +20,12 @@ public class IndexController {
 
     ArticleService articleService;
     ContactService contactService;
+    UserService userService;
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Autowired
     public void setContactService(ContactService contactService) {
         this.contactService = contactService;
@@ -30,8 +42,18 @@ public class IndexController {
         return "index";
     }
     @RequestMapping({"/portal"})
-    public String drive(Model model){
-        model.addAttribute("nrOfContacts", contactService.listAll().size());
+    public String drive(Model model, Principal principal){
+        String color = Color.LIGHTRED.getHex();
+        if (principal!=null && !(principal.getName().equals("anonymousUser"))) {
+            User user = userService.findByEmail(principal.getName());
+            model.addAttribute("nrOfContacts", contactService.listAll().size());
+            model.addAttribute("userId", user.getId());
+            model.addAttribute("userName", user.getFullName());
+            model.addAttribute("articles", articleService.listPortal());
+            if (user.getColor()!=null)
+            color = user.getColor().getHex();
+        }
+        model.addAttribute("color", color);
         return "portal";
     }
     @RequestMapping({"/about"})
@@ -49,6 +71,7 @@ public class IndexController {
     @RequestMapping({"/causes"})
     public String goals(Model model){
         model.addAttribute("articles", articleService.listGoals());
+        model.addAttribute("donation", new DonationDTO());
         return "causes";
     }
     @RequestMapping({"/contact"})

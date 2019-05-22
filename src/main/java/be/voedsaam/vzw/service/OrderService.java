@@ -11,4 +11,5 @@ public interface OrderService extends CRUDService<Order> {
     List<Order> listCompletedOrders();
     List<Order> listOrdersInProgress();
     List<Order> listCancelledOrders();
+    List<Order> listAllByUser(String name);
 }

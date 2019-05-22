@@ -1,7 +1,5 @@
 package be.voedsaam.vzw.service.dto;
 
-import be.voedsaam.vzw.enums.ProductType;
-
 import java.util.List;
 
 public class StockDTO {

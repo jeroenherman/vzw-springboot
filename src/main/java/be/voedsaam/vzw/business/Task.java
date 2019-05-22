@@ -3,7 +3,6 @@ package be.voedsaam.vzw.business;
 import be.voedsaam.vzw.enums.Role;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 public class Task extends AbstractDomainClass{

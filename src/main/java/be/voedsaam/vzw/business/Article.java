@@ -4,7 +4,6 @@ import be.voedsaam.vzw.enums.ArticleType;
 import org.apache.commons.collections4.CollectionUtils;
 
 import javax.persistence.*;
-
 import java.util.*;
 
 @Entity
@@ -69,12 +68,15 @@ public class Article extends AbstractDomainClass {
 	public List<Paragraph> getParagraphs() {
 		List result = new ArrayList();
 		CollectionUtils.addAll(result,paragraphs);
+		Collections.sort(result);
 		return Collections.unmodifiableList(result);
 	}
 
 	public List<Link> getLinks() {
 		List result = new ArrayList();
 		CollectionUtils.addAll(result,links);
+		Collections.sort(result);
+		result.remove(this.picture);
 		return Collections.unmodifiableList(result);
 	}
 

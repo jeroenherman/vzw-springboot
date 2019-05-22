@@ -1,20 +1,12 @@
 package be.voedsaam.vzw.service.mapper;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.business.repository.DriveRepository;
 import be.voedsaam.vzw.enums.Role;
-import be.voedsaam.vzw.service.dto.DriveDTO;
 import be.voedsaam.vzw.service.dto.EventDTO;
 import org.junit.Before;
 import org.junit.Test;
-import be.voedsaam.vzw.service.mapper.EventMapper;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -23,6 +15,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EventMapperTest {

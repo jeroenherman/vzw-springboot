@@ -1,38 +1,44 @@
 package be.voedsaam.vzw.enums;
 
 public enum Color {
-	RED("Rood"),
-	BLUE("Blauw"),
-	GREEN("Groen"), 
-	YELLOW("Geel"),
-	PURPLE("Paars"),
-	ORANGE("Oranje"),
+	RED("Rood", "#ff0000"),
+	BLUE("Blauw","#0000cc" ),
+	GREEN("Groen","#00cc00" ),
+	YELLOW("Geel", "#ffff00"),
+	PURPLE("Paars","#6600cc"),
+	ORANGE("Oranje","#ff6600"),
 	
-	LIGHTRED("Licht Rood"),
-	LIGHTBLUE("Licht Blauw"),
-	LIGHTGREEN("Licht Groen"), 
-	LIGHTYELLOW("Licht Geel"),
-	LIGHTPURPLE("Licht Paars"),
-	LIGHTORANGE("Licht Oranje"),
-	LIGHTGREY("Licht Grijs"),
+	LIGHTRED("Licht Rood", "#ff8080"),
+	LIGHTBLUE("Licht Blauw","#8080ff"),
+	LIGHTGREEN("Licht Groen", "#80ff80"),
+	LIGHTYELLOW("Licht Geel", "#ffff80"),
+	LIGHTPURPLE("Licht Paars","#bf80ff"),
+	LIGHTORANGE("Licht Oranje","#ffb380" ),
+	LIGHTGREY("Licht Grijs","#bfbfbf"),
 	
-	DARKRED("Donker Rood"),
-	DARKBLUE("Donker Blauw"),
-	DARKGREEN("Donker Groen"), 
-	DARKYELLOW("Donker Geel"),
-	DARKPURPLE("Donker Paars"),
-	DARKORANGE("Donker Oranje"),
-	DARKGREY("Donker Grijs"),
-	BLACK("Zwart"),
-	WHITE("Wit");
+	DARKRED("Donker Rood", "#800000"),
+	DARKBLUE("Donker Blauw","#000080"),
+	DARKGREEN("Donker Groen", "#008000"),
+	DARKYELLOW("Donker Geel", "#808000"),
+	DARKPURPLE("Donker Paars", "#400080"),
+	DARKORANGE("Donker Oranje", "#804d00"),
+	DARKGREY("Donker Grijs","#404040" ),
+	BLACK("Zwart","#000000" ),
+	WHITE("Wit", "#ffffff");
 	
-	private String value;
-	private Color(String value) {
+	private String value, hex;
+	private Color(String value, String hex ) {
 		this.value = value;
+		this.hex = hex;
 	} 
 	public String getValue( ) {
 		return value;
 	}
+
+	public String getHex() {
+		return hex;
+	}
+
 	@Override
 	public String toString() {
 		

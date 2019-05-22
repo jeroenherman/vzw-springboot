@@ -5,6 +5,7 @@ import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
+import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,9 @@ public class VolunteerMapper extends AbstractMapper<Volunteer, UserDTO>{
 		dto.setLastName(b.getLastName());
 		dto.setEmail(b.getEmail());
 		dto.setTel(b.getTel());
+		if (b.getColor()!=null)
 		dto.setColor(b.getColor());
+		else dto.setColor(Color.LIGHTGREY);
 		dto.setRole(b.getRole());
 		if (!(b.getAddress()==null)) { 
 		dto.setCity(b.getAddress().getCity());

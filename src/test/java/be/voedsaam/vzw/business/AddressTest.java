@@ -2,7 +2,6 @@ package be.voedsaam.vzw.business;
 
 import org.junit.Before;
 import org.junit.Test;
-import be.voedsaam.vzw.business.Address;
 
 import static org.junit.Assert.*;
 

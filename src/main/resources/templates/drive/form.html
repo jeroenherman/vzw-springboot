@@ -19,7 +19,8 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-        <nav th:replace="fragments/edit-show.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+        <nav th:replace="fragments/edit-show.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
 
         </nav>
 
@@ -52,7 +53,7 @@
                         </div>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="allDayEvent" th:checked="${allDay}">
+                        <input type="checkbox" class="form-check-input" id="allDayEvent" th:field="*{allDay}">
                         <label class=" form-check-label">Dag Event</label>
                     </div>
                     <div class="col-lg-2"></div>
@@ -63,75 +64,91 @@
             </div>
         </div>
         <div th:if="${event.title!=null}">
-        <div class="jumbotron" name="volunteers">
-            <H2>Vrijwilligers</H2>
-            <H3>Huidige:</H3>
-            <table class="table table-striped table-light">
-                <tr>
-                    <th>Naam</th>
-                    <th>Gebruikersrol</th>
-                    <th>Verwijder</th>
-                </tr>
-                <tr th:each="user : ${currentUsers}">
-                    <td th:text="${user.fullName}"></td>
-                    <td th:text="${user.role.value}"></td>
-                    <td><a class="btn btn-block, btn-danger"
-                           th:href="${'/drive/'+ drive.id + '/deleteuser/' + user.id}">Verwijder</a></td>
-                </tr>
-            </table>
-            <div th:if="${possibleUsers!=null and !possibleUsers.isEmpty()}">
-                <H3>Voeg toe:</H3>
+            <div class="jumbotron" name="volunteers">
+                <H2>Vrijwilligers</H2>
+                <H3>Huidige:</H3>
                 <table class="table table-striped table-light">
+                    <thead>
                     <tr>
                         <th>Naam</th>
                         <th>Gebruikersrol</th>
-                        <th>Voeg Toe</th>
+                        <th>Verwijder</th>
                     </tr>
-                    <tr th:each="user : ${possibleUsers}">
+                    </thead>
+                    <tbody>
+                    <tr th:each="user : ${currentUsers}">
                         <td th:text="${user.fullName}"></td>
                         <td th:text="${user.role.value}"></td>
-                        <td><a class="btn btn-block, btn-success"
-                               th:href="${'/drive/'+ drive.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                        <td><a class="btn btn-block, btn-danger"
+                               th:href="${'/drive/'+ drive.id + '/deleteuser/' + user.id}">Verwijder</a></td>
                     </tr>
+                    </tbody>
                 </table>
+                <div th:if="${possibleUsers!=null and !possibleUsers.isEmpty()}">
+                    <H3>Voeg toe:</H3>
+                    <table class="display table table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Gebruikersrol</th>
+                            <th>Voeg Toe</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${possibleUsers}">
+                            <td th:text="${user.fullName}"></td>
+                            <td th:text="${user.role.value}"></td>
+                            <td><a class="btn btn-block, btn-success"
+                                   th:href="${'/drive/'+ drive.id + '/adduser/' + user.id}">Voeg Toe</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="jumbotron" name="destinations">
-            <H3>Bestemmingen</H3>
-            <H3>Huidige:</H3>
-            <table class="table table-striped table-light">
-                <tr>
-                    <th>Naam</th>
-                    <th>Contact</th>
-                    <th>Verwijder</th>
-                </tr>
-                <tr th:each="destination : ${currentDestinations}">
-                    <td th:text="${destination.destinationName}"></td>
-                    <td th:text="${destination.contactInfo}"></td>
-                    <td><a class="btn btn-block, btn-danger"
-                           th:href="${'/drive/'+ drive.id + '/deletedestination/' + destination.id}">Verwijder</a>
-                    </td>
-                </tr>
-            </table>
-            <div th:if="${possibleDestinations!=null and !possibleDestinations.isEmpty()}">
-                <H3>Voeg toe:</H3>
+            <div class="jumbotron" name="destinations">
+                <H3>Bestemmingen</H3>
+                <H3>Huidige:</H3>
                 <table class="table table-striped table-light">
+                    <thead>
                     <tr>
                         <th>Naam</th>
                         <th>Contact</th>
-                        <th>Voeg Toe</th>
+                        <th>Verwijder</th>
                     </tr>
-                    <tr th:each="destination : ${possibleDestinations}">
+                    </thead>
+                    <tbody>
+                    <tr th:each="destination : ${currentDestinations}">
                         <td th:text="${destination.destinationName}"></td>
                         <td th:text="${destination.contactInfo}"></td>
-                        <td><a class="btn btn-block, btn-success"
-                               th:href="${'/drive/'+ drive.id + '/adddestination/' + destination.id}">Voeg
-                            Toe</a>
+                        <td><a class="btn btn-block, btn-danger"
+                               th:href="${'/drive/'+ drive.id + '/deletedestination/' + destination.id}">Verwijder</a>
                         </td>
                     </tr>
+                    </tbody>
                 </table>
+                <div th:if="${possibleDestinations!=null and !possibleDestinations.isEmpty()}">
+                    <H3>Voeg toe:</H3>
+                    <table class=" display table table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th>Naam</th>
+                            <th>Contact</th>
+                            <th>Voeg Toe</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="destination : ${possibleDestinations}">
+                            <td th:text="${destination.destinationName}"></td>
+                            <td th:text="${destination.contactInfo}"></td>
+                            <td><a class="btn btn-block, btn-success"
+                                   th:href="${'/drive/'+ drive.id + '/adddestination/' + destination.id}">Voeg
+                                Toe</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         </div>
         <!-- 1:1 aspect ratio -->
         <!--         <div class="embed-responsive embed-responsive-1by1">
@@ -152,7 +169,35 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-
+<script>
+    $(document).ready(function () {
+        $('table.display').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

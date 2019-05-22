@@ -2,9 +2,15 @@ package be.voedsaam.vzw.business;
 
 import be.voedsaam.vzw.enums.ProductType;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToMany;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Product extends AbstractDomainClass{

@@ -1,15 +1,16 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.*;
+import be.voedsaam.vzw.business.Article;
+import be.voedsaam.vzw.business.Link;
+import be.voedsaam.vzw.business.Paragraph;
+import be.voedsaam.vzw.business.Picture;
 import be.voedsaam.vzw.enums.ArticleType;
-import be.voedsaam.vzw.enums.Color;
-import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.ArticleService;
-import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.ArticleDTO;
-import be.voedsaam.vzw.service.dto.UserDTO;
-import be.voedsaam.vzw.service.mapper.*;
-import org.apache.commons.collections4.CollectionUtils;
+import be.voedsaam.vzw.service.mapper.ArticleMapper;
+import be.voedsaam.vzw.service.mapper.LinkMapper;
+import be.voedsaam.vzw.service.mapper.ParagraphMapper;
+import be.voedsaam.vzw.service.mapper.PictureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.*;
+import java.util.List;
 
 
 @Controller
@@ -63,11 +64,15 @@ public class ArticleController {
     @RequestMapping("/show/{id}")
     public String get(@PathVariable Integer id, Model model){
         Article article = articleService.getById(id.longValue());
-        model.addAttribute("article", articleMapper.mapToDTO(article));
-        model.addAttribute("paragraphs",paragraphMapper.mapToDTO(article.getParagraphs()));
-        model.addAttribute("links",linkMapper.mapToDTO(article.getLinks()));
-        model.addAttribute("picture",pictureMapper.mapToDTO(article.getPicture()));
-        return "article/show";
+        String url = "";
+        switch (article.getArticleType()) {
+            case HOME: url = ""; break;
+            case ABOUT: url = "about"; break;
+            case GOAL: url = "causes"; break;
+            case NEWS: url = "news" ; break;
+        }
+
+        return "redirect:/"+ url;
     }
 
     @RequestMapping("/edit/{id}")
@@ -124,7 +129,7 @@ public class ArticleController {
     public String saveOrUpdate(ArticleDTO dto){
         Article article = articleMapper.mapToObj(dto);
         article = articleService.saveOrUpdate(article);
-        return "redirect:/article/show/" + article.getId();
+        return "redirect:/article/edit/"+ article.getId();
     }
 
     @RequestMapping("/delete/{id}")

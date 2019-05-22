@@ -2,7 +2,6 @@ package be.voedsaam.vzw.security;
 
 import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.business.repository.UserRepository;
-import be.voedsaam.vzw.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;

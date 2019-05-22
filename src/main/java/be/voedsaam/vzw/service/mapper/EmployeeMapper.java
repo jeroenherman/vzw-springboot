@@ -1,10 +1,11 @@
 package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Address;
-import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.User;
+import be.voedsaam.vzw.business.impl.Employee;
 import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
+import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.service.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,9 @@ public class EmployeeMapper extends AbstractMapper<Employee, UserDTO>{
 		dto.setLastName(b.getLastName());
 		dto.setEmail(b.getEmail());
 		dto.setTel(b.getTel());
-		dto.setColor(b.getColor());
+		if (b.getColor()!=null)
+			dto.setColor(b.getColor());
+		else dto.setColor(Color.LIGHTGREY);
 		dto.setRole(b.getRole());
 		if (!(b.getAddress()==null)) { 
 		dto.setCity(b.getAddress().getCity());

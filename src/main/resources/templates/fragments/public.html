@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="head">
     <title>VoedSaam VZW</title>
 
@@ -53,7 +53,7 @@
 
                     <div class="col-12 col-lg-4 d-flex flex-wrap justify-content-center justify-content-lg-end align-items-center">
                         <div class="donate-btn">
-                            <a href="#">Doneer nu</a>
+                            <a th:href="@{/causes}" href="#">Doneer nu</a>
                         </div><!-- .donate-btn -->
                     </div><!-- .col -->
                 </div><!-- .row -->
@@ -113,14 +113,14 @@
                     <div class="col-12 col-md-6 col-lg-3 mt-5 mt-md-0">
                         <h2>Snelle links</h2>
                         <ul>
-                            <li><a href="#">Wordt vrijwilliger</a></li>
-                            <li><a href="#">Doneer</a></li>
-                            <li><a href="#">Doelstellingen</a></li>
-                            <li><a href="#">Nieuws</a></li>
+                            <li><a th:href="@{/contact}" href="#">Wordt vrijwilliger</a></li>
+                            <li><a th:href="@{/causes}" href="#">Doneer</a></li>
+                            <li><a th:href="@{/causes}"href="#">Doelstellingen</a></li>
+                            <li><a th:href="@{/news}" href="#">Nieuws</a></li>
                         </ul>
                     </div><!-- .col -->
 
-                    <div class="col-12 col-md-6 col-lg-3 mt-5 mt-md-0">
+                    <div th:if="1==0" class="col-12 col-md-6 col-lg-3 mt-5 mt-md-0">
                         <div class="foot-latest-news">
                             <h2>Laatste oproepen</h2>
 
@@ -154,7 +154,7 @@
                             </ul>
                         </div><!-- .foot-contact -->
 
-                        <div class="subscribe-form">
+                        <div th:if="1==0" class="subscribe-form">
                             <form class="d-flex flex-wrap align-items-center">
                                 <input type="email" placeholder="Your email">
                                 <input type="submit" value="send">

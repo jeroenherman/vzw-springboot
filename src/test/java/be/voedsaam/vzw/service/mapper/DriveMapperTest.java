@@ -1,6 +1,5 @@
 package be.voedsaam.vzw.service.mapper;
 
-import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.business.repository.DriveRepository;
@@ -16,9 +15,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DriveMapperTest {

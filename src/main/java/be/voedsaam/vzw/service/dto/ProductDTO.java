@@ -2,14 +2,21 @@ package be.voedsaam.vzw.service.dto;
 
 import be.voedsaam.vzw.enums.ProductType;
 
-import java.time.LocalDate;
-
 public class ProductDTO {
     private Long id;
     private String name, description, deliveryNr, shelfLife;
     private Double unitOfMeasure;
     private ProductType productType;
     private boolean inStock;
+    private Integer qty;
+
+    public Integer getQty() {
+        return qty;
+    }
+
+    public void setQty(Integer qty) {
+        this.qty = qty;
+    }
 
     public boolean isInStock() {
         return inStock;

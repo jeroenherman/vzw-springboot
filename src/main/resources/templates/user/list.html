@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
 
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
 <head th:replace="fragments/sub :: header" lang="en"></head>
 
 <body>
@@ -12,6 +14,9 @@
         <div class="sidebar-heading">Voedsaam Website</div>
         <div class="list-group list-group-flush">
             <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a href="/user/newemployee" class="list-group-item list-group-item-action bg-light">Nieuwe Werknemer</a>
+            <a href="/user/newvolunteer" class="list-group-item list-group-item-action bg-light">Nieuwe Vrijwilliger</a>
+            <a href="/user/newpartner" class="list-group-item list-group-item-action bg-light">Nieuwe Partner</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -26,7 +31,8 @@
             <h1 class="mt-4">Werknemers</h1>
             <div class="container">
                 <div th:if="${not #lists.isEmpty(employees)}">
-                    <table class="table table-striped table-light">
+                    <table id="employee" class="display table table-striped table-light">
+                        <thead>
                         <tr>
                             <th>Id</th>
                             <th>Gebruikersnaam / email</th>
@@ -37,6 +43,8 @@
                             <th>Editeer</th>
                             <th>Verwijder</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <tr th:each="user : ${employees}">
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.email}"></td>
@@ -47,10 +55,11 @@
                             </td>
                             <td><a class="btn btn-block, btn-success" th:href="${'/user/editemployee/' + user.id}">Editeer</a>
                             </td>
-                            <td th:if="${user.schedules.empty}"><a class="btn btn-block, btn-danger"
+                            <td ><a th:if="${user.schedules.empty}" class="btn btn-block, btn-danger"
                                                                    th:href="${'/user/delete/' + user.id}">Verwijder</a>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="row">
@@ -65,7 +74,8 @@
             <h1 class="mt-4">Vrijwilligers</h1>
             <div class="container">
                 <div th:if="${not #lists.isEmpty(volunteers)}">
-                    <table class="table table-striped table-light">
+                    <table id="volunteer" class="display table table-striped table-light">
+                        <thead>
                         <tr>
                             <th>Id</th>
                             <th>Gebruikersnaam / email</th>
@@ -76,6 +86,8 @@
                             <th>Editeer</th>
                             <th>Verwijder</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         <tr th:each="user : ${volunteers}">
                             <td th:text="${user.id}"></td>
                             <td th:text="${user.email}"></td>
@@ -86,15 +98,56 @@
                             </td>
                             <td><a class="btn btn-block, btn-success" th:href="${'/user/editvolunteer/' + user.id}">Editeer</a>
                             </td>
-                            <td th:if="${user.drives.empty}"><a class="btn btn-block, btn-danger"
+                            <td ><a th:if="${user.drives.empty}" class="btn btn-block, btn-danger"
                                                                 th:href="${'/user/delete/' + user.id}">Verwijder</a>
                             </td>
                         </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
                         <a href="/user/newvolunteer" class="btn btn-primary">Nieuwe Vrijwilliger</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h1 class="mt-4">Partners</h1>
+            <div class="container">
+                <div th:if="${not #lists.isEmpty(partners)}">
+                    <table id="partner" class="display table table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Gebruikersnaam / email</th>
+                            <th>Voornaam</th>
+                            <th>Achternaam</th>
+                            <th>Lijst</th>
+                            <th>Editeer</th>
+                            <th>Verwijder</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${partners}">
+                            <td th:text="${user.id}"></td>
+                            <td th:text="${user.email}"></td>
+                            <td th:text="${user.firstName}"></td>
+                            <td th:text="${user.lastName}"></td>
+                            <td><a class="btn btn-block , btn-primary" th:href="${'/user/showpartner/' + user.id}">Bekijk</a>
+                            </td>
+                            <td><a class="btn btn-block, btn-success" th:href="${'/user/editpartner/' + user.id}">Editeer</a>
+                            </td>
+                            <td ><a th:if="${user.stocks.empty}" class="btn btn-block, btn-danger"
+                                    th:href="${'/user/delete/' + user.id}">Verwijder</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <a href="/user/newpartner" class="btn btn-primary">Nieuwe Partner</a>
                     </div>
                 </div>
             </div>
@@ -112,7 +165,36 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('table.display').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
 
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.css"/>
 
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jq-3.3.1/dt-1.10.18/datatables.min.js"></script>
@@ -15,7 +15,7 @@
         <div class="sidebar-heading">Voedsaam Stock</div>
         <div class="list-group list-group-flush">
             <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
-            <a href="/stock/new" class="list-group-item list-group-item-action bg-light">Nieuwe Stock</a>
+            <a  sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="/stock/new" class="list-group-item list-group-item-action bg-light">Nieuwe Stock</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -29,6 +29,7 @@
         <div class="container">
             <h1 class="mt-4">Stock</h1>
             <div class="container">
+                <p th:if="${#lists.isEmpty(stocks)}"> Deze stock heeft geen voorraad </p>
                 <div th:if="${not #lists.isEmpty(stocks)}">
                     <table id="example" class="table table-striped table-light">
                         <thead>
@@ -55,12 +56,6 @@
                         </tr>
                         </tbody>
                     </table>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <a href="/stock/new" class="btn btn-primary">Nieuw Stock</a>
-                    </div>
-
                 </div>
             </div>
         </div>

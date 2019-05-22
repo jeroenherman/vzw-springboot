@@ -2,6 +2,7 @@ package be.voedsaam.vzw.business.repository.impl;
 
 import be.voedsaam.vzw.business.Stock;
 import be.voedsaam.vzw.business.repository.StockRepository;
+import be.voedsaam.vzw.business.repository.UserRepository;
 import be.voedsaam.vzw.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -15,6 +16,11 @@ import java.util.Optional;
 @Profile("springdatajpa")
 public class StockServiceRepoImpl implements StockService {
     private StockRepository stockRepository;
+    private UserRepository userRepository;
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     @Autowired
     public void setStockRepository(StockRepository stockRepository) {
         this.stockRepository = stockRepository;
@@ -47,5 +53,10 @@ public class StockServiceRepoImpl implements StockService {
             if (o.isPresent())
                 stockRepository.delete(o.get());
         }
+    }
+
+    @Override
+    public List<Stock> listAllByUser(String name) {
+        return stockRepository.findAllByUsersContaining(userRepository.findByEmailIgnoreCase(name));
     }
 }

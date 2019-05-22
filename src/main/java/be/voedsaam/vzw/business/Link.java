@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Link extends AbstractDomainClass{
+public class Link extends AbstractDomainClass implements Comparable<Link>{
     private String title;
     private String url;
     @ManyToOne
@@ -52,5 +52,10 @@ public class Link extends AbstractDomainClass{
         result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
         result = 31 * result + (getArticle() != null ? getArticle().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(Link o) {
+        return this.getId().compareTo(o.getId());
     }
 }

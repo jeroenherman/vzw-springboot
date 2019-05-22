@@ -30,6 +30,7 @@ public class ArticleMapper extends AbstractMapper<Article, ArticleDTO> {
        d.setPicture(b.getPicture().getUrl());
        d.setTitle(b.getTitle());
        d.setArticleType(b.getArticleType());
+       d.setDate(b.getDateCreated());
        return  d;
     }
 

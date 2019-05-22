@@ -1,11 +1,8 @@
 package be.voedsaam.vzw.service.mapper;
 
-import be.voedsaam.vzw.business.Link;
 import be.voedsaam.vzw.business.Picture;
-import be.voedsaam.vzw.business.repository.LinkRepository;
 import be.voedsaam.vzw.business.repository.PictureRepository;
 import be.voedsaam.vzw.commons.AbstractMapper;
-import be.voedsaam.vzw.service.dto.LinkDTO;
 import be.voedsaam.vzw.service.dto.PictureDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

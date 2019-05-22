@@ -5,7 +5,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Paragraph extends AbstractDomainClass {
+public class Paragraph extends AbstractDomainClass implements Comparable<Paragraph> {
     @Lob
     private String title;
     @Lob
@@ -55,5 +55,10 @@ public class Paragraph extends AbstractDomainClass {
         result = 31 * result + (getText() != null ? getText().hashCode() : 0);
         result = 31 * result + (getArticle() != null ? getArticle().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public int compareTo(Paragraph o) {
+        return this.getId().compareTo(o.getId());
     }
 }

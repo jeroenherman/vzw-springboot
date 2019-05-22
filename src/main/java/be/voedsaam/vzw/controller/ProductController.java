@@ -1,13 +1,10 @@
 package be.voedsaam.vzw.controller;
 
-import be.voedsaam.vzw.business.*;
-import be.voedsaam.vzw.enums.ArticleType;
+import be.voedsaam.vzw.business.Product;
 import be.voedsaam.vzw.enums.ProductType;
-import be.voedsaam.vzw.service.ArticleService;
 import be.voedsaam.vzw.service.ProductService;
-import be.voedsaam.vzw.service.dto.ArticleDTO;
 import be.voedsaam.vzw.service.dto.ProductDTO;
-import be.voedsaam.vzw.service.mapper.*;
+import be.voedsaam.vzw.service.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;

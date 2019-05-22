@@ -27,7 +27,7 @@
                     <div class="mx-auto col-sm-6">
                         <!-- user info -->
                         <div class="card">
-                            <div class="card-header">
+                            <div th:style="'background-color:'+${user.color.hex}" class="card-header">
                                 <h4 class="mb-0">Gebruikers informatie</h4>
                             </div>
                             <div class="card-body">
@@ -80,7 +80,7 @@
                     <div class="mx-auto col-sm-6">
                         <!-- form user info -->
                         <div class="card">
-                            <div class="card-header">
+                            <div th:style="'background-color:'+${user.color.hex}" class="card-header">
                                 <h4 class="mb-0">Adres</h4>
                             </div>
                             <div class="card-body">

@@ -13,6 +13,9 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -63,7 +66,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         addDrivesToSchedule();
         loadProducts();
         loadStock();
-
+        loadArticles();
     }
 
 
@@ -92,6 +95,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         o1.addProduct(productList.get(1), 5);
         o1.setPickupDateTime(LocalDateTime.of(2019,6,6,9,0));
         o1.setOrderStatus(OrderStatus.NEW);
+        o1.setStock(ocmwTemse);
 
 
         Order o2 = new Order();
@@ -100,12 +104,14 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         o2.addProduct(productList.get(3), 5);
         o2.setPickupDateTime(LocalDateTime.of(2019,1,6,9,0));
         o2.setOrderStatus(OrderStatus.COMPLETED);
+        o2.setStock(ocmwTemse);
 
         Order o3 = new Order();
         o3.setPartner(partner);
         o3.addProduct(productList.get(1), 7);
         o3.addProduct(productList.get(3), 7);
         o3.setOrderStatus(OrderStatus.CANCELLED);
+        o3.setStock(ocmwTemse);
 
         Order o4 = new Order();
         o4.setPartner(partner);
@@ -113,6 +119,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         o4.addProduct(productList.get(0), 7);
         o4.setPickupDateTime(LocalDateTime.of(2019,9,6,9,0));
         o4.setOrderStatus(OrderStatus.CLOSED);
+        o4.setStock(ocmwTemse);
 
         orderService.saveOrUpdate(o1);
         orderService.saveOrUpdate(o2);
@@ -142,7 +149,6 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         groente.setUnitOfMeasure(0.5);
         groente.setSchelfLife(LocalDate.of(2019, 6, 1));
 
-
         fruit = new Product();
         fruit.setProductType(ProductType.FRUIT);
         fruit.setName("Appelen");
@@ -160,14 +166,22 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         productService.saveOrUpdate(fruit);
         productService.saveOrUpdate(groente);
         productService.saveOrUpdate(meat);
-        loadArticles();
-
     }
 
     private void loadArticles() {
+        //portal
+        File stockFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\portal\\stock.jpg");
+        // home
+        File flyerFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\HOME\\Flyer.jpg");
+        File crateFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\HOME\\crate.jpg");
+        // about
+        File vrijwilliger1File = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\about\\vrijwilliger1.jpg");
+        // news
+        File bestelwagenFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\news\\bestelwagen.jpg");
+        File rotaryFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\news\\rotary.jpg");
 
         Article main1 = new Article();
-        main1.setArticleType(ArticleType.HOME);
+        main1.setArticleType(ArticleType.GOAL);
         main1.setTitle("Nieuwe Rittenplanner");
         Paragraph paragraph1 = new Paragraph();
         paragraph1.setTitle("Rittenplanner");
@@ -180,18 +194,29 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Picture crate = new Picture();
         crate.setUrl("crate.jpg");
         crate.setAlternateText("crate");
+        try {
+            crate.setData(Files.readAllBytes(crateFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         main1.setPicture(crate);
         Article main2 = new Article();
         main2.setArticleType(ArticleType.HOME);
         main2.setTitle("Welkom bij Voedsaam");
         Paragraph pa1 = new Paragraph();
         pa1.setTitle("Samen VoedselStromen herbestemmen");
-        pa1.setText("Voedsaam vzw is een sociaal distributieplatform dat voedseloverschotten detecteert. /n" +
-                " transporteert, stockeert en distrubeeert naar Wase OCMW's en vzws die via voedselondersteuning gezinnen met een budget beperkt begeleiden.");
+        pa1.setText("Voedsaam vzw is een sociaal distributieplatform dat voedseloverschotten detecteert. + " +
+                        "\n" +
+                " Transporteert, stockeert en distrubeeert naar Wase OCMW's en vzws die via voedselondersteuning gezinnen met een budget beperkt begeleiden.");
         main2.addParagraph(pa1);
         Picture p1 = new Picture();
         p1.setUrl("Flyer.jpg");
         p1.setAlternateText("Flyer");
+        try {
+            p1.setData(Files.readAllBytes(flyerFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         main2.setPicture(p1);
         //
         Article vrijwilligers = new Article();
@@ -206,37 +231,15 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Picture p2 = new Picture();
         p2.setAlternateText("vrijwiller1");
         p2.setUrl("vrijwilliger1.jpg");
-        vrijwilligers.addLink(p2);
-        Picture p3 = new Picture();
-        p3.setAlternateText("vrijwiller2");
-        p3.setUrl("vrijwilliger2.jpg");
-        vrijwilligers.addLink(p3);
-        Picture p4 = new Picture();
-        p4.setAlternateText("vrijwiller3");
-        p4.setUrl("vrijwilliger3.jpg");
-        vrijwilligers.addLink(p4);
-        p4.setAlternateText("vrijwiller4");
-        p4.setUrl("vrijwilliger4.jpg");
-        vrijwilligers.addLink(p4);
-        Picture p5 = new Picture();
-        p5.setAlternateText("vrijwiller5");
-        p5.setUrl("vrijwilliger5.jpg");
-        vrijwilligers.addLink(p5);
-        Picture p6 = new Picture();
-        p6.setAlternateText("vrijwiller6");
-        p6.setUrl("vrijwilliger6.jpg");
-        vrijwilligers.addLink(p6);
-        Picture p7 = new Picture();
-        p7.setAlternateText("vrijwiller7");
-        p7.setUrl("vrijwilliger7.jpg");
-        vrijwilligers.addLink(p7);
+        try {
+            p2.setData(Files.readAllBytes(vrijwilliger1File.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        vrijwilligers.setPicture(p2);
         //
         Article news = new Article();
         news.setArticleType(ArticleType.NEWS);
-        Picture p8 = new Picture();
-        p8.setAlternateText("rotary");
-        p8.setUrl("rotary.jpg");
-        news.setPicture(p8);
         news.setTitle("Rotary Waasland steunt VoedSaam met nieuwe bestelwagen");
         Paragraph pa3 = new Paragraph();
         pa3.setTitle("De vzw Voedsaam heeft een bestelwagen gekregen van Rotary Waasland. Daarmee komt een einde aan de lange zoektocht van de organisatie naar een eigen transportmiddel om de distributie van voedseloverschotten in het Waasland te verbeteren. ");
@@ -257,15 +260,38 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Picture p9 = new Picture();
         p9.setAlternateText("bestelwagen");
         p9.setUrl("bestelwagen.jpg");
-        news.addLink(p9);
+        try {
+            p9.setData(Files.readAllBytes(bestelwagenFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        news.setPicture(p9);
         Link link = new Link();
         link.setTitle("Lees origineel artikel");
         link.setUrl("https://www.hln.be/regio/temse/rotary-waasland-steunt-voedsaam-met-nieuwe-bestelwagen~a4c8a847/?referer=https%3A%2F%2Fwww.google.com%2F");
         news.addLink(link);
+
+        Article stock = new Article();
+        stock.setTitle("Stock Management");
+        stock.setArticleType(ArticleType.PORTAL);
+        Picture p10 = new Picture();
+        p10.setTitle("Stock");
+        p10.setAlternateText("stock");
+        try {
+            p10.setData(Files.readAllBytes(stockFile.toPath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stock.setPicture(p10);
+        Paragraph pa5 = new Paragraph();
+        pa5.setTitle("Nieuw stock management is actief voor partners");
+        pa5.setText("Vanaf heden kunnen partners online hun stock beheren en bestellingen uitvoeren ");
+        stock.addParagraph(pa5);
         articleService.saveOrUpdate(main2);
         articleService.saveOrUpdate(main1);
         articleService.saveOrUpdate(vrijwilligers);
         articleService.saveOrUpdate(news);
+        articleService.saveOrUpdate(stock);
     }
 
     private void addDrivesToSchedule() {
@@ -421,7 +447,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         driver.setPassword("Test123");
         driver.setTel("0472 40 07 94");
         driver.setRole(Role.DRIVER);
-
+        driver.setColor(Color.RED);
         attendee = new Volunteer("Veerle Van Overtvelt");
         attendee.setTel("0497 16 36 26");
         attendee.setRole(Role.ATTENDEE);

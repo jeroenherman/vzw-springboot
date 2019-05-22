@@ -14,6 +14,7 @@ public class Drive extends AbstractDomainClass {
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private boolean allDay;
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
     @JoinTable(name = "DRIVE_VOLUNTEER",
@@ -119,6 +120,14 @@ public class Drive extends AbstractDomainClass {
             u.removeDrive(this);
         }
         users.clear();
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     @Override

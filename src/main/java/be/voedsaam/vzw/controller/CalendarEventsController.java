@@ -1,13 +1,14 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.Drive;
-import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.service.DriveService;
 import be.voedsaam.vzw.service.dto.EventDTO;
-import be.voedsaam.vzw.service.mapper.DriveMapper;
 import be.voedsaam.vzw.service.mapper.EventMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package be.voedsaam.vzw.service.dto;
 
 public class EventDTO {
     private Long id;
-    private String title, start, end;
+    private String title, start, end, color;
     private boolean allDay;
 
     public String getTitle() {
@@ -35,6 +35,14 @@ public class EventDTO {
 
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public Long getId() {

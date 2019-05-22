@@ -40,6 +40,7 @@ public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
 				.map(User::getFullName).collect(Collectors.toList()));
 		d.setStartTime(b.getStartTime());
 		d.setEndTime(b.getEndTime());
+		d.setAllDay(b.isAllDay());
 		if (b.getSchedule()!=null)
 		d.setSchedule(b.getSchedule().getName());
 		if (b.getUsers().size()!=0)
@@ -62,6 +63,7 @@ public class DriveMapper extends AbstractMapper<Drive, DriveDTO> {
 		b.setId(d.getId());
 		b.setStartTime(d.getStartTime());
 		b.setEndTime(d.getEndTime());
+		b.setAllDay(d.isAllDay());
 		return b;
 	}
 	

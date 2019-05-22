@@ -14,6 +14,7 @@ public class DriveDTO {
 	private LocalDateTime startTime;
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'hh:mm")
 	private LocalDateTime endTime;
+	private boolean allDay;
 	private List<String> drivers;
 	private List<String> attendees;
 	private List<String> depotHelps;
@@ -44,6 +45,14 @@ public class DriveDTO {
 		if (endTime.isBefore(startTime))
 			throw new ArithmeticException("End time must be greater then start time");
 		this.endTime = endTime;
+	}
+
+	public boolean isAllDay() {
+		return allDay;
+	}
+
+	public void setAllDay(boolean allDay) {
+		this.allDay = allDay;
 	}
 
 	public void setId(Long id) {

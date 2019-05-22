@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" >
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/sub.html :: header" lang="en"></head>
 
@@ -11,9 +11,12 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" href="../../" class="list-group-item list-group-item-action bg-light">Start</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{/drive/removeOrphans}" href="../" class="list-group-item list-group-item-action bg-light">Verwijder zonder schema</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/portal}" href="/portal"
+               class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../portal"
+               class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{/drive/removeOrphans}" href="../"
+               class="list-group-item list-group-item-action bg-light">Verwijder zonder schema</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -21,43 +24,65 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-        <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+        <nav th:replace="fragments/sub.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container">
             <h2>Ritten Lijst</h2>
+            <p th:if="${#lists.isEmpty(drives)}"> Er zijn geen ritten </p>
             <div th:if="${not #lists.isEmpty(drives)}">
-                <div class="alert alert-danger"  th:if="${error!=null}"  >
+                <div class="alert alert-danger" th:if="${error!=null}">
                     <p th:text="${error}"> error </p>
                 </div>
-                <table class="table table-striped table-light">
+                <table id="example" class="table table-striped table-light">
+                    <thead>
                     <tr>
                         <th>Id</th>
                         <th>Beschrijving</th>
-                        <th>Start datum</th>
+                        <th>Start</th>
+                        <th>Einde</th>
                         <th>Schema</th>
                         <th>Lijst</th>
-                        <th sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" >Editeer</th>
+                        <th sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')">Editeer</th>
                         <th sec:authorize="hasRole('ROLE_COORDINATOR')">Verwijder</th>
                     </tr>
+                    </thead>
+                    <tbody>
                     <tr th:each="drive : ${drives}">
                         <td th:text="${drive.id}"></td>
                         <td th:text="${drive.description}"></td>
                         <td>
                             <time datetime="2014-09-20" class="icon">
-                                <em th:text="${#temporals.dayOfWeekName(drive.startTime)}">Zaterdag</em>
-                                <span th:text="${#temporals.day(drive.startTime)}">20</span>
-                                <strong th:text="${#temporals.monthName(drive.startTime)}">September</strong>
+                                <em th:text="${#temporals.format(drive.startTime, 'E','nl')}">20</em>
+                                <span th:text="${#temporals.format(drive.startTime,'dd-MMMM','nl')}">Zaterdag</span>
+                                <strong th:if="${!drive.allDay}"
+                                        th:text="${#temporals.format(drive.startTime, 'HH:mm')}">September</strong>
+                            </time>
+                        </td>
+                        <td>
+                            <time datetime="2014-09-20" class="icon">
+                                <em th:text="${#temporals.format(drive.endTime, 'E','nl')}">20</em>
+                                <span th:text="${#temporals.format(drive.endTime,'dd-MMMM','nl')}">Zaterdag</span>
+                                <strong th:if="${!drive.allDay}" th:text="${#temporals.format(drive.endTime, 'HH:mm')}">September</strong>
                             </time>
                         </td>
                         <td th:text="${drive.schedule}"></td>
-                        <td th:if="${drive.schedule!=null}"><a class="btn btn-block btn-primary" th:href="${'/drive/show/' + drive.id}">Bekijk</a></td>
-                        <td th:if="${drive.schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" ><a class="btn btn-block btn-success" th:href="${'/drive/edit/' + drive.id}">Editeer</a></td>
-                        <td th:if="${!drive.users&&drive.schedule==null}" sec:authorize="hasRole('ROLE_COORDINATOR')"><a class= "btn btn-block btn-danger"th:href="${'/drive/delete/' + drive.id}">Verwijder</a></td>
+                        <td><a th:if="${drive.schedule!=null}" class="btn btn-block btn-primary"
+                               th:href="${'/drive/show/' + drive.id}">Bekijk</a></td>
+                        <td><a th:if="${drive.schedule!=null}"
+                               sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+                               class="btn btn-block btn-success" th:href="${'/drive/edit/' + drive.id}">Editeer</a></td>
+                        <td><a th:if="${!drive.users&&drive.schedule==null}" sec:authorize="hasRole('ROLE_COORDINATOR')"
+                               class="btn btn-block btn-danger" th:href="${'/drive/delete/' + drive.id}">Verwijder</a>
+                        </td>
                     </tr>
+                    </tbody>
                 </table>
                 <div th:if="${session.idSchedule != null}" class="row">
                     <div class="col-sm-3">
-                        <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/new/' + session.idSchedule}" href="/drive/form" class="btn btn-primary">Nieuwe Rit</a>
+                        <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+                           th:href="${'/drive/new/' + session.idSchedule}" href="/drive/form" class="btn btn-primary">Nieuwe
+                            Rit</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +103,35 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
-
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            "language": {
+                "sProcessing": "Bezig...",
+                "sLengthMenu": "_MENU_ resultaten weergeven",
+                "sZeroRecords": "Geen resultaten gevonden",
+                "sInfo": "_START_ tot _END_ van _TOTAL_ resultaten",
+                "sInfoEmpty": "Geen resultaten om weer te geven",
+                "sInfoFiltered": " (gefilterd uit _MAX_ resultaten)",
+                "sInfoPostFix": "",
+                "sSearch": "Zoeken:",
+                "sEmptyTable": "Geen resultaten aanwezig in de tabel",
+                "sInfoThousands": ".",
+                "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+                "oPaginate": {
+                    "sFirst": "Eerste",
+                    "sLast": "Laatste",
+                    "sNext": "Volgende",
+                    "sPrevious": "Vorige"
+                },
+                "oAria": {
+                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
+                    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+                }
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

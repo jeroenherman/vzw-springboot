@@ -5,7 +5,7 @@ public enum  OrderStatus {
     IN_PROGRESS("In process"),
     COMPLETED("Afgehandeld"),
     CLOSED("Afgesloten"),
-    CANCELLED("Geannulleerd");
+    CANCELLED("Geannuleerd");
 
     private String value;
     OrderStatus(String value) {
