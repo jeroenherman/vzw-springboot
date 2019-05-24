@@ -19,7 +19,7 @@ public class DriveDTO {
 	private List<String> attendees;
 	private List<String> depotHelps;
 	private String schedule;
-	private boolean users;
+	private boolean users, destinations;
 
 
 	public DriveDTO() {
@@ -107,8 +107,14 @@ public class DriveDTO {
 		return users;
 	}
 
+	public boolean isDestinations() {
+		return destinations;
+	}
 	public void setUsers(boolean users) {
 		this.users = users;
+	}
+	public void setDestinations(boolean destinations) {
+		this.destinations = destinations;
 	}
 
 	@Override
@@ -132,5 +138,6 @@ public class DriveDTO {
 		result = 31 * result + (getId() != null ? getId().hashCode() : 0);
 		return result;
 	}
+
 
 }

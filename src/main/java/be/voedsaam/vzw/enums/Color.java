@@ -2,7 +2,7 @@ package be.voedsaam.vzw.enums;
 
 public enum Color {
 	RED("Rood", "#ff0000"),
-	BLUE("Blauw","#0000cc" ),
+	BLUE("Blauw","#00ffff" ),
 	GREEN("Groen","#00cc00" ),
 	YELLOW("Geel", "#ffff00"),
 	PURPLE("Paars","#6600cc"),
@@ -16,13 +16,13 @@ public enum Color {
 	LIGHTORANGE("Licht Oranje","#ffb380" ),
 	LIGHTGREY("Licht Grijs","#bfbfbf"),
 	
-	DARKRED("Donker Rood", "#800000"),
-	DARKBLUE("Donker Blauw","#000080"),
-	DARKGREEN("Donker Groen", "#008000"),
-	DARKYELLOW("Donker Geel", "#808000"),
-	DARKPURPLE("Donker Paars", "#400080"),
-	DARKORANGE("Donker Oranje", "#804d00"),
-	DARKGREY("Donker Grijs","#404040" ),
+	DARKRED("Donker Rood", "#ff0000"),
+	DARKBLUE("Donker Blauw","#0000cc"),
+	DARKGREEN("Donker Groen", "#00e673"),
+	DARKYELLOW("Donker Geel", "#ffff00"),
+	DARKPURPLE("Donker Paars", "#6600cc"),
+	DARKORANGE("Donker Oranje", "#ff6600"),
+	DARKGREY("Donker Grijs","##808080" ),
 	BLACK("Zwart","#000000" ),
 	WHITE("Wit", "#ffffff");
 	

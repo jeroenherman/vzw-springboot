@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
@@ -11,7 +11,12 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a th:href="@{/portal}" href="../" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a  th:if="${schedule!=null}" th:href="@{'/drive/listBySchedule/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht Ritten In Schema</a>
+            <a th:if="${schedule!=null}" th:href="@{'/schedule/show/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Bekijk Schema</a>
+            <a th:href="@{'/drive/show/'+ ${drive.id}}" href="../" class="list-group-item list-group-item-action bg-light">Bekijk Rit</a>
+            <a th:if="${schedule!=null}" th:href="@{'/schedule/duplicateDrive/'+ ${drive.id}}" href="../" class="list-group-item list-group-item-action bg-light">Dupliceer Rit</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{'/drive/clear/'+ ${drive.id}}" href="../" class="list-group-item list-group-item-action bg-light">Reset Rit en verwijder uit schema</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -26,7 +31,7 @@
 
         <div class="container-fluid">
             <h1 class="mt-4">Editeer Rit</h1>
-            Schema: <strong th:text="${schedule.name}">Current schedule</strong>
+            Schema: <strong th:if="${schedule!=null}" th:text="${schedule.name}">Current schedule</strong>
             Tijd: <strong th:text="${#temporals.format(now, 'dd/MMM/yyyy HH:mm')}">31/12/2015 15:00</strong>
         </div>
         <div class="jumbotron" name="event">
@@ -57,6 +62,29 @@
                         <label class=" form-check-label">Dag Event</label>
                     </div>
                     <div class="col-lg-2"></div>
+                    <div th:if="1==0" class="form-group">
+                        <label class="col-sm-2 control-label">Herhaald tot</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" th:field="*{repeatUntil}"/>
+                        </div>
+                    </div>
+                    <div th:if="1==0" class="form-check form-check-inline" >
+                        <input type="checkbox" class="form-check-input" id="mon" th:field="*{mon}">
+                        <label class=" form-check-label">Ma</label>
+                        <input type="checkbox" class="form-check-input" id="tue" th:field="*{tue}">
+                        <label class=" form-check-label">Di</label>
+                        <input type="checkbox" class="form-check-input" id="wed" th:field="*{wed}">
+                        <label class=" form-check-label">Woe</label>
+                        <input type="checkbox" class="form-check-input" id="thu" th:field="*{thu}">
+                        <label class=" form-check-label">Don</label>
+                        <input type="checkbox" class="form-check-input" id="fri" th:field="*{fri}">
+                        <label class=" form-check-label">Vrij</label>
+                        <input type="checkbox" class="form-check-input" id="sat" th:field="*{sat}">
+                        <label class=" form-check-label">Zat</label>
+                        <input type="checkbox" class="form-check-input" id="sun" th:field="*{sun}">
+                        <label class=" form-check-label">Zon</label>
+                    </div>
+
                     <div th:if="${event.title!=null}" class="col-lg-10">
                         <button type="submit" class="btn btn-primary">Bevestig</button>
                     </div>

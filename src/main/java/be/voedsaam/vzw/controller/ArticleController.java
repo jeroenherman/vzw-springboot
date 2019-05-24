@@ -70,6 +70,8 @@ public class ArticleController {
             case ABOUT: url = "about"; break;
             case GOAL: url = "causes"; break;
             case NEWS: url = "news" ; break;
+            case DRAFT: url = "draft" ; break;
+            case PORTAL: url = "portal" ; break;
         }
 
         return "redirect:/"+ url;
@@ -89,7 +91,7 @@ public class ArticleController {
     @RequestMapping("/new")
     public String newArticle(Model model){
         Article article = new Article();
-        article.setArticleType(ArticleType.HOME);
+        article.setArticleType(ArticleType.DRAFT);
         model.addAttribute("article", articleMapper.mapToDTO(article));
         model.addAttribute("types",ArticleType.values());
         return "article/form";

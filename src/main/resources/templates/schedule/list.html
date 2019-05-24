@@ -46,8 +46,8 @@
                         <td th:text="${schedule.name}"></td>
                         <td th:text="${schedule.owner}"></td>
                         <td><a class="btn btn-block btn-primary" th:href="${'/schedule/show/' + schedule.id}">Bekijk</a></td>
-                        <td ><a sec:authorize="hasRole('ROLE_COORDINATOR')"class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
-                        <td><a sec:authorize="hasRole('ROLE_COORDINATOR')" th:if="${schedule.viewers.empty and schedule.drives.empty}" class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
+                        <td  sec:authorize="hasRole('ROLE_COORDINATOR')"><a class="btn btn-block btn-success" th:href="${'/schedule/edit/' + schedule.id}">Editeer</a></td>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" ><a  th:if="${schedule.viewers.empty and schedule.drives.empty}" class= "btn btn-block btn-danger"th:href="${'/schedule/delete/' + schedule.id}">Verwijder</a></td>
                     </tr>
                     </tbody>
                 </table>

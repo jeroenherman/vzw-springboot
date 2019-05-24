@@ -51,11 +51,12 @@
                         <td th:text="${destination.contactInfo}"></td>
                         <td><a class="btn btn-block btn-primary" th:href="${'/destination/show/' + destination.id}">Bekijk</a>
                         </td>
-                        <td><a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"><a
                                 class="btn btn-block btn-success" th:href="${'/destination/edit/' + destination.id}">Editeer</a>
                         </td>
-                        <td ><a th:if="${!destination.drives}" sec:authorize="hasRole('ROLE_COORDINATOR')"
-                                class="btn btn-block btn-danger" th:href="${'/destination/delete/' + destination.id}">Verwijder</a>
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')"><a th:if="${!destination.drives}"
+                                                                           class="btn btn-block btn-danger"
+                                                                           th:href="${'/destination/delete/' + destination.id}">Verwijder</a>
                         </td>
                     </tr>
                     </tbody>
@@ -100,7 +101,7 @@
                     "sPrevious": "Vorige"
                 },
                 "oAria": {
-                    "sSortAscending":  ": activeer om kolom oplopend te sorteren",
+                    "sSortAscending": ": activeer om kolom oplopend te sorteren",
                     "sSortDescending": ": activeer om kolom aflopend te sorteren"
                 }
             }

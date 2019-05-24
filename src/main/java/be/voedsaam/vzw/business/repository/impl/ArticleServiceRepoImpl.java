@@ -74,4 +74,9 @@ public class ArticleServiceRepoImpl implements ArticleService{
     public List<Article> listPortal() {
         return articleRepository.findAllByArticleType(ArticleType.PORTAL) ;
     }
+
+    @Override
+    public List<Article> listDraft() {
+        return articleRepository.findAllByArticleType(ArticleType.DRAFT) ;
+    }
 }

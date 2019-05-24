@@ -4,6 +4,7 @@ public enum ArticleType {
     NEWS("Nieuws"),
     GOAL("Doelstelling"),
     ABOUT("Over ons"),
+    DRAFT("Concept"),
     PORTAL("Portaal"),
     HOME("Start Pagina");
 

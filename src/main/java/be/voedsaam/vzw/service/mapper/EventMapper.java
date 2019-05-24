@@ -9,7 +9,9 @@ import be.voedsaam.vzw.service.dto.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -58,9 +60,19 @@ public class EventMapper extends AbstractMapper<Drive, EventDTO> {
             b = o.get();
         b.setDescription(d.getTitle());
         b.setId(d.getId());
-        b.setStartTime(LocalDateTime.parse(d.getStart(), DateTimeFormatter.ISO_DATE_TIME));
-        b.setEndTime(LocalDateTime.parse(d.getEnd(), DateTimeFormatter.ISO_DATE_TIME));
-        b.setAllDay(d.isAllDay());
+        if (d.getStart().length()>15) {
+            b.setStartTime(LocalDateTime.parse(d.getStart(), DateTimeFormatter.ISO_DATE_TIME));
+            b.setEndTime(LocalDateTime.parse(d.getEnd(), DateTimeFormatter.ISO_DATE_TIME));
+            b.setAllDay(d.isAllDay());
+        }
+        if (d.getStart().length()==10) {
+            LocalDate start = LocalDate.parse(d.getStart(),DateTimeFormatter.ISO_LOCAL_DATE);
+            LocalDate end = LocalDate.parse(d.getEnd(),DateTimeFormatter.ISO_LOCAL_DATE);
+            b.setStartTime(LocalDateTime.of(start, LocalTime.of(0,00)));
+            b.setEndTime(LocalDateTime.of(end,LocalTime.of(0,00)));
+            b.setAllDay(true);
+        }
+
 
         return b;
     }

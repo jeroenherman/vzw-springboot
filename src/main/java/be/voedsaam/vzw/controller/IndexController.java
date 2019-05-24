@@ -37,9 +37,14 @@ public class IndexController {
     }
 
     @RequestMapping({"/", "", "index.html"})
-    public String index(Model model){
+    public String draft(Model model){
         model.addAttribute("articles", articleService.listHome());
         return "index";
+    }
+    @RequestMapping({"/draft"})
+    public String index(Model model){
+        model.addAttribute("articles", articleService.listDraft());
+        return "draft";
     }
     @RequestMapping({"/portal"})
     public String drive(Model model, Principal principal){

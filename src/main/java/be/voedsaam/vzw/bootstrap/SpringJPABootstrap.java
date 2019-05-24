@@ -447,19 +447,102 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         driver.setPassword("Test123");
         driver.setTel("0472 40 07 94");
         driver.setRole(Role.DRIVER);
-        driver.setColor(Color.RED);
+        driver.setColor(Color.LIGHTGREEN);
         attendee = new Volunteer("Veerle Van Overtvelt");
         attendee.setTel("0497 16 36 26");
         attendee.setRole(Role.ATTENDEE);
+        attendee.setColor(Color.LIGHTYELLOW);
 
 
         depotHelp = new Volunteer("Marie-Noëlle Delarbre");
         depotHelp.setTel("0474 84 75 91");
         depotHelp.setRole(Role.DEPOTHELP);
+        depotHelp.setColor(Color.LIGHTPURPLE);
+
+        Volunteer driver2 = new Volunteer();
+        driver2.setFullName("Frans De Block");
+        driver2.setEmail("frans@voedsaam.be");
+        driver2.setPassword("Test123");
+        driver2.setTel("0496 82 23 00");
+        driver2.setColor(Color.LIGHTGREY);
+        driver.setRole(Role.DRIVER);
+
+        Volunteer attendee2 = new Volunteer();
+        attendee2.setFullName("Bart Van Gasse");
+        attendee2.setTel("089 64 97 89");
+        attendee2.setColor(Color.BLUE);
+        attendee2.setRole(Role.ATTENDEE);
+
+        Volunteer driver3 = new Volunteer();
+        driver3.setFullName("Leonard Cleys");
+        driver3.setEmail("leonard@voedsaam.be");
+        driver3.setPassword("Test123");
+        driver3.setTel("0472 96 96 19");
+        driver3.setColor(Color.LIGHTBLUE);
+        driver3.setRole(Role.DRIVER);
+
+        Volunteer attendee3 = new Volunteer();
+        attendee3.setFullName("Naufal Ali");
+        attendee3.setTel("0465 13 99 11");
+        attendee3.setColor(Color.YELLOW);
+        attendee3.setRole(Role.ATTENDEE);
+
+        Volunteer driver4 = new Volunteer();
+        driver4.setFullName("Kris De Cock");
+        driver4.setEmail("kris@voedsaam.be");
+        driver4.setPassword("Test123");
+        driver4.setTel("0478 02 04 80");
+        driver4.setColor(Color.LIGHTORANGE);
+        driver4.setRole(Role.DRIVER);
+
+        Volunteer attendee4 = new Volunteer();
+        attendee4.setFullName("Stefaan Van Langenhove");
+        attendee4.setTel("0495 50 78 93");
+        attendee4.setColor(Color.LIGHTBLUE);
+        attendee4.setRole(Role.ATTENDEE);
+
+        Volunteer driver5 = new Volunteer();
+        driver5.setFullName("Bart Van Gasse");
+        driver5.setTel("089 64 97 89");
+        driver5.setEmail("bart@voedsaam.be");
+        driver5.setPassword("Test123");
+        driver5.setColor(Color.BLUE);
+        driver5.setRole(Role.DRIVER);
+
+        Volunteer depotHelp2 = new Volunteer();
+        depotHelp2.setFullName("Frans De Block");
+        depotHelp2.setTel("0496 82 23 00");
+        depotHelp2.setColor(Color.LIGHTGREY);
+        depotHelp2.setRole(Role.DEPOTHELP);
+
+
+        Volunteer driver6 = new Volunteer();
+        driver6.setFullName("Naufal Ali");
+        driver6.setTel("0465 13 99 11");
+        driver6.setEmail("naufal@voedsaam.be");
+        driver6.setPassword("Test123");
+        driver6.setColor(Color.YELLOW);
+        driver6.setRole(Role.DRIVER);
+
+
 
         userService.saveOrUpdate(driver);
+        userService.saveOrUpdate(driver2);
+        userService.saveOrUpdate(driver3);
+        userService.saveOrUpdate(driver4);
+        userService.saveOrUpdate(driver5);
+        userService.saveOrUpdate(driver6);
+
         userService.saveOrUpdate(attendee);
+        userService.saveOrUpdate(attendee2);
+        userService.saveOrUpdate(attendee3);
+        userService.saveOrUpdate(attendee4);
+
         userService.saveOrUpdate(depotHelp);
+        userService.saveOrUpdate(depotHelp2);
+
+
+
 
     }
 }

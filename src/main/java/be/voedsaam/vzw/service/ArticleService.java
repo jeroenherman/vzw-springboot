@@ -10,5 +10,6 @@ public interface ArticleService extends CRUDService<Article>{
     List<Article> listGoals();
     List<Article> listAbout();
     List<Article> listNews();
-    List<Article>listPortal();
+    List<Article> listPortal();
+    List<Article> listDraft();
 }

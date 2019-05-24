@@ -11,9 +11,10 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/portal}" href="/portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
-            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/drive/listbyuser}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a th:href="@{/portal}" href="../" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/drive/listbyuser}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht Ritten</a>
+            <a th:if="${schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'/drive/listBySchedule/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht Ritten In Schema</a>
+            <a  th:if="${schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'/schedule/show/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Bekijk Schema</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/edit/' + drive.id}" href="../edit" class="list-group-item list-group-item-action bg-light">Editeer</a>
         </div>
     </div>
@@ -29,7 +30,7 @@
 
         <div class="container-fluid">
             <h1 th:text="${event.title}" class="mt-4">Bekijk Rit</h1>
-            Schema: <strong th:text="${schedule.name}">Current schedule</strong>
+            Schema: <strong th:if="${schedule!=null}" th:text="${schedule.name}">Current schedule</strong>
             Tijd: <strong th:text="${#temporals.format(now, 'dd/MMM/yyyy HH:mm')}">31/12/2015 15:00</strong>
         </div>
         <div class="row " name="event-volunteer">

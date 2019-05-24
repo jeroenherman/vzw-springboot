@@ -13,7 +13,7 @@
         <div class="list-group list-group-flush">
             <a sec:authorize="hasAnyRole('ROLE_DRIVER')" th:href="@{/portal}" href="/portal"
                class="list-group-item list-group-item-action bg-light">Portaal</a>
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../portal"
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"  th:href="@{/portal}" href="../portal"
                class="list-group-item list-group-item-action bg-light">Portaal</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR')" th:href="@{/drive/removeOrphans}" href="../"
                class="list-group-item list-group-item-action bg-light">Verwijder zonder schema</a>
@@ -69,11 +69,14 @@
                         <td th:text="${drive.schedule}"></td>
                         <td><a th:if="${drive.schedule!=null}" class="btn btn-block btn-primary"
                                th:href="${'/drive/show/' + drive.id}">Bekijk</a></td>
-                        <td><a th:if="${drive.schedule!=null}"
-                               sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+                        <td sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"><a th:if="${drive.schedule!=null}"
+
                                class="btn btn-block btn-success" th:href="${'/drive/edit/' + drive.id}">Editeer</a></td>
-                        <td><a th:if="${!drive.users&&drive.schedule==null}" sec:authorize="hasRole('ROLE_COORDINATOR')"
+                        <td sec:authorize="hasRole('ROLE_COORDINATOR')" >
+                            <a th:if="${!drive.users&&!drive.destinations}"
                                class="btn btn-block btn-danger" th:href="${'/drive/delete/' + drive.id}">Verwijder</a>
+                            <a th:if="${drive.users||drive.destinations}"
+                               class="btn btn-block btn-danger" th:href="${'/drive/clear/' + drive.id}">Reset</a>
                         </td>
                     </tr>
                     </tbody>

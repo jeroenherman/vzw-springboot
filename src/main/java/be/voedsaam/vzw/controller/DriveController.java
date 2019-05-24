@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -37,6 +38,12 @@ public class DriveController {
     private DestinationMapper destinationMapper;
     private DestinationService destinationService;
     private VolunteerMapper volunteerMapper;
+    private Schedule selectedSchedule;
+
+    @Autowired
+    public void setSelectedSchedule(Schedule selectedSchedule) {
+        this.selectedSchedule = selectedSchedule;
+    }
     @Autowired
     public void setEmployeeMapper(VolunteerMapper volunteerMapper) {
         this.volunteerMapper = volunteerMapper;
@@ -94,6 +101,14 @@ public class DriveController {
         model.addAttribute("drives", driveMapper.mapToDTO(driveService.listAllByUser(user.getName())));
         return "drive/list";
     }
+    @Secured({"ROLE_LOGISTICS","ROLE_COORDINATOR"})
+    @RequestMapping("listBySchedule/{scheduleId}")
+    public String listDrivesbyUser(Model model, @PathVariable Integer scheduleId) {
+        Schedule schedule = scheduleService.getById(scheduleId.longValue());
+        model.addAttribute("drives", driveMapper.mapToDTO(schedule.getDrives()));
+        return "drive/list";
+    }
+
 
     @RequestMapping("/show/{id}")
     public String getSchedule(@PathVariable Integer id, Model model) {
@@ -133,6 +148,7 @@ public class DriveController {
         model.addAttribute("possibleDestinations" ,destinationMapper.mapToDTO(possibleDestinations));
         return "drive/form";
     }
+
     @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping("/new/{idSchedule}")
     public String newDrive(@PathVariable Integer idSchedule) throws UnsupportedOperationException{
@@ -161,7 +177,22 @@ public class DriveController {
     @Secured({"ROLE_COORDINATOR"})
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        driveService.delete(id.longValue());
+        Drive drive = driveService.getById(id.longValue());
+        drive.clear();
+        drive = driveService.saveOrUpdate(drive);
+        driveService.delete(drive.getId());
+        return "redirect:/drive/list";
+    }
+
+    @Secured({"ROLE_COORDINATOR", "ROLE_LOGISTICS"})
+    @RequestMapping("/clear/{id}")
+    public String clear(@PathVariable Integer id) {
+        Drive drive = driveService.getById(id.longValue());
+        Schedule schedule = scheduleService.getById(drive.getSchedule().getId());
+        drive.clear();
+        drive = driveService.saveOrUpdate(drive);
+        schedule.removeDrive(drive);
+        scheduleService.saveOrUpdate(schedule);
         return "redirect:/drive/list";
     }
 
@@ -178,7 +209,7 @@ public class DriveController {
         Volunteer user = userService.getVolunteerById(idUser.longValue());
         drive.removeUser(user);
         driveService.saveOrUpdate(drive);
-        return "redirect:/drive/edit/" + drive.getId();
+        return "redirect:/drive/show/" + drive.getId();
     }
 
     @RequestMapping("{idDrive}/adduser/{idUser}")
@@ -187,7 +218,7 @@ public class DriveController {
         Volunteer user = userService.getVolunteerById(idUser.longValue());
         drive.addUser(user);
         driveService.saveOrUpdate(drive);
-        return "redirect:/drive/edit/" + drive.getId();
+        return "redirect:/drive/show/" + drive.getId();
     }
 
     @RequestMapping("{idDrive}/deletedestination/{idDestination}")
@@ -196,7 +227,7 @@ public class DriveController {
         Destination destination = destinationService.getById(idDestination.longValue());
         drive.removeDestination(destination);
         driveService.saveOrUpdate(drive);
-        return "redirect:/drive/edit/" + drive.getId();
+        return "redirect:/drive/show/" + drive.getId();
     }
 
     @RequestMapping("{idDrive}/adddestination/{idDestination}")
@@ -205,7 +236,8 @@ public class DriveController {
         Destination destination = destinationService.getById(idDestination.longValue());
         drive.addDestination(destination);
         driveService.saveOrUpdate(drive);
-        return "redirect:/drive/edit/" + drive.getId();
+        return "redirect:/drive/show/" + drive.getId();
     }
+
 
 }

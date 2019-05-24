@@ -16,6 +16,8 @@
                class="list-group-item list-group-item-action bg-light">Nieuwe Rit</a>
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="${'/schedule/clear/' + schedule.id}"
                href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Wis Ritten</a>
+            <a sec:authorize="hasRole('ROLE_COORDINATOR')" th:href="${'/schedule/duplicate/' + schedule.id}"
+               href="/schedule/show.html" class="list-group-item list-group-item-action bg-light">Dupliceer Schema</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

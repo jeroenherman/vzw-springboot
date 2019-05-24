@@ -75,6 +75,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // Stock
                 .and().authorizeRequests().antMatchers("/order/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_PARTNER")
                 .and().authorizeRequests().antMatchers("/stock/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS", "ROLE_PARTNER")
+                .and().authorizeRequests().antMatchers("/product/**").hasAnyAuthority("ROLE_COORDINATOR", "ROLE_LOGISTICS")
                 // coordinator access
                 .and().authorizeRequests().antMatchers("/user/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/contact/list/").hasAuthority("ROLE_COORDINATOR")
@@ -83,7 +84,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests().antMatchers("/article/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/link/**").hasAuthority("ROLE_COORDINATOR")
                 .and().authorizeRequests().antMatchers("/paragraph/**").hasAuthority("ROLE_COORDINATOR")
-                .and().authorizeRequests().antMatchers("/product/**").hasAuthority("ROLE_COORDINATOR")
+
 
                 .and().exceptionHandling().accessDeniedPage("/access-denied");
 
