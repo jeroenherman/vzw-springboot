@@ -123,7 +123,7 @@
                     </tr>
                     <tr th:each="task : ${tasks}">
                         <td th:text="${task.title}"></td>
-                        <td th:text="${task.description}">beschrijving</td>
+                        <td th:utext="${task.description}">beschrijving</td>
                         <td th:text="${task.role.value}"></td>
                     </tr>
                 </table>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
+<script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script>
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
 <body>
@@ -54,7 +54,17 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Beschrijving:</label>
                             <div class="col-sm-10">
-                                <textarea rows="20" type="text" class="form-control" th:field="*{description}"/>
+                                <textarea id="body" name="body" required="required" th:field="*{description}">
+                        &lt;p&gt;
+                            Example template layout.
+                        &lt;/p&gt;
+                    </textarea>
+                                <script>
+                                    CKEDITOR.replace('body', {
+                                        allowedContent: false,
+                                        height: '400px'
+                                    });
+                                </script>
                             </div>
                         </div>
 

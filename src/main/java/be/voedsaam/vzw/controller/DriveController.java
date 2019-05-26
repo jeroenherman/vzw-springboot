@@ -4,6 +4,7 @@ import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Drive;
 import be.voedsaam.vzw.business.Schedule;
 import be.voedsaam.vzw.business.impl.Volunteer;
+import be.voedsaam.vzw.service.EmailService;
 import be.voedsaam.vzw.enums.Role;
 import be.voedsaam.vzw.service.DestinationService;
 import be.voedsaam.vzw.service.DriveService;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -38,12 +38,13 @@ public class DriveController {
     private DestinationMapper destinationMapper;
     private DestinationService destinationService;
     private VolunteerMapper volunteerMapper;
-    private Schedule selectedSchedule;
+    private EmailService emailService;
 
     @Autowired
-    public void setSelectedSchedule(Schedule selectedSchedule) {
-        this.selectedSchedule = selectedSchedule;
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
     }
+
     @Autowired
     public void setEmployeeMapper(VolunteerMapper volunteerMapper) {
         this.volunteerMapper = volunteerMapper;
@@ -111,7 +112,7 @@ public class DriveController {
 
 
     @RequestMapping("/show/{id}")
-    public String getSchedule(@PathVariable Integer id, Model model) {
+    public String getDrive(@PathVariable Integer id, Model model) {
         Drive drive = driveService.getById(id.longValue());
         if (drive==null)
             return "redirect:/error";
@@ -125,6 +126,22 @@ public class DriveController {
         model.addAttribute("currentDestinations" ,destinationMapper.mapToDTO(currentDestinations));
         return "drive/show";
     }
+
+    @RequestMapping("/mail/{id}")
+    public String mailDrive(@PathVariable Integer id, Model model) {
+        Drive drive = driveService.getById(id.longValue());
+        if (drive==null)
+            return "redirect:/error";
+        model.addAttribute("event", eventMapper.mapToDTO(drive));
+        model.addAttribute("drive", driveMapper.mapToDTO(drive));
+        model.addAttribute("now", LocalDateTime.now());
+        model.addAttribute("schedule", scheduleMapper.mapToDTO(drive.getSchedule()));
+        List<Volunteer> currentUsers = drive.getUsers();
+        model.addAttribute("currentUsers", volunteerMapper.mapToDTO(currentUsers));
+
+        return "drive/mail";
+    }
+
     @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
     @RequestMapping("/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
@@ -146,6 +163,7 @@ public class DriveController {
         possibleDestinations.removeAll(currentDestinations);
         model.addAttribute("currentDestinations" ,destinationMapper.mapToDTO(currentDestinations));
         model.addAttribute("possibleDestinations" ,destinationMapper.mapToDTO(possibleDestinations));
+
         return "drive/form";
     }
 
@@ -238,6 +256,8 @@ public class DriveController {
         driveService.saveOrUpdate(drive);
         return "redirect:/drive/show/" + drive.getId();
     }
+
+
 
 
 }

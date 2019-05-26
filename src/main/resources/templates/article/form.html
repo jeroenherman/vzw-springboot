@@ -141,7 +141,7 @@
                         <tr th:each="paragraph : ${paragraphs}">
                             <td th:text="${paragraph.id}"></td>
                             <td th:text="${paragraph.title}"></td>
-                            <td th:text="${paragraph.text}"></td>
+                            <td th:utext="${paragraph.text}"></td>
                             <td ><a class="btn btn-block btn-success" th:href="${'/paragraph/edit/' + paragraph.id}">Editeer</a></td>
                             <td ><a class= "btn btn-block btn-danger"th:href="${'/paragraph/delete/' + paragraph.id}">Verwijder</a></td>
                         </tr>

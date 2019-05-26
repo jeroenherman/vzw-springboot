@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Template for HTML email (simple)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p th:text="#{greeting(${name})}">
+            Hello, Peter Static!
+        </p>
+        <p>Hierbij een rit voor VoedSaam Vzw waar u een rol in hebt</p>
+        <div class="container-fluid">
+            <h1 th:text="${drive.description}" class="mt-4">Email Rit</h1>
+            Schema: <strong th:if="${schedule!=null}" th:text="${schedule.name}">Current schedule</strong>
+        </div>
+        <div class="row " name="event-volunteer">
+            <div class="col-sm-6">
+                <H2>Event:</H2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><strong>Start</strong></th>
+                            <th><strong>Einde</strong></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <td th:text="${start}"> 2019-06-06 09:00 </td>
+                        <td th:text="${end}"> 2019-06-06 10:00 </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div th:if="${currentUsers!=null and !currentUsers.isEmpty()}" class="col-sm-6">
+                <div class="container rounded bg-light" name="volunteers">
+                    <H2>Vrijwilligers:</H2>
+                    <table class="table table-striped table-light">
+                        <tr>
+                            <th>Naam</th>
+                            <th>Telefoon</th>
+                            <th>Gebruikersrol</th>
+                        </tr>
+                        <tr th:style="'background-color:'+${user.color.hex}" th:each="user : ${currentUsers}">
+                            <td th:text="${user.fullName}"></td>
+                            <td th:text="${user.tel}"></td>
+                            <td th:text="${user.role.value}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div th:if="${currentDestinations!=null and !currentDestinations.isEmpty()}" class="jumbotron" name="destinations">
+            <H2>Bestemmingen</H2>
+            <table class="table table-striped table-light">
+                <tr>
+                    <th>Naam</th>
+                    <th>Contact</th>
+                    <th>Adres</th>
+
+                </tr>
+                <tr th:each="destination : ${currentDestinations}">
+                    <td th:text="${destination.destinationName}"></td>
+                    <td th:text="${destination.contactInfo}"></td>
+                    <td th:text="${destination.street +' '+ destination.streetNumber+' '+destination.postalCode+' '+destination.city}"></td>
+                </tr>
+            </table>
+        </div>
+        <p> Als u chauffeur bent van deze rit kan u deze in detail bekijken op ons portaal via onderstaande link</p>
+        <p><a th:href="${'http://localhost:8080/drive/show/' + drive.id}"> Bekijk rit </a></p>
+
+        <p>
+            Regards, <br />
+            &emsp; <em>The Thymeleaf Team</em>
+        </p>
+    </body>
+</html>

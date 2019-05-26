@@ -64,7 +64,7 @@
 
                             <div th:each="paragraph : ${article.getParagraphs()}" class="entry-content mt-5">
                                 <h3 th:text="${paragraph.title}">Paragraph title</h3>
-                                <p th:text="${paragraph.getText()}">Lorem ipsum dolor sit amet, consectetur adipiscing
+                                <p th:utext="${paragraph.getText()}">Lorem ipsum dolor sit amet, consectetur adipiscing
                                     elit. Mauris tempus vestib ulum mauris quis aliquam. Lorem ipsum dolor sit amet,
                                     consectetur adipiscing elit. Mauris tempus vestibulum mauris quis aliquam. Integer
                                     accumsan sodales odio, id tempus velit ullamcorper id. Quisque at erat eu libero

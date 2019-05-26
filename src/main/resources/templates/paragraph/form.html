@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js"></script>
 <head th:replace="fragments/edit-show.html :: header" lang="en"></head>
 
 <body>
@@ -19,7 +19,8 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-        <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
+        <nav th:replace="fragments/sub.html :: topmenu"
+             class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container-fluid">
             <h1 class="mt-4">Editeer paragraaf</h1>
@@ -38,7 +39,17 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Text:</label>
                             <div class=" card-body">
-                                <textarea rows="15" class="form-control" th:field="*{text}"></textarea>
+                                <textarea id="body" name="body" required="required" th:field="*{text}">
+                        &lt;p&gt;
+                            Example template layout.
+                        &lt;/p&gt;
+                    </textarea>
+                                <script>
+                                    CKEDITOR.replace('body', {
+                                        allowedContent: false,
+                                        height: '400px'
+                                    });
+                                </script>
                             </div>
                         </div>
                         <div class="row">

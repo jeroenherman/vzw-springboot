@@ -16,6 +16,7 @@
             <a th:if="${schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'/drive/listBySchedule/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht Ritten In Schema</a>
             <a  th:if="${schedule!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{'/schedule/show/'+ ${schedule.id}}" href="../" class="list-group-item list-group-item-action bg-light">Bekijk Schema</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/edit/' + drive.id}" href="../edit" class="list-group-item list-group-item-action bg-light">Editeer</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/drive/mail/' + drive.id}" href="../edit" class="list-group-item list-group-item-action bg-light">Email</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
