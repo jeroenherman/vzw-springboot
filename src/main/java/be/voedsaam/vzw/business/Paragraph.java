@@ -44,21 +44,21 @@ public class Paragraph extends AbstractDomainClass implements Comparable<Paragra
 
         Paragraph paragraph = (Paragraph) o;
 
-        if (getTitle() != null ? !getTitle().equals(paragraph.getTitle()) : paragraph.getTitle() != null) return false;
-        if (getText() != null ? !getText().equals(paragraph.getText()) : paragraph.getText() != null) return false;
-        return getArticle() != null ? getArticle().equals(paragraph.getArticle()) : paragraph.getArticle() == null;
+        if (title != null ? !title.equals(paragraph.title) : paragraph.title != null) return false;
+        return text != null ? text.equals(paragraph.text) : paragraph.text == null;
     }
 
     @Override
     public int hashCode() {
-        int result = getTitle() != null ? getTitle().hashCode() : 0;
-        result = 31 * result + (getText() != null ? getText().hashCode() : 0);
-        result = 31 * result + (getArticle() != null ? getArticle().hashCode() : 0);
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (text != null ? text.hashCode() : 0);
         return result;
     }
 
     @Override
     public int compareTo(Paragraph o) {
+        if (this.getId()!=null&&o.getId()!=null)
         return this.getId().compareTo(o.getId());
+        return 0;
     }
 }

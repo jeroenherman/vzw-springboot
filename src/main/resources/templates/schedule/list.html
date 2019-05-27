@@ -13,7 +13,7 @@
         <div class="list-group list-group-flush">
             <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
             <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/new" class="list-group-item list-group-item-action bg-light">Nieuw Schema</a>
-            <a sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/listorphans" class="list-group-item list-group-item-action bg-light">Toon Wezen</a>
+            <a th:if="${hasOrphans}" sec:authorize="hasRole('ROLE_COORDINATOR')" href="/schedule/listorphans" class="list-group-item list-group-item-action bg-light">Toon Wezen</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -24,6 +24,8 @@
         <nav th:replace="fragments/sub.html :: topmenu" class="navbar navbar-expand-lg navbar-light bg-light border-bottom"></nav>
 
         <div class="container">
+            <h2>Schema Lijst</h2>
+            <p th:if="${#lists.isEmpty(schedules)}"> Er zijn geen schema's </p>
             <div th:if="${not #lists.isEmpty(schedules)}">
                 <h2>Schema Lijst</h2>
                 <div class="alert alert-danger"  th:if="${error!=null}"  >

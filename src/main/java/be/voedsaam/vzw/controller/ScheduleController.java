@@ -75,12 +75,14 @@ public class ScheduleController {
     @RequestMapping({"list", "/"})
     public String listSchedules(Model model, Principal user) {
         model.addAttribute("schedules", scheduleMapper.mapToDTO(scheduleService.listAllByUserName(user.getName())));
+        model.addAttribute("hasOrphans", scheduleService.hasOrphans());
         return "schedule/list";
     }
 
     @RequestMapping({"/listorphans"})
     public String listOrphanSchedules(Model model) {
         List<Schedule> orphans = scheduleService.listAllOrphans();
+        model.addAttribute("hasOrphans", scheduleService.hasOrphans());
         model.addAttribute("schedules", scheduleMapper.mapToDTO(orphans));
         return "schedule/list";
     }

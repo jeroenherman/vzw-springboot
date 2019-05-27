@@ -92,4 +92,11 @@ public class ScheduleServiceRepoImpl implements ScheduleService {
       List<Schedule> orphans = ((List<Schedule>) listAll()).stream().filter(schedule -> schedule.getUsers().size()==0).collect(Collectors.toList());
         return orphans;
     }
+
+    @Override
+    public boolean hasOrphans() {
+        if (this.listAllOrphans().size()>0)
+        return true ;
+        return false;
+    }
 }

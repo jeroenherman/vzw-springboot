@@ -51,7 +51,7 @@
                             <td><a class="btn btn-block, btn-success"
                                    th:href="${'/stock/edit/' + stock.id}">Editeer</a>
                             </td>
-                            <td><a  class="btn btn-block, btn-danger" th:href="${'/stock/delete/' + stock.id}">Verwijder</a>
+                            <td><a th:if="${stock.noUsers && stock.emptyStock &&stock.noOrders}"  class="btn btn-block, btn-danger" th:href="${'/stock/delete/' + stock.id}">Verwijder</a>
                             </td>
                         </tr>
                         </tbody>

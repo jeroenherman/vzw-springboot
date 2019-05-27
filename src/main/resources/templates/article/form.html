@@ -15,7 +15,7 @@
             <a th:if="${article.title!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
                th:href="${'/article/show/' + article.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>
-            <a th:if="${article.id!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
+            <a th:if="${article.id!=null and article.picture==null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
                th:href="${'/article/newpicture/' + article.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Nieuwe Foto</a>
             <a th:if="${article.id!=null}" sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
@@ -52,7 +52,7 @@
                                 <div class="form-group row">
                                     <label class=" col-lg-3 col-form-label form-control-label">Titel</label>
                                     <div class="col-lg-9">
-                                        <input type="text" class="form-control" th:field="*{title}"/>
+                                        <input th:required="required" type="text" class="form-control" th:field="*{title}"/>
                                     </div>
                                 </div>
                                 <div class="form-group row">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 
 @Controller
@@ -103,7 +104,8 @@ public class ArticleController {
         Paragraph paragraph = new Paragraph();
         article.addParagraph(paragraph);
         article = articleService.saveOrUpdate(article);
-        return "redirect:/article/edit/"+ article.getId();
+        Long newParagraphId = article.getParagraphs().stream().mapToLong(p ->p.getId()).max().orElseThrow(NoSuchElementException::new);
+        return "redirect:/paragraph/edit/"+ newParagraphId;
 
     }
     @RequestMapping("/newlink/{id}")
@@ -112,7 +114,8 @@ public class ArticleController {
         Link link = new Link();
         article.addLink(link);
         article = articleService.saveOrUpdate(article);
-        return "redirect:/article/edit/"+ article.getId();
+        Long newLinkId = article.getLinks().stream().mapToLong(p ->p.getId()).max().orElseThrow(NoSuchElementException::new);
+        return "redirect:/link/edit/"+ newLinkId;
 
     }
     @RequestMapping("/newpicture/{id}")
@@ -123,7 +126,7 @@ public class ArticleController {
         picture.setAlternateText("alt");
         article.setPicture(picture);
         article = articleService.saveOrUpdate(article);
-        return "redirect:/article/edit/"+ article.getId();
+        return "redirect:/picture/edit/"+ article.getPicture().getId();
 
     }
 

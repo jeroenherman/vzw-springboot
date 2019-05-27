@@ -10,6 +10,7 @@ import be.voedsaam.vzw.service.dto.PictureDTO;
 import be.voedsaam.vzw.service.mapper.PictureMapper;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,21 +50,21 @@ public class PictureController {
     public void setPictureService(PictureService pictureService) {
         this.pictureService = pictureService;
     }
-
+    @Secured("ROLE_COORDINATOR")
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String saveOrUpdate(PictureDTO dto){
         Picture picture = pictureMapper.mapToObj(dto);
         picture = pictureService.saveOrUpdate(picture);
         return "redirect:/article/edit/" + picture.getArticle().getId();
     }
-
+    @Secured("ROLE_COORDINATOR")
     @RequestMapping("/edit/{id}")
     public String editTask(@PathVariable Integer id, Model model){
         Picture picture = pictureService.getById(id.longValue());
         model.addAttribute("picture", pictureMapper.mapToDTO(picture));
         return "picture/form";
     }
-
+    @Secured("ROLE_COORDINATOR")
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Integer id){
         Picture picture = pictureService.getById(id.longValue());
@@ -73,7 +74,7 @@ public class PictureController {
         articleService.saveOrUpdate(article);
         return "redirect:/article/edit/" + article.getId();
     }
-
+    @Secured("ROLE_COORDINATOR")
     @PostMapping("/upload/{id}")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes, @PathVariable Integer id) {

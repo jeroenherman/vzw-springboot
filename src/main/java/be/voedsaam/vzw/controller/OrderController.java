@@ -23,7 +23,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +121,8 @@ public class OrderController {
     public String newOrder(Model model, Principal principal ){
         Order order = new Order();
         order.setOrderStatus(OrderStatus.NEW);
+        LocalDate date = LocalDate.now();
+        order.setPickupDateTime(LocalDateTime.of(date, LocalTime.of(17,0)));
         order.setPartner((Partner) userService.findByEmail(principal.getName()));
         model.addAttribute("order", orderMapper.mapToDTO(order));
         model.addAttribute("types",OrderStatus.values());

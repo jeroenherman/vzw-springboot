@@ -64,9 +64,12 @@ public class ArticleTest {
         Paragraph paragraph = new Paragraph();
         paragraph.setTitle("title1");
         paragraph.setText("text1");
+        Paragraph paragraph2 = new Paragraph();
+        paragraph.setTitle("title");
+        paragraph.setText("text2");
         classUnderTest.addParagraph(paragraph);
         assertEquals(1,classUnderTest.getParagraphs().size());
-        classUnderTest.addParagraph(paragraph);
+        classUnderTest.addParagraph(paragraph2);
         assertEquals(2,classUnderTest.getParagraphs().size());
         // test links and paragraphs
         addLink();
@@ -77,7 +80,7 @@ public class ArticleTest {
         assertEquals(2,classUnderTest.getLinks().size());
         assertEquals(2,classUnderTest.getParagraphs().size());
         classUnderTest.addParagraph(paragraph);
-        assertEquals(3,classUnderTest.getParagraphs().size());
+        assertEquals(2,classUnderTest.getParagraphs().size());
 
     }
 
@@ -87,11 +90,15 @@ public class ArticleTest {
         Paragraph paragraph = new Paragraph();
         paragraph.setTitle("title1");
         paragraph.setText("text1");
+        Paragraph paragraph2 = new Paragraph();
+        paragraph.setTitle("title");
+        paragraph.setText("text2");
+
         classUnderTest.addParagraph(paragraph);
         assertEquals(1,classUnderTest.getParagraphs().size());
-        classUnderTest.addParagraph(paragraph);
+        classUnderTest.addParagraph(paragraph2);
         assertEquals(2,classUnderTest.getParagraphs().size());
-        classUnderTest.removeParagraph(paragraph);
+        classUnderTest.removeParagraph(paragraph2);
         assertEquals(1,classUnderTest.getParagraphs().size());
 
     }
@@ -99,9 +106,11 @@ public class ArticleTest {
     @Test
     public void addLink() throws Exception {
         Link l1 = new Link();
+        l1.setId(Long.valueOf("1"));
         l1.setUrl("url1");
         l1.setTitle("title1");
         Link l2 = new Link();
+        l2.setId(Long.valueOf("2"));
         l2.setUrl("url2");
         l2.setTitle("title2");
         classUnderTest.addLink(l1);

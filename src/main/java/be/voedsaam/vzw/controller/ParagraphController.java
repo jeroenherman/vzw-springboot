@@ -4,6 +4,7 @@ import be.voedsaam.vzw.business.Article;
 import be.voedsaam.vzw.business.Paragraph;
 import be.voedsaam.vzw.service.ParagraphService;
 import be.voedsaam.vzw.service.dto.ParagraphDTO;
+import be.voedsaam.vzw.service.mapper.ArticleMapper;
 import be.voedsaam.vzw.service.mapper.ParagraphMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ParagraphController {
     private ParagraphService paragraphService;
     private ParagraphMapper paragraphMapper;
+    private ArticleMapper articleMapper;
+    @Autowired
+    public void setArticleMapper(ArticleMapper articleMapper) {
+        this.articleMapper = articleMapper;
+    }
+
     @Autowired
     public void setParagraphMapper(ParagraphMapper paragraphMapper) {
         this.paragraphMapper = paragraphMapper;
@@ -39,6 +46,7 @@ public class ParagraphController {
     public String editTask(@PathVariable Integer id, Model model){
         Paragraph paragraph = paragraphService.getById(id.longValue());
         model.addAttribute("paragraph", paragraphMapper.mapToDTO(paragraph));
+        model.addAttribute("article", articleMapper.mapToDTO(paragraph.getArticle()));
         return "paragraph/form";
     }
 

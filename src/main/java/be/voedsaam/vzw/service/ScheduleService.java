@@ -10,4 +10,5 @@ public interface ScheduleService extends CRUDService<Schedule> {
     List<Schedule> listAllByUserName(String userName);
     void removeDrives(Integer id);
     List<Schedule> listAllOrphans();
+    boolean hasOrphans();
 }

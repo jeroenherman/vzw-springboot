@@ -44,7 +44,7 @@ public class UserServiceRepoImplTest {
 @Test
 public void listAll(){
     List<User> users = (List<User>) classUnderTest.listAll();
-    assertEquals(8,users.size());
+    assertEquals(18,users.size());
 }
 
     @Test
@@ -74,10 +74,10 @@ public void listAll(){
 
     @Test
     public void listVolunteerByRole() throws Exception {
-        assertEquals(1, classUnderTest.listVolunteerByRole(Role.VOLUNTEER).size());
-        assertEquals(1, classUnderTest.listVolunteerByRole(Role.DRIVER).size());
-        assertEquals(1, classUnderTest.listVolunteerByRole(Role.DEPOTHELP).size());
-        assertEquals(1, classUnderTest.listVolunteerByRole(Role.ATTENDEE).size());
+        assertEquals(2, classUnderTest.listVolunteerByRole(Role.VOLUNTEER).size());
+        assertEquals(5, classUnderTest.listVolunteerByRole(Role.DRIVER).size());
+        assertEquals(2, classUnderTest.listVolunteerByRole(Role.DEPOTHELP).size());
+        assertEquals(4, classUnderTest.listVolunteerByRole(Role.ATTENDEE).size());
     }
     @Test(expected = UnsupportedOperationException.class)
     public void listVolunteerByRoleWrongRoleException() throws Exception {
@@ -119,7 +119,7 @@ public void listAll(){
     @Test
     public void listAllVolunteers() throws Exception {
         List<Volunteer> volunteers = classUnderTest.listAllVolunteers();
-        assertEquals(4, volunteers.size());
+        assertEquals(13, volunteers.size());
     }
 
 }

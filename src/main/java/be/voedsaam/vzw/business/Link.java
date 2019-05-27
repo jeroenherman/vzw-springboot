@@ -41,21 +41,24 @@ public class Link extends AbstractDomainClass implements Comparable<Link>{
 
         Link link = (Link) o;
 
-        if (getTitle() != null ? !getTitle().equals(link.getTitle()) : link.getTitle() != null) return false;
-        if (getUrl() != null ? !getUrl().equals(link.getUrl()) : link.getUrl() != null) return false;
-        return getArticle() != null ? getArticle().equals(link.getArticle()) : link.getArticle() == null;
+        if (!title.equals(link.title)) return false;
+        return url.equals(link.url);
     }
 
     @Override
     public int hashCode() {
-        int result = getTitle() != null ? getTitle().hashCode() : 0;
-        result = 31 * result + (getUrl() != null ? getUrl().hashCode() : 0);
-        result = 31 * result + (getArticle() != null ? getArticle().hashCode() : 0);
-        return result;
+        if (title!=null && url!=null ) {
+            int result = title.hashCode();
+            result = 31 * result + url.hashCode();
+            return result;
+        }
+        return 0;
     }
 
     @Override
     public int compareTo(Link o) {
+        if (this.getId()!=null && o.getId()!=null)
         return this.getId().compareTo(o.getId());
+        return 0;
     }
 }

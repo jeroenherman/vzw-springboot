@@ -368,8 +368,8 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Drive drive1 = new Drive();
         drive1.setDescription("Rit Voedsaam -> Depot");
         drive1.addUser(users.get(0));
-        drive1.addUser(users.get(2));
-        drive1.addUser(users.get(3));
+        drive1.addUser(users.get(7));
+        drive1.addUser(users.get(11));
         drive1.setStartTime(LocalDateTime.of(2019, 1, 01, 9, 30));
         drive1.setEndTime(LocalDateTime.of(2019, 01, 01, 10, 30));
         drive1.addDestination(destinations.get(0));
@@ -379,7 +379,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         Drive drive2 = new Drive();
         drive2.setDescription("Rit Depot -> Belorta");
         drive2.addUser(users.get(0));
-        drive2.addUser(users.get(2));
+        drive2.addUser(users.get(7));
         drive2.setStartTime(LocalDateTime.of(2019, 02, 01, 9, 30));
         drive2.setEndTime(LocalDateTime.of(2019, 02, 01, 10, 30));
         drive2.addDestination(destinations.get(0));
@@ -454,7 +454,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         attendee.setColor(Color.LIGHTYELLOW);
 
 
-        depotHelp = new Volunteer("Marie-Noëlle Delarbre");
+        depotHelp = new Volunteer("Marie-Noelle Delarbre");
         depotHelp.setTel("0474 84 75 91");
         depotHelp.setRole(Role.DEPOTHELP);
         depotHelp.setColor(Color.LIGHTPURPLE);
