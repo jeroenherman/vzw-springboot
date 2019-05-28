@@ -208,7 +208,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         main2.setArticleType(ArticleType.HOME);
         main2.setTitle("Welkom bij Voedsaam");
         Paragraph pa1 = new Paragraph();
-        pa1.setTitle("Samen VoedselStromen herbestemmen");
+        pa1.setTitle("Samen voedselreststomen herbestemmen");
         pa1.setText("Voedsaam vzw is een sociaal distributieplatform dat voedseloverschotten detecteert. + " +
                         "\n" +
                 " Transporteert, stockeert en distrubeeert naar Wase OCMW's en vzws die via voedselondersteuning gezinnen met een budget beperkt begeleiden.");
