@@ -37,7 +37,7 @@ public class StockMapper extends AbstractMapper<Stock, StockDTO> {
            d.setNoUsers(false);
        else
            d.setNoUsers(true);
-        
+
        return  d;
     }
 
