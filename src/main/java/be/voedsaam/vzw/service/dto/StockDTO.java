@@ -6,8 +6,7 @@ public class StockDTO {
     private Long id;
     private String name, location;
     private List<String> users;
-    private boolean emptyStock;
-    private boolean noUsers;
+    private boolean emptyStock, noUsers, noOrders;
 
     public boolean isNoUsers() {
         return noUsers;
@@ -55,5 +54,13 @@ public class StockDTO {
 
     public void setEmptyStock(boolean emptyStock) {
         this.emptyStock = emptyStock;
+    }
+
+    public boolean isNoOrders() {
+        return noOrders;
+    }
+
+    public void setNoOrders(boolean noOrders) {
+        this.noOrders = noOrders;
     }
 }

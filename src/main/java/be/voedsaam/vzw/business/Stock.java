@@ -19,6 +19,8 @@ public class Stock extends AbstractDomainClass {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "stock_id")})
     private List<Partner> users = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     public String getLocation() {
         return location;
@@ -78,9 +80,26 @@ public class Stock extends AbstractDomainClass {
             user.removeStock(this);
         }
     }
+
+    public List<Order> getOrders() {
+        return Collections.unmodifiableList(orders);
+    }
+
+    public void addOrder(Order order){
+        orders.add(order);
+        order.setStock(this);
+    }
+
+    public void removeOrder(Order order){
+        orders.remove(order);
+        order.setStock(null);
+
+    }
+
     @PreRemove
     public void clear(){
         users.clear();
         products.clear();
+        orders.clear();
     }
 }

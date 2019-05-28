@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Template for HTML email (simple)</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+    <body>
+        <p th:text="#{greeting(${name})}">
+            Hello, Peter Static!
+        </p>
+        <p>Hierbij een bestelling voor VoedSaam Vzw waar u een rol in hebt</p>
+        <div class="container-fluid">
+            <h1 th:text="${'Status: '+order.getOrderStatus().getValue()}" class="mt-4">Bestelling Status</h1>
+            Stock: <strong th:if="${stock!=null}" th:text="${stock.name}">Current stock</strong>
+            Locatie: <strong th:if="${stock!=null}" th:text="${stock.location}">Current location</strong>
+        </div>
+        <div class="row " name="event-volunteer">
+            <div class="col-sm-6">
+                <H2>Ophaling:</H2>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th><strong>Afhaling is gepland</strong></th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <td th:text="${pickup}"> 2019-06-06 09:00 </td>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <div th:if="${not #lists.isEmpty(products)}" class="container">
+            <h1 class="mt-4">Producten in Bestelling</h1>
+            <div class="container">
+                <div>
+                    <table id="example" class="table table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Naam</th>
+                            <th>Product Type</th>
+                            <th>Beschrijving</th>
+                            <th>Inhoud (l) / Gewicht (kg)</th>
+                            <th>Houdbaarheid</th>
+                            <th>Hoeveelheid</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.id}"></td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.productType.value}"></td>
+                            <td th:text="${product.description}"></td>
+                            <td th:text="${product.unitOfMeasure}"></td>
+                            <td th:text="${product.shelfLife}"></td>
+                            <td th:text="${product.qty}"></td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th th:text="${'Totaal Inhoud (l) Gewicht (kg): ' + total}" colspan="6" style="text-align:right">Totaal Inhoud (l) Gewicht (kg):</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <p> Als partner van deze stock kan u deze in detail bekijken op ons portaal via onderstaande link</p>
+        <p><a th:href="${'http://localhost:8080/order/edit/' + order.id}"> Bekijk Bestelling </a></p>
+
+        <p>
+            Groeten, <br />
+            &emsp; <em>Het VoedSaam Team</em>
+        </p>
+    </body>
+</html>

@@ -182,7 +182,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         File vrijwilliger1File =new File(classLoader.getResource("static/public-pictures/about/vrijwilliger1.jpg").getFile());
         // news
         File bestelwagenFile =new File(classLoader.getResource("static/public-pictures/news/bestelwagen.jpg").getFile());
-       
+
 
         Article main1 = new Article();
         main1.setArticleType(ArticleType.GOAL);

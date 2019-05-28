@@ -4,6 +4,7 @@ import be.voedsaam.vzw.business.User;
 import be.voedsaam.vzw.enums.Color;
 import be.voedsaam.vzw.service.ArticleService;
 import be.voedsaam.vzw.service.ContactService;
+import be.voedsaam.vzw.service.OrderService;
 import be.voedsaam.vzw.service.UserService;
 import be.voedsaam.vzw.service.dto.ContactDTO;
 import be.voedsaam.vzw.service.dto.DonationDTO;
@@ -21,6 +22,12 @@ public class IndexController {
     ArticleService articleService;
     ContactService contactService;
     UserService userService;
+    OrderService orderService;
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -52,6 +59,7 @@ public class IndexController {
         if (principal!=null && !(principal.getName().equals("anonymousUser"))) {
             User user = userService.findByEmail(principal.getName());
             model.addAttribute("nrOfContacts", contactService.listAll().size());
+            model.addAttribute("nrOfOrders", orderService.listNewOrders().size());
             model.addAttribute("userId", user.getId());
             model.addAttribute("userName", user.getFullName());
             model.addAttribute("articles", articleService.listPortal());

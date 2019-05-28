@@ -1,6 +1,7 @@
 package be.voedsaam.vzw.service;
 
 import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.Order;
 
 import javax.mail.MessagingException;
 import java.util.Locale;
@@ -19,4 +20,5 @@ public interface EmailService {
     void sendEditableMail(String recipientName, String recipientEmail, String body, Locale locale) throws MessagingException;
 
     void sendDriveMail(String recipientName, String recipientEmail, Locale locale, Drive drive) throws MessagingException;
+    void sendOrderMail(String recipientName, String recipientEmail, Locale locale, Order order) throws MessagingException;
 }

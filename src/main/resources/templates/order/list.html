@@ -15,6 +15,13 @@
         <div class="sidebar-heading">Voedsaam Stock</div>
         <div class="list-group list-group-flush">
             <a href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/list}" href="../portal" class="list-group-item list-group-item-action bg-light">Alle Bestellingen</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/listNew}" href="../portal" class="list-group-item list-group-item-action bg-light">Nieuwe Bestellingen</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/listInProgress}" href="../portal" class="list-group-item list-group-item-action bg-light">Bestellingen in Process</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/listCompleted}" href="../portal" class="list-group-item list-group-item-action bg-light">Afgehandelde Bestellingen</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/listClosed}" href="../portal" class="list-group-item list-group-item-action bg-light">Afgesloten Bestellingen</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/order/listCancelled}" href="../portal" class="list-group-item list-group-item-action bg-light">Geannuleerde Bestellingen</a>
+
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

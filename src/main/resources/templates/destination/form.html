@@ -11,7 +11,8 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Ritten</div>
         <div class="list-group list-group-flush">
-            <a href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a th:href="@{/portal}" href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a th:href="@{/destination/list/}" href="../portal" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')"
                th:href="${'/destination/show/' + destination.id}" href="../edit"
                class="list-group-item list-group-item-action bg-light">Bekijk</a>

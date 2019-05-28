@@ -29,15 +29,18 @@ public class StockMapper extends AbstractMapper<Stock, StockDTO> {
        d.setName(b.getName());
        d.setUsers(b.getUsers().stream().map(u -> u.getFullName()).collect(Collectors.toList()));
        //
-       if (b.getProducts().size()>1)
+       if (b.getProducts().size()>0)
            d.setEmptyStock(false);
        else d.setEmptyStock(true);
 
-       if (b.getUsers().size()>1)
+       if (b.getUsers().size()>0)
            d.setNoUsers(false);
        else
            d.setNoUsers(true);
-        
+       if (b.getOrders().size()>0)
+           d.setNoOrders(false);
+       else
+           d.setNoOrders(true);
        return  d;
     }
 

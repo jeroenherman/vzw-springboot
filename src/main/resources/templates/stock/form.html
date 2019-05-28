@@ -13,13 +13,14 @@
     <div class="bg-light border-right" id="sidebar-wrapper">
         <div class="sidebar-heading">Voedsaam Stock</div>
         <div class="list-group list-group-flush">
-            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
+            <a th:href="@{/portal}" href="../portal" class="list-group-item list-group-item-action bg-light">Portaal</a>
+            <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="@{/stock/list/}" href="../" class="list-group-item list-group-item-action bg-light">Overzicht</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/stock/'+stock.id+'/addDelivery'}" href="../stock/form.html"
                class="list-group-item list-group-item-action bg-light">Nieuwe Levering</a>
             <a sec:authorize="hasAnyRole('ROLE_COORDINATOR', 'ROLE_LOGISTICS')" th:href="${'/stock/'+stock.id+'/transferStock'}" href="../stock/form.html"
                class="list-group-item list-group-item-action bg-light">Verplaatsing Stock</a>
             <a sec:authorize="hasAnyRole('ROLE_PARTNER')" href="../listbyuser" class="list-group-item list-group-item-action bg-light">Overzicht</a>
-            <a sec:authorize="hasAnyRole('ROLE_PARTNER')" th:href="${'/stock/'+stock.id+'/newOrder'}" href="../stock/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Bestelling</a>
+            <a th:if="${!stock.emptyStock}" sec:authorize="hasAnyRole('ROLE_PARTNER')" th:href="${'/stock/'+stock.id+'/newOrder'}" href="../stock/form.html" class="list-group-item list-group-item-action bg-light">Nieuwe Bestelling</a>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
@@ -100,9 +101,10 @@
                 </div>
             </div>
 
-            <div th:if="${not #lists.isEmpty(products)}" class="container">
+            <div  class="container">
                 <h1 class="mt-4">Producten in Stock</h1>
-                <div class="container">
+                <p th:if="${stock.emptyStock}"> Er zijn geen producten in stock</p>
+                <div th:if="${not #lists.isEmpty(products)}" class="container">
                     <div>
                         <table id="example2" class="display table table-striped table-light">
                             <thead>

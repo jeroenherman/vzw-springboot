@@ -20,16 +20,17 @@
 package be.voedsaam.vzw.controller;
 
 import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.Order;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.service.DriveService;
 import be.voedsaam.vzw.service.EmailService;
+import be.voedsaam.vzw.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -44,6 +45,8 @@ public class SendingController {
     private EmailService emailService;
     @Autowired
     private DriveService driveService;
+    @Autowired
+    private OrderService orderService;
 
     /* Send plain TEXT mail */
     @RequestMapping(value = "/sendMailText", method = POST)
@@ -104,6 +107,24 @@ public class SendingController {
                     this.emailService.sendDriveMail(v.getFullName(), v.getEmail(), locale, drive);
             }
             return "sent";
+        }
+        else
+            return "error";
+    }
+
+    /* Send Order mail (Partner in order) */
+    @RequestMapping(value = "/sendOrderMailToPartner/{id}")
+    public String sendOrderMailToPartner(
+            @PathVariable("id") final String id,
+            final Locale locale)
+            throws MessagingException {
+
+        Order order = orderService.getById(Long.valueOf(id));
+        if (order!=null && order.getPartner()!=null){
+                if (order.getPartner().getEmail()!=null)
+                    this.emailService.sendOrderMail(order.getPartner().getFullName(), order.getPartner().getEmail(), locale, order);
+
+            return "ordered";
         }
         else
             return "error";

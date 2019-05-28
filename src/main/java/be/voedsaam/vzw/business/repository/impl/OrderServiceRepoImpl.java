@@ -50,7 +50,12 @@ public class OrderServiceRepoImpl implements OrderService {
     public void delete(Long id) {
         if (id != null) {
             Optional<Order> o = orderRepository.findById(id);
-            o.ifPresent(order -> orderRepository.delete(order));
+            if (o.isPresent()){
+                Order order = o.get();
+                order.getStock().removeOrder(order);
+                order = orderRepository.save(order);
+                orderRepository.delete(order);
+            }
         }
     }
 
@@ -72,6 +77,11 @@ public class OrderServiceRepoImpl implements OrderService {
     @Override
     public List<Order> listCancelledOrders() {
         return orderRepository.findAllByOrderStatus(OrderStatus.CANCELLED) ;
+    }
+
+    @Override
+    public List<Order> listClosedOrders() {
+            return orderRepository.findAllByOrderStatus(OrderStatus.CLOSED) ;
     }
 
     @Override
