@@ -36,6 +36,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
     private ProductService productService;
     private StockService stockService;
     private OrderService orderService;
+    private ClassLoader classLoader;
 
     @Autowired
     public SpringJPABootstrap(UserService userService, DestinationService destinationService,
@@ -60,6 +61,7 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
      * method takes the contextRefreshedEvent and loads all test data in the database witch is specified in the application.properties file under recources
      */
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        loadClassloader();
         loadUsers();
         loadDestinations();
         loadDrives();
@@ -69,7 +71,9 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
         loadArticles();
     }
 
-
+    private void loadClassloader(){
+       classLoader = ClassLoader.getSystemClassLoader();
+    }
     private void loadStock() {
         Stock voedsaam = new Stock();
         voedsaam.setName("Voedsaam");
@@ -170,15 +174,15 @@ public class SpringJPABootstrap implements ApplicationListener<ContextRefreshedE
 
     private void loadArticles() {
         //portal
-        File stockFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\portal\\stock.jpg");
+        File stockFile = new File(classLoader.getResource("static/public-pictures/portal/stock.jpg").getFile());
         // home
-        File flyerFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\HOME\\Flyer.jpg");
-        File crateFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\HOME\\crate.jpg");
+        File flyerFile = new File(classLoader.getResource("static/public-pictures/home/flyer.jpg").getFile());
+        File crateFile = new File(classLoader.getResource("static/public-pictures/home/crate.jpg").getFile());
         // about
-        File vrijwilliger1File = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\about\\vrijwilliger1.jpg");
+        File vrijwilliger1File =new File(classLoader.getResource("static/public-pictures/about/vrijwilliger1.jpg").getFile());
         // news
-        File bestelwagenFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\news\\bestelwagen.jpg");
-        File rotaryFile = new File("C:\\Users\\jeroe\\Documents\\Projects\\vzw-springboot\\src\\main\\resources\\static\\public-pictures\\news\\rotary.jpg");
+        File bestelwagenFile =new File(classLoader.getResource("static/public-pictures/news/bestelwagen.jpg").getFile());
+       
 
         Article main1 = new Article();
         main1.setArticleType(ArticleType.GOAL);
