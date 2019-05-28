@@ -88,6 +88,40 @@ public class OrderController {
         model.addAttribute("orders", orderMapper.mapToDTO((List<Order>)orderService.listAll()));
         return "order/list";
     }
+
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping({"/listNew"})
+    public String listNewOrders(Model model){
+        model.addAttribute("orders", orderMapper.mapToDTO((orderService.listNewOrders())));
+        return "order/list";
+    }
+
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping({"/listClosed"})
+    public String listClosedOrders(Model model){
+        model.addAttribute("orders", orderMapper.mapToDTO((orderService.listClosedOrders())));
+        return "order/list";
+    }
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping({"/listCompleted"})
+    public String listCompletedOrders(Model model){
+        model.addAttribute("orders", orderMapper.mapToDTO((orderService.listCompletedOrders())));
+        return "order/list";
+    }
+
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping({"/listInProgress"})
+    public String listInProgressOrders(Model model){
+        model.addAttribute("orders", orderMapper.mapToDTO((orderService.listOrdersInProgress())));
+        return "order/list";
+    }
+    @Secured({"ROLE_COORDINATOR","ROLE_LOGISTICS"})
+    @RequestMapping({"/listCancelled"})
+    public String listCancelledOrders(Model model){
+        model.addAttribute("orders", orderMapper.mapToDTO((orderService.listCancelledOrders())));
+        return "order/list";
+    }
+
     @Secured({"ROLE_PARTNER"})
     @RequestMapping("listbyuser")
     public String listOrdersbyUser(Model model, Principal user) {
@@ -134,7 +168,7 @@ public class OrderController {
     public String saveOrUpdate(OrderDTO dto){
         Order order = orderMapper.mapToObj(dto);
         order = orderService.saveOrUpdate(order);
-        return "redirect:/order/";
+        return "redirect:/sendOrderMailToPartner/"+order.getId();
     }
 
     @RequestMapping("/delete/{id}")
@@ -199,6 +233,6 @@ public class OrderController {
         }
         order = orderService.saveOrUpdate(order);
 
-        return "redirect:/order/edit/" + order.getId();
+        return "redirect:/sendOrderMailToPartner/" + order.getId();
     }
 }

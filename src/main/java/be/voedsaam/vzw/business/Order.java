@@ -75,7 +75,19 @@ public class Order extends AbstractDomainClass {
         return stock;
     }
 
+
     public void setStock(Stock stock) {
         this.stock = stock;
+        if (stock!=null&&!(stock.getOrders().contains(this)))
+            stock.addOrder(this);
+    }
+
+    public Double getTotalUnitOfMeasure(){
+        Double result = 0d;
+        for (Product p : products.keySet()
+             ) {
+            result = result + (p.getUnitOfMeasure()*products.get(p));
+        }
+        return result;
     }
 }

@@ -2,6 +2,7 @@ package be.voedsaam.vzw.email;
 
 import be.voedsaam.vzw.business.Destination;
 import be.voedsaam.vzw.business.Drive;
+import be.voedsaam.vzw.business.Order;
 import be.voedsaam.vzw.business.impl.Volunteer;
 import be.voedsaam.vzw.config.MailConfig;
 import be.voedsaam.vzw.service.EmailService;
@@ -37,6 +38,7 @@ public class EmailServiceImpl implements EmailService {
     private static final String EMAIL_TEXT_TEMPLATE_NAME = "text/email-text";
     private static final String EMAIL_SIMPLE_TEMPLATE_NAME = "html/email-simple";
     private static final String EMAIL_DRIVE_TEMPLATE_NAME = "html/email-drive";
+    private static final String EMAIL_ORDER_TEMPLATE_NAME = "html/email-order";
     private static final String EMAIL_WITHATTACHMENT_TEMPLATE_NAME = "html/email-withattachment";
     private static final String EMAIL_INLINEIMAGE_TEMPLATE_NAME = "html/email-inlineimage";
     private static final String EMAIL_EDITABLE_TEMPLATE_CLASSPATH_RES = "classpath:mail/editablehtml/email-editable.html";
@@ -62,7 +64,23 @@ public class EmailServiceImpl implements EmailService {
     private ScheduleMapper scheduleMapper;
     private VolunteerMapper volunteerMapper;
     private DestinationMapper destinationMapper;
+    private OrderMapper orderMapper;
+    private StockMapper stockMapper;
+    private ProductMapper productMapper;
 
+    @Autowired
+    public void setStockMapper(StockMapper stockMapper) {
+        this.stockMapper = stockMapper;
+    }
+    @Autowired
+    public void setProductMapper(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
+
+    @Autowired
+    public void setOrderMapper(OrderMapper orderMapper) {
+        this.orderMapper = orderMapper;
+    }
     @Autowired
     public void setDriveMapper(DriveMapper driveMapper) {
         this.driveMapper = driveMapper;
@@ -295,6 +313,32 @@ public class EmailServiceImpl implements EmailService {
 
         // Create the HTML body using Thymeleaf
         final String htmlContent = this.emailTemplateEngine.process(EMAIL_DRIVE_TEMPLATE_NAME, ctx);
+        message.setText(htmlContent, true /* isHtml */);
+
+        // Send email
+        this.emailSender.send(mimeMessage);
+    }
+
+    @Override
+    public void sendOrderMail(String recipientName, String recipientEmail, Locale locale, Order order) throws MessagingException {
+        final Context ctx = new Context(locale);
+        ctx.setVariable("name", recipientName);
+        ctx.setVariable("order", orderMapper.mapToDTO(order));
+        ctx.setVariable("pickup", order.getPickupDateTime().format(DateTimeFormatter.ofPattern("dd/MMM/yyyy HH:mm")));
+        ctx.setVariable("stock", stockMapper.mapToDTO(order.getStock()));
+        ctx.setVariable("products", productMapper.mapToDTO(order.getProducts()));
+        ctx.setVariable("total", order.getTotalUnitOfMeasure());
+
+
+        // Prepare message using a Spring helper
+        final MimeMessage mimeMessage = this.emailSender.createMimeMessage();
+        final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
+        message.setSubject("Voedsaam VZW Order info");
+        message.setFrom("info@voedsaam.be");
+        message.setTo(recipientEmail);
+
+        // Create the HTML body using Thymeleaf
+        final String htmlContent = this.emailTemplateEngine.process(EMAIL_ORDER_TEMPLATE_NAME, ctx);
         message.setText(htmlContent, true /* isHtml */);
 
         // Send email
