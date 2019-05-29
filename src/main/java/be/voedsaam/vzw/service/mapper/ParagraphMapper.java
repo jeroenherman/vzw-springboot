@@ -46,6 +46,7 @@ public class ParagraphMapper extends AbstractMapper<Paragraph, ParagraphDTO> {
 
         b.setTitle(d.getTitle());
         b.setText(d.getText());
+        b.setId(d.getId());
 
         return b;
     }

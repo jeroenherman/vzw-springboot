@@ -15,7 +15,7 @@ public class Partner extends User {
             cascade = {CascadeType.PERSIST, CascadeType.MERGE},mappedBy = "users")
     private List<Stock> stocks = new ArrayList<>();
     @OneToMany(mappedBy = "partner", cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     public Partner() {
         setRole(Role.PARTNER);
@@ -59,12 +59,15 @@ public class Partner extends User {
             order.setPartner(this);
         }
     }
-
-    public void removeStock(Order order) {
+    public void removeOrder(Order order){
         if (orders.contains(order)) {
-            order.setPartner(null);
             orders.remove(order);
+            order.setPartner(null);
         }
     }
 
+
+    public List<Order> getOrders() {
+        return Collections.unmodifiableList(orders);
+    }
 }

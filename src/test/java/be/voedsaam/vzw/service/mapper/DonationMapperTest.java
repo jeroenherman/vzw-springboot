@@ -2,7 +2,7 @@ package be.voedsaam.vzw.service.mapper;
 
 import be.voedsaam.vzw.business.Contact;
 import be.voedsaam.vzw.business.repository.ContactRepository;
-import be.voedsaam.vzw.service.dto.ContactDTO;
+import be.voedsaam.vzw.service.dto.DonationDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,20 +12,22 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 @RunWith(MockitoJUnitRunner.class)
-public class ContactMapperTest {
-    private ContactMapper classUnderTest;
+public class DonationMapperTest {
+    private DonationMapper classUnderTest;
     private Contact b;
-    private ContactDTO d;
+    private DonationDTO d;
     @Mock
     ContactRepository mockRepository;
 
     @Before
     public void setUp() throws Exception {
         b = new Contact();
-        d= new ContactDTO();
-        classUnderTest = new ContactMapper();
+        d= new DonationDTO();
+        classUnderTest = new DonationMapper();
         classUnderTest.setContactRepository(mockRepository);
 
         b.setName("name");
@@ -67,16 +69,17 @@ public class ContactMapperTest {
     @Test
     public void mapToObj() throws Exception {
         d.setEmail("jp2@bla.be");
-        d.setMessage("bla bla bla bla");
+        d.setReoccuringType("wederkerige");
+        d.setPaymentType("Cash");
+        d.setAmount("10");
         d.setName("ikke");
-        d.setSubject("onderwerp");
         d.setTel("56852");
         b = classUnderTest.mapToObj(d);
         assertEquals(d.getId(), b.getId());
         assertEquals(d.getName(), b.getName());
-        assertEquals(d.getMessage(), b.getMessage());
+        assertEquals("Beste graag zou ik een wederkerige donatie met een bedrag van 10 euro willen toekennen aan VoedSaam Vzw. Dit bedrag zou ik willen overmaken via: Cash", b.getMessage());
         assertEquals(d.getEmail(), b.getEmail());
-        assertEquals(d.getSubject(), b.getSubject());
+        assertEquals("Toekenning Donatie", b.getSubject());
         assertEquals(d.getTel(), b.getTel());
     }
 
@@ -85,12 +88,15 @@ public class ContactMapperTest {
         Optional<Contact> o = Optional.of(b);
         Mockito.when(mockRepository.findById(new Long(123))).thenReturn(o);
         d.setId(new Long(123));
+        d.setReoccuringType("wederkerige");
+        d.setPaymentType("Cash");
+        d.setAmount("10");
         b = classUnderTest.mapToObj(d);
         assertEquals(d.getId(), b.getId());
         assertEquals(d.getName(), b.getName());
-        assertEquals(d.getMessage(), b.getMessage());
+        assertEquals("Beste graag zou ik een wederkerige donatie met een bedrag van 10 euro willen toekennen aan VoedSaam Vzw. Dit bedrag zou ik willen overmaken via: Cash", b.getMessage());
         assertEquals(d.getEmail(), b.getEmail());
-        assertEquals(d.getSubject(), b.getSubject());
+        assertEquals("Toekenning Donatie", b.getSubject());
         assertEquals(d.getTel(), b.getTel());
     }
 }

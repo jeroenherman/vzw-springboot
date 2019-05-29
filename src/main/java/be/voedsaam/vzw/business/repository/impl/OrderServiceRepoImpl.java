@@ -52,6 +52,7 @@ public class OrderServiceRepoImpl implements OrderService {
             Optional<Order> o = orderRepository.findById(id);
             if (o.isPresent()){
                 Order order = o.get();
+                if (order.getStock()!=null)
                 order.getStock().removeOrder(order);
                 order = orderRepository.save(order);
                 orderRepository.delete(order);
