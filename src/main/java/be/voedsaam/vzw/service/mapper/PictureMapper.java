@@ -47,4 +47,6 @@ public class PictureMapper extends AbstractMapper<Picture, PictureDTO> {
 
         return b;
     }
+
+
 }
