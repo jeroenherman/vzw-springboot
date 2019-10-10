@@ -27,7 +27,6 @@
             <h2>Schema Lijst</h2>
             <p th:if="${#lists.isEmpty(schedules)}"> Er zijn geen schema's </p>
             <div th:if="${not #lists.isEmpty(schedules)}">
-                <h2>Schema Lijst</h2>
                 <div class="alert alert-danger"  th:if="${error!=null}"  >
                     <p th:text="${error}"> error </p>
                 </div>

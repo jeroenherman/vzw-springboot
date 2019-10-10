@@ -56,9 +56,9 @@
                             <td th:text="${order.orderStatus.value}"></td>
                             <td>
                                 <time datetime="2014-09-20" class="icon">
-                                    <em th:text="${#temporals.format(order.pickUp, 'E','nl')}">20</em>
-                                    <span th:text="${#temporals.format(order.pickUp,'dd-MMMM','nl')}">Zaterdag</span>
-                                    <strong th:text="${#temporals.format(order.pickUp, 'HH:mm')}">September</strong>
+                                    <em th:text="${#temporals.format(order.pickUpDateTime, 'E','nl')}">20</em>
+                                    <span th:text="${#temporals.format(order.pickUpDateTime,'dd-MMMM','nl')}">Zaterdag</span>
+                                    <strong th:text="${#temporals.format(order.pickUpDateTime, 'HH:mm')}">September</strong>
                                 </time>
                             </td>
                             <td><a class="btn btn-block, btn-success"
@@ -99,9 +99,9 @@
                         <td th:text="${order.orderStatus.value}"></td>
                         <td>
                             <time datetime="2014-09-20" class="icon">
-                                <em th:text="${#temporals.format(order.pickUp, 'E','nl')}">20</em>
-                                <span th:text="${#temporals.format(order.pickUp,'dd-MMMM','nl')}">Zaterdag</span>
-                                <strong th:text="${#temporals.format(order.pickUp, 'HH:mm')}">September</strong>
+                                <em th:text="${#temporals.format(order.pickUpDateTime, 'E','nl')}">20</em>
+                                <span th:text="${#temporals.format(order.pickUpDateTime,'dd-MMMM','nl')}">Zaterdag</span>
+                                <strong th:text="${#temporals.format(order.pickUpDateTime, 'HH:mm')}">September</strong>
                             </time>
                         </td>
                         <td><a class="btn btn-block, btn-success"

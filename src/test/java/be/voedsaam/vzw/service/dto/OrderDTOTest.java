@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-import be.voedsaam.vzw.service.dto.OrderDTO;
 
 public class OrderDTOTest {
 
@@ -55,7 +54,7 @@ public void testOrderStatus() {
 
 @Test
 public void testPickUp() {
-	assertNull(classUnderTest.getPickUp());
+	assertNull(classUnderTest.getPickUpDateTime());
 }
 
 }

@@ -6,7 +6,8 @@ public class BasketDTO {
     private Long idStock;
     private Long idOrder;
     private List<ProductDTO> products;
-    private String pickupDateTime;
+    private String pickupDateTime, comment;
+    private boolean pickup;
 
     public List<ProductDTO> getProducts() {
         return products;
@@ -38,5 +39,21 @@ public class BasketDTO {
 
     public void setPickupDateTime(String pickupDateTime) {
         this.pickupDateTime = pickupDateTime;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public boolean isPickup() {
+        return pickup;
+    }
+
+    public void setPickup(boolean pickup) {
+        this.pickup = pickup;
     }
 }

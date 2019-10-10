@@ -6,9 +6,10 @@ import java.time.LocalDateTime;
 
 public class OrderDTO {
     private Long id;
-    private String pickupDateTime, partner, stock;
+    private String pickupDateTime, partner, stock, comment;
     private OrderStatus orderStatus;
-    private LocalDateTime pickUp;
+    private LocalDateTime pickUpDateTime;
+    private boolean pickup;
 
     public Long getId() {
         return id;
@@ -50,12 +51,28 @@ public class OrderDTO {
         this.orderStatus = orderStatus;
     }
 
-    public LocalDateTime getPickUp() {
-        return pickUp;
+    public LocalDateTime getPickUpDateTime() {
+        return pickUpDateTime;
     }
 
-    public void setPickUp(LocalDateTime pickUp) {
-        this.pickUp = pickUp;
+    public void setPickUpDateTime(LocalDateTime pickUpDateTime) {
+        this.pickUpDateTime = pickUpDateTime;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public boolean isPickup() {
+        return pickup;
+    }
+
+    public void setPickup(boolean pickup) {
+        this.pickup = pickup;
     }
 }
 

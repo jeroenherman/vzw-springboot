@@ -42,7 +42,7 @@ public class OrderMapperTest {
         d = new OrderDTO();
         d.setOrderStatus(OrderStatus.IN_PROGRESS);
         d.setPickupDateTime("2019-06-06T15:00:00");
-        d.setPickUp(LocalDateTime.of(2019,06,06,15,0));
+        d.setPickUpDateTime(LocalDateTime.of(2019,06,06,15,0));
         d.setStock("stocknaam");
 
     }
@@ -67,7 +67,7 @@ public class OrderMapperTest {
         d = null;
         d = classUnderTest.mapToDTO(b);
         assertEquals(d.getPickupDateTime(),b.getPickupDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
-        assertEquals(b.getPickupDateTime(),d.getPickUp());
+        assertEquals(b.getPickupDateTime(),d.getPickUpDateTime());
         assertEquals(b.getPickupDateTime(),LocalDateTime.parse(d.getPickupDateTime(),DateTimeFormatter.ISO_DATE_TIME));
         assertEquals(d.getOrderStatus(),b.getOrderStatus());
     }
@@ -77,7 +77,7 @@ public class OrderMapperTest {
         b = null;
         b = classUnderTest.mapToObj(d);
         assertEquals(d.getPickupDateTime(),b.getPickupDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
-        assertEquals(b.getPickupDateTime(),d.getPickUp());
+        assertEquals(b.getPickupDateTime(),d.getPickUpDateTime());
         assertEquals(b.getPickupDateTime(),LocalDateTime.parse(d.getPickupDateTime(),DateTimeFormatter.ISO_DATE_TIME));
         assertEquals(d.getOrderStatus(),b.getOrderStatus());
 
@@ -90,7 +90,7 @@ public class OrderMapperTest {
         b = classUnderTest.mapToObj(d);
         assertEquals(d.getId(), b.getId());
         assertEquals(d.getPickupDateTime(),b.getPickupDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
-        assertEquals(b.getPickupDateTime(),d.getPickUp());
+        assertEquals(b.getPickupDateTime(),d.getPickUpDateTime());
         assertEquals(b.getPickupDateTime(),LocalDateTime.parse(d.getPickupDateTime(),DateTimeFormatter.ISO_DATE_TIME));
         assertEquals(d.getOrderStatus(),b.getOrderStatus());
         assertEquals(d.getStock(),b.getStock().getName());

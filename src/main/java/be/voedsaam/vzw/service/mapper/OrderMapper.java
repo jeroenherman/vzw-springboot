@@ -29,8 +29,10 @@ public class OrderMapper extends AbstractMapper<Order,OrderDTO> {
         d.setId(b.getId());
         if (b.getPickupDateTime()!=null)
         d.setPickupDateTime(b.getPickupDateTime().format(DateTimeFormatter.ISO_DATE_TIME));
-        d.setPickUp(b.getPickupDateTime());
+        d.setPickUpDateTime(b.getPickupDateTime());
         d.setOrderStatus(b.getOrderStatus());
+        d.setComment(b.getComment());
+        d.setPickup(b.isPickup());
         if (b.getPartner()!=null)
         d.setPartner(b.getPartner().getFullName());
         if (b.getStock()!=null)
@@ -52,6 +54,8 @@ public class OrderMapper extends AbstractMapper<Order,OrderDTO> {
         b.setId(d.getId());
         b.setPickupDateTime(LocalDateTime.parse(d.getPickupDateTime(),DateTimeFormatter.ISO_DATE_TIME));
         b.setOrderStatus(d.getOrderStatus());
+        b.setComment(d.getComment());
+        b.setPickup(d.isPickup());
         return b;
     }
 }

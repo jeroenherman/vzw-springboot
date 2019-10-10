@@ -214,6 +214,7 @@ public class StockController {
         BasketDTO basketDTO = new BasketDTO();
         basketDTO.setIdStock(stock.getId());
         basketDTO.setProducts(productMapper.mapToDTO(stock.getProducts()));
+        basketDTO.setPickup(true);
         model.addAttribute("basket", basketDTO);
 
         return "order/transfer";

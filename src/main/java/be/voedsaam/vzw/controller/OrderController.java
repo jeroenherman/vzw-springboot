@@ -225,6 +225,7 @@ public class OrderController {
         order.setPickupDateTime(LocalDateTime.parse(basketDTO.getPickupDateTime(), DateTimeFormatter.ISO_DATE_TIME));
         order.setPartner((Partner) userService.findByEmail(user.getName()));
         order.setStock(fromStock);
+        order.setComment(basketDTO.getComment());
         Map<Product, Integer> products = productMapper.mapToObj(basketDTO.getProducts());
         for (Product p: products.keySet()
                 ) {

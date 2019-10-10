@@ -24,6 +24,8 @@ public class Order extends AbstractDomainClass {
     private Partner partner;
     @ManyToOne
     private Stock stock;
+    private boolean pickup;
+    private String comment;
     public void addProduct(Product product, Integer quantity){
         Integer value = products.get(product);
         if (value==null)
@@ -80,6 +82,22 @@ public class Order extends AbstractDomainClass {
         this.stock = stock;
         if (stock!=null&&!(stock.getOrders().contains(this)))
             stock.addOrder(this);
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public boolean isPickup() {
+        return pickup;
+    }
+
+    public void setPickup(boolean pickup) {
+        this.pickup = pickup;
     }
 
     public Double getTotalUnitOfMeasure(){
